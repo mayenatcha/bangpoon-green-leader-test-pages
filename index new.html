@@ -1,0 +1,1405 @@
+<!doctype html>
+<html lang="th"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0">
+  <title>สมุดภารกิจ อถล. บางพูนกรีนลีดเดอร์</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+:root{--c-green:#4a7c59;--c-green-light:#a8d5ba;--c-cream:#faf6ed;--c-blue:#d4eaf7;--c-yellow:#fef9e7;--c-green-dark:#2d5a3a;--c-accent:#e8f5e9;--c-orange:#f0a04b;--vh:1vh}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--c-cream);color:#2d3a2e;min-height:calc(100*min(var(--vh,1vh),1vh));padding-bottom:72px;font-size:16px;line-height:1.6;width:100%}
+body.font-large{font-size:20px}
+body.font-large .mission-card{padding:1.2rem}
+body.font-large input,body.font-large select,body.font-large textarea,body.font-large button{font-size:1.1rem}
+.app-header{background:linear-gradient(135deg,var(--c-green),var(--c-green-dark));color:#fff;padding:12px 16px;text-align:center;position:sticky;top:0;z-index:100}
+.app-header h1{font-size:1.25em;font-weight:700;line-height:1.3}
+.app-header .subtitle{font-size:0.7em;opacity:0.9;font-weight:500}
+.app-header .en-name{font-size:0.65em;opacity:0.8;letter-spacing:1px}
+.header-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.logo-slot{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;overflow:hidden;cursor:pointer;flex-shrink:0;border:2px dashed rgba(255,255,255,0.5)}
+.logo-slot img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid var(--c-green-light);display:flex;z-index:100;box-shadow:0 -2px 10px rgba(0,0,0,0.08)}
+.nav-btn{flex:1;padding:8px 4px;text-align:center;border:none;background:none;font-size:0.7em;color:#666;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font-family:inherit;transition:color .2s}
+.nav-btn.active{color:var(--c-green);font-weight:700}
+.main-content{max-width:600px;margin:0 auto;padding:16px}
+.card{background:#fff;border-radius:16px;padding:1rem;margin-bottom:12px;box-shadow:0 2px 8px rgba(74,124,89,0.1);border:1px solid var(--c-green-light)}
+.card-accent{border-left:4px solid var(--c-green)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:12px 20px;border-radius:12px;border:none;font-size:1em;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;min-height:48px;text-align:center}
+.btn-primary{background:var(--c-green);color:#fff}
+.btn-primary:hover{background:var(--c-green-dark)}
+.btn-secondary{background:var(--c-green-light);color:var(--c-green-dark)}
+.btn-outline{background:transparent;border:2px solid var(--c-green);color:var(--c-green)}
+.btn-sm{padding:8px 14px;font-size:0.85em;min-height:40px}
+.btn-block{width:100%;display:flex}
+.btn-danger{background:#e74c3c;color:#fff}
+.btn-warning{background:var(--c-orange);color:#fff}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-weight:600;margin-bottom:4px;font-size:0.9em;color:var(--c-green-dark)}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:12px;border:2px solid #d0e8d0;border-radius:10px;font-size:1em;font-family:inherit;background:#fff;min-height:48px}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--c-green);box-shadow:0 0 0 3px rgba(74,124,89,0.15)}
+.form-error{color:#e74c3c;font-size:0.8em;margin-top:4px;display:none}
+.form-error.show{display:block}
+.badge{display:inline-block;padding:4px 10px;border-radius:20px;font-size:0.75em;font-weight:600}
+.badge-pending{background:#ffeeba;color:#856404}
+.badge-draft{background:#d1ecf1;color:#0c5460}
+.badge-submitted{background:#c3e6cb;color:#155724}
+.badge-verified{background:var(--c-green);color:#fff}
+.badge-fix{background:#f8d7da;color:#721c24}
+.progress-bar{height:10px;background:#e0e0e0;border-radius:5px;overflow:hidden;margin:8px 0}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--c-green-light),var(--c-green));border-radius:5px;transition:width .5s}
+.step-indicator{display:flex;justify-content:center;gap:8px;margin-bottom:16px}
+.step-dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.85em;border:2px solid #ccc;color:#999;background:#fff;transition:all .3s}
+.step-dot.active{border-color:var(--c-green);background:var(--c-green);color:#fff}
+.step-dot.done{border-color:var(--c-green-light);background:var(--c-green-light);color:var(--c-green-dark)}
+.step-line{width:30px;height:2px;background:#ccc;align-self:center}
+.step-line.done{background:var(--c-green)}
+.mission-card{background:#fff;border-radius:14px;padding:1rem;margin-bottom:10px;border:1px solid #e0e0e0;cursor:pointer;transition:all .2s;display:flex;align-items:flex-start;gap:12px}
+.mission-card:hover{box-shadow:0 4px 12px rgba(74,124,89,0.15);border-color:var(--c-green-light)}
+.mission-num{width:36px;height:36px;border-radius:50%;background:var(--c-green);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;font-size:0.9em}
+.mission-info{flex:1;min-width:0}
+.mission-info h3{font-size:0.95em;font-weight:700;color:var(--c-green-dark);margin-bottom:2px}
+.mission-info p{font-size:0.78em;color:#666;line-height:1.4}
+.choice-grid{display:flex;flex-wrap:wrap;gap:8px}
+.choice-btn{padding:10px 14px;border-radius:10px;border:2px solid #d0e8d0;background:#fff;cursor:pointer;font-size:0.85em;font-family:inherit;transition:all .2s;min-height:44px;text-align:center}
+.choice-btn.selected{background:var(--c-green);color:#fff;border-color:var(--c-green)}
+.checkin-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:8px}
+.checkin-day{aspect-ratio:1;border-radius:10px;border:2px solid #d0e8d0;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;font-size:0.75em;font-weight:600;transition:all .2s;background:#fff}
+.checkin-day.checked{background:var(--c-green);color:#fff;border-color:var(--c-green)}
+.photo-upload{border:2px dashed var(--c-green-light);border-radius:12px;padding:20px;text-align:center;cursor:pointer;background:var(--c-accent);transition:all .2s;min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
+.photo-upload:hover{border-color:var(--c-green)}
+.photo-preview{position:relative;display:inline-block;margin:6px}
+.photo-preview img{width:100px;height:100px;object-fit:cover;border-radius:10px;border:2px solid var(--c-green-light)}
+.photo-preview .del-btn{position:absolute;top:-6px;right:-6px;width:26px;height:26px;border-radius:50%;background:#e74c3c;color:#fff;border:none;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center}
+.photo-preview .change-btn{position:absolute;bottom:-6px;right:-6px;width:26px;height:26px;border-radius:50%;background:var(--c-green);color:#fff;border:none;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center}
+.toast{position:fixed;top:80px;left:50%;transform:translateX(-50%);background:var(--c-green);color:#fff;padding:12px 24px;border-radius:12px;font-weight:600;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;max-width:90%;text-align:center}
+.toast.show{opacity:1}
+.toast.error{background:#e74c3c}
+.stat-card{background:linear-gradient(135deg,#fff,var(--c-accent));border-radius:14px;padding:14px;text-align:center;border:1px solid var(--c-green-light)}
+.stat-card .stat-num{font-size:2em;font-weight:700;color:var(--c-green)}
+.stat-card .stat-label{font-size:0.8em;color:#666}
+.filter-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.filter-btn{padding:6px 12px;border-radius:20px;border:1px solid var(--c-green-light);background:#fff;cursor:pointer;font-size:0.78em;font-family:inherit;transition:all .2s}
+.filter-btn.active{background:var(--c-green);color:#fff;border-color:var(--c-green)}
+.font-toggle{position:fixed;top:70px;right:8px;z-index:101;width:40px;height:40px;border-radius:50%;background:var(--c-green);color:#fff;border:none;cursor:pointer;font-size:16px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,0.2);display:flex;align-items:center;justify-content:center}
+.recruit-card{background:var(--c-yellow);border-radius:12px;padding:12px;margin-bottom:10px;border:1px solid #e8d5a3}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;display:none;align-items:center;justify-content:center;padding:16px}
+.modal-overlay.show{display:flex}
+.modal-box{background:#fff;border-radius:16px;padding:20px;max-width:540px;width:100%;max-height:85vh;overflow-y:auto}
+.gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.gallery-grid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;cursor:pointer}
+.demo-banner{background:linear-gradient(90deg,#ff9800,#ff5722);color:#fff;padding:8px 16px;border-radius:10px;text-align:center;font-weight:700;font-size:0.9em;margin-bottom:12px;animation:demoPulse 2s infinite}
+@keyframes demoPulse{0%,100%{opacity:1}50%{opacity:0.85}}
+.demo-strip{background:#ff9800;color:#fff;text-align:center;padding:4px;font-size:0.75em;font-weight:700;position:sticky;top:56px;z-index:99}
+.admin-banner{background:linear-gradient(90deg,#1565c0,#0d47a1);color:#fff;padding:8px 16px;border-radius:10px;text-align:center;font-weight:700;font-size:0.9em;margin-bottom:12px}
+.admin-menu-btn{width:100%;padding:14px;border-radius:12px;border:2px solid var(--c-green-light);background:#fff;cursor:pointer;font-size:1em;font-weight:600;font-family:inherit;text-align:left;margin-bottom:8px;display:flex;align-items:center;gap:10px;transition:all .2s}
+.admin-menu-btn:hover{border-color:var(--c-green);background:var(--c-accent)}
+.change-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #eee;font-size:0.85em}
+.change-old{color:#e74c3c;text-decoration:line-through}
+.change-new{color:var(--c-green);font-weight:600}
+.audit-row{background:#f9f9f9;border-radius:8px;padding:8px;margin-bottom:6px;font-size:0.82em;border-left:3px solid var(--c-green)}
+.before-after-card{background:#fff;border-radius:14px;padding:12px;margin-bottom:12px;border:1px solid var(--c-green-light)}
+.before-after-card .ba-images{display:flex;gap:8px;margin-top:8px}
+.before-after-card .ba-images .ba-col{flex:1;text-align:center}
+.before-after-card .ba-images img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:8px;cursor:pointer}
+.before-after-card .ba-arrow{font-size:1.5em;align-self:center;color:var(--c-green)}
+.registrant-table{width:100%;border-collapse:collapse;font-size:0.85em}
+.registrant-table th,.registrant-table td{padding:8px;text-align:left;border-bottom:1px solid #e0e0e0}
+.registrant-table th{background:var(--c-accent);font-weight:700;color:var(--c-green-dark);position:sticky;top:0}
+.lightbox-img{max-width:100%;max-height:70vh;border-radius:12px;display:block;margin:0 auto}
+.inline-msg{padding:10px;border-radius:10px;margin-top:8px;font-weight:600;font-size:0.9em;text-align:center}
+.inline-msg.success{background:#c3e6cb;color:#155724}
+.inline-msg.error{background:#f8d7da;color:#721c24}
+@media(max-width:600px){.registrant-table-wrap{display:none}.registrant-cards{display:block}}
+@media(min-width:601px){.registrant-cards{display:none}.registrant-table-wrap{display:block}}
+@media print{.bottom-nav,.font-toggle,.app-header,.nav-btn,.btn,.photo-upload{display:none!important}body{padding:0;font-size:12pt;background:#fff}.main-content{max-width:100%;padding:10px}.card{box-shadow:none;border:1px solid #ccc;break-inside:avoid}}
+</style>
+  <script src="https://cdn.tailwindcss.com/3.4.17" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.577.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+ </head>
+ <body data-template-id="__page-root" style="background: rgb(250, 246, 237);">
+  <header class="app-header">
+   <div class="header-row">
+    <div class="logo-slot" id="logoLeft" title="อัปโหลดโลโก้เทศบาล">
+     <span style="font-size:24px">🏛️</span>
+    </div>
+    <div style="flex:1;min-width:0">
+     <h1 data-template-id="app-title" class="canva-text" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 36px;">สมุดภารกิจ อถล. บางพูนกรีนลีดเดอร์</h1>
+     <div data-template-id="app-en-name" class="canva-text en-name" style="color: rgba(255, 255, 255, 0.8); font-weight: 400; font-style: normal; font-size: 16px;">Bangpoon Green Leader</div>
+     <div data-template-id="app-subtitle" class="canva-text subtitle" style="color: rgba(255, 255, 255, 0.933); font-weight: 400; font-style: normal; font-size: 16px;">เทศบาลตำบลบางพูน ประจำปีงบประมาณ พ.ศ. 2570</div>
+    </div>
+    <div class="logo-slot" id="logoRight" title="อัปโหลดโลโก้ อถล.">
+     <span style="font-size:24px">🌿</span>
+    </div>
+   </div><input type="file" id="logoLeftInput" accept="image/*" hidden=""> <input type="file" id="logoRightInput" accept="image/*" hidden="">
+  </header>
+  <div id="demoStrip" class="demo-strip" style="display:none">
+   🟠 โหมดสาธิต — ข้อมูลทั้งหมดเป็นข้อมูลสาธิต
+  </div><button class="font-toggle" id="fontToggle" title="เปลี่ยนขนาดตัวอักษร" type="button">อ</button>
+  <div class="main-content" id="mainContent"></div>
+  <nav class="bottom-nav" role="navigation" aria-label="เมนูหลัก"><button class="nav-btn active" data-view="home" type="button"><span>🏠</span><span>หน้าหลัก</span></button> <button class="nav-btn" data-view="missions" type="button"><span>📋</span><span>ภารกิจ</span></button> <button class="nav-btn" data-view="portfolio" type="button"><span>🏆</span><span>ผลงานของฉัน</span></button> <button class="nav-btn" data-view="dashboard" type="button"><span>📊</span><span>สรุปผล</span></button>
+  </nav>
+  <div class="toast" id="toast"></div>
+  <div class="modal-overlay" id="modal">
+   <div class="modal-box" id="modalContent"></div>
+  </div>
+  <script>
+
+var memberSession=null;
+async function secureApi(payload){const r=await fetch('https://bangpoon-test-api.maye-natcha.workers.dev',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});const x=await r.json();if(!r.ok||x.success!==true)throw new Error(x.message||'API ไม่พร้อม');return x;}
+function showMemberLogin(change){document.querySelector('.bottom-nav').style.display='none';document.getElementById('mainContent').innerHTML=change?'<div class="card"><h2>เปลี่ยน PIN ครั้งแรก</h2><div class="form-group"><label>PIN เดิม</label><input id="oldPin" type="password" inputmode="numeric" maxlength="6"></div><div class="form-group"><label>PIN ใหม่</label><input id="newPin" type="password" inputmode="numeric" maxlength="6"></div><div class="form-group"><label>ยืนยัน PIN ใหม่</label><input id="confirmPin" type="password" inputmode="numeric" maxlength="6"></div><button class="btn btn-primary" onclick="changePinNow()">เปลี่ยน PIN</button><p id="loginMessage"></p></div>':'<div class="card"><h2>🌿 เข้าสู่ระบบสมาชิก อถล.</h2><div class="form-group"><label>รหัสสมาชิก</label><input id="loginId" autocomplete="username"></div><div class="form-group"><label>PIN 6 หลัก</label><input id="loginPin" type="password" inputmode="numeric" maxlength="6"></div><button class="btn btn-primary btn-block" onclick="loginNow()">เข้าสู่ระบบ</button><p id="loginMessage"></p></div>';}
+async function loginNow(){try{let id=document.getElementById('loginId').value.trim(),pin=document.getElementById('loginPin').value.trim();if(!id||!/^[0-9]{6}$/.test(pin))throw new Error('กรุณากรอกรหัสสมาชิกและ PIN 6 หลัก');let r=await secureApi({action:'memberLogin2570',memberId:id,pin});memberSession={token:r.token,member:r.member};if(r.mustChangePin){showMemberLogin(true);return;}data.member={...r.member};saveData(data);document.querySelector('.bottom-nav').style.display='flex';navigate('home');loadScoreStatus();}catch(e){document.getElementById('loginMessage').textContent=e.message}}
+async function changePinNow(){try{let oldPin=document.getElementById('oldPin').value,newPin=document.getElementById('newPin').value;if(!/^[0-9]{6}$/.test(newPin)||newPin!==document.getElementById('confirmPin').value)throw new Error('PIN ใหม่ต้องเป็นตัวเลข 6 หลักและตรงกัน');await secureApi({action:'memberChangePin2570',token:memberSession.token,oldPin,newPin});memberSession=null;showMemberLogin(false);document.getElementById('loginMessage').textContent='เปลี่ยน PIN สำเร็จ กรุณาเข้าสู่ระบบใหม่';}catch(e){document.getElementById('loginMessage').textContent=e.message}}
+function logoutMember(){memberSession=null;data.member={};saveData(data);showMemberLogin(false)}
+
+var MAX_PHOTO_SIZE=800000;
+var MISSIONS_DATA=[
+{id:1,name:"ชวนคนใหม่เข้าสู่เครือข่าย",desc:"ชวนประชาชนสมัครเป็นสมาชิก อถล. จำนวน 3 คน",icon:"🤝",points:10},
+{id:2,name:"ชวนแล้ว...พาไปลงมือทำจริง",desc:"จัดกิจกรรมหรือถ่ายทอดความรู้เรื่องการคัดแยกขยะอย่างน้อย 1 ครั้ง",icon:"♻️",points:10},
+{id:3,name:"ค้นหาปัญหาในชุมชน",desc:"สำรวจปัญหาขยะหรือสิ่งแวดล้อมในชุมชน 1 เรื่อง ชวนคนในพื้นที่ร่วมคิดแนวทางแก้ไข ลงมือปรับปรุงเท่าที่ทำได้ และบันทึกผลเพื่อใช้ติดตามต่อ หากยังแก้ไม่เสร็จ ให้บันทึกข้อเสนอและผู้ที่ต้องประสานงาน",icon:"🔍",points:10},
+{id:4,name:"ทำผลงาน 3Rs",desc:"จัดทำผลงานตามหลัก 3Rs จำนวน 1 ชิ้นงาน",icon:"🎨",points:10},
+{id:5,name:"ร่วมธนาคารขยะ",desc:"เข้าร่วมกิจกรรมธนาคารขยะชุมชนอย่างน้อย 1 ครั้ง",icon:"🏦",points:10},
+{id:6,name:"ลดคาร์บอน 14 วัน",desc:"เลือกพฤติกรรมลด Carbon Footprint อย่างน้อย 1 เรื่อง และปฏิบัติต่อเนื่อง 14 วัน",icon:"🌱",points:10},
+{id:7,name:"บ้านฉัน...ต้นแบบ",desc:"สร้างบ้านต้นแบบรักษ์โลก 3 ด้าน ได้แก่ บ้านแยกขยะ บ้านลดขยะ และบ้านรักษ์โลก พร้อมส่งภาพหลักฐานด้านละ 1 รูป",icon:"🏡",points:10},
+{id:8,name:"ถ่ายทอดความรู้",desc:"ถ่ายทอดความรู้ด้านสิ่งแวดล้อมให้ผู้อื่นอย่างน้อย 1 คน พร้อมภาพหลักฐาน 1 รูป",icon:"📚",points:10},
+{id:9,name:"โพสต์ดี...โลกดีขึ้น",desc:"โพสต์ภาพหรือวิดีโอผลงานด้านสิ่งแวดล้อมอย่างน้อย 1 โพสต์",icon:"📸",points:10},
+{id:10,name:"ร่วมกิจกรรมจิตอาสากับเทศบาล",desc:"ร่วมกิจกรรมจิตอาสาด้านสิ่งแวดล้อมกับเทศบาลอย่างน้อย 1 ครั้ง",icon:"💚",points:10}
+];
+var PLACES=["บ้าน","วัด","โรงเรียน","ชุมชน","เทศบาล"];
+var WASTE_TYPES=["รีไซเคิล","ขยะเปียก","ขยะอันตราย","ขยะทั่วไป","ไม่เกี่ยวกับขยะ"];
+var BEHAVIORS=["แยกขยะรีไซเคิล","ใช้ถุงผ้า","ใช้แก้วน้ำส่วนตัว","ลดเศษอาหาร","ไม่เผาขยะ","เดินหรือใช้จักรยาน","ปิดไฟเมื่อไม่ใช้"];
+var STATUS_OPTS=["ทำสำเร็จ","กำลังดำเนินการ","ต้องการความช่วยเหลือ"];
+var VERIFY_STATUSES=["รอตรวจ","ผ่าน","ให้แก้ไข"];
+var M3_PROBLEM_TYPES=["ขยะตกค้าง","ไม่คัดแยกขยะ","ขยะเปียกหรือกลิ่น","ขยะอันตราย","การเผาขยะหรือฝุ่น PM2.5","อื่น ๆ"];
+var M3_ACTIONS=["ให้คำแนะนำ","ชวนชุมชนลงมือแก้","ประสานเทศบาล","เสนอแนวทางแก้ไข"];
+var M3_STATUSES=["แก้ไขแล้ว","กำลังดำเนินการ","รอประสานงาน"];
+var M3_EXTERNAL_URL="https://script.google.com/macros/s/AKfycbxQJemOKH0vGwks7ljT6BiLYd3HZG5zCIfjBln5nUxKvOH3tocRpS3PfnpirMFXqW28EQ/exec?page=mission3";
+
+var state={view:"home",formMissionId:null,formStep:1,formData:{},dashFilter:"all",dashGalleryMission:"all",dashGalleryMoo:"all",dashRegMoo:"all",dashRegDateFrom:"",dashRegDateTo:"",adminSubView:"main",adminSearchQuery:"",adminSelectedId:null,adminEditData:null,demoMode:false,scoreStatus:{state:"idle",totalScore:null,memberId:"",missions:null,error:""}};
+var SCORE_API_URL="https://script.google.com/macros/s/AKfycbx49IsOdArWm_ezLN489vhE3SbydbfTaD0fZxubjlRBEFVu_kRx0m-ZZdVodg41uaxszA/exec";
+// เปลี่ยน URL นี้ หาก Mission5Backend ถูก Deploy เป็น Web App คนละ URL กับ API คะแนน
+var MISSION5_API_URL=SCORE_API_URL;
+var MISSIONS_API_URL=SCORE_API_URL; // API เดียวกับ doPost ภารกิจที่ 7 และ 8
+var m8Remote={memberId:"",loading:false,loaded:false,status:"",reason:"",error:""};
+var m9Remote={memberId:"",loading:false,loaded:false,status:"",reason:"",error:""};
+var m10Remote={memberId:"",loading:false,loaded:false,status:"",reason:"",error:""};
+var _photoInputCb=null;
+
+function esc(s){if(!s)return"";return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+
+function getDefault(){return{member:{},missions:{},mission1Recruits:[{},{},{}],mission6:{behavior:"",days:Array(14).fill(false)},verifications:{},fontSize:"normal"}}
+function loadData(){try{var d=JSON.parse(localStorage.getItem("gl_data"));if(!d||typeof d!=="object")return getDefault();var def=getDefault();return Object.assign({},def,d,{missions:d.missions||{},mission1Recruits:Array.isArray(d.mission1Recruits)?d.mission1Recruits:[{},{},{}],mission6:d.mission6||def.mission6,verifications:d.verifications||{},member:d.member||{}})}catch(e){return getDefault()}}
+function saveData(d){try{localStorage.setItem("gl_data",JSON.stringify(d))}catch(e){showToastErr("ไม่สามารถบันทึกข้อมูลได้ พื้นที่เก็บข้อมูลอาจเต็ม")}}
+function loadDemoData(){try{var d=JSON.parse(localStorage.getItem("demo_gl_data"));if(!d||typeof d!=="object")return getDefault();var def=getDefault();return Object.assign({},def,d,{missions:d.missions||{},mission1Recruits:Array.isArray(d.mission1Recruits)?d.mission1Recruits:[{},{},{}],mission6:d.mission6||def.mission6,verifications:d.verifications||{},member:d.member||{}})}catch(e){return getDefault()}}
+function saveDemoData(d){try{localStorage.setItem("demo_gl_data",JSON.stringify(d))}catch(e){}}
+function loadDemoProgress(){try{return JSON.parse(localStorage.getItem("demo_gl_progress"))||null}catch(e){return null}}
+function saveDemoProgress(p){try{localStorage.setItem("demo_gl_progress",JSON.stringify(p))}catch(e){}}
+function loadAuditLogs(){try{return JSON.parse(localStorage.getItem("gl_audit_logs"))||[]}catch(e){return[]}}
+function saveAuditLogs(logs){try{localStorage.setItem("gl_audit_logs",JSON.stringify(logs))}catch(e){}}
+function isAdmin(){try{return sessionStorage.getItem("gl_admin_session")==="1"}catch(e){return false}}
+function setAdmin(v){try{if(v)sessionStorage.setItem("gl_admin_session","1");else sessionStorage.removeItem("gl_admin_session")}catch(e){}}
+
+var data=loadData();
+var demoData=loadDemoData();
+function activeData(){return state.demoMode?demoData:data}
+function saveActiveData(){if(state.demoMode)saveDemoData(demoData);else saveData(data)}
+
+function showToast(msg){var t=document.getElementById("toast");t.textContent=msg;t.className="toast show";setTimeout(function(){t.className="toast"},2500)}
+function showToastErr(msg){var t=document.getElementById("toast");t.textContent=msg;t.className="toast error show";setTimeout(function(){t.className="toast"},3500)}
+function showModal(html){var m=document.getElementById("modal"),c=document.getElementById("modalContent");c.innerHTML=html;m.classList.add("show")}
+function hideModal(){document.getElementById("modal").classList.remove("show")}
+
+function getMissionStatus(id,d){d=d||data;var m=d.missions[id];if(!m)return"ยังไม่ได้ทำ";return m.status||"ยังไม่ได้ทำ"}
+function getBadgeClass(s){if(s==="รอตรวจรับรอง")return"badge-submitted";if(s==="ส่งแล้ว")return"badge-submitted";if(s==="บันทึกร่าง")return"badge-draft";if(s==="ผ่านการรับรอง")return"badge-verified";if(s==="ให้แก้ไข"||s==="ต้องแก้ไข")return"badge-fix";return"badge-pending"}
+function getDisplayStatus(id,d){d=d||data;var s=getMissionStatus(id,d);var v=d.verifications[id];if(v&&v.status==="ผ่าน")return"ผ่านการรับรอง";if(v&&v.status==="ให้แก้ไข")return"ให้แก้ไข";if(s==="ส่งแล้ว")return"รอตรวจรับรอง";return s}
+function maskId(id){if(!id||id.length!==13)return id;return id[0]+"-XXXX-XXXXX-XX-"+id[12]}
+function isVerified(id,d){d=d||data;var v=d.verifications[id];return v&&v.status==="ผ่าน"}
+function getScore(d){d=d||data;var s=0;for(var i=1;i<=10;i++)if(isVerified(i,d))s+=10;return s}
+
+function resizeImage(file,maxSize,cb){
+var reader=new FileReader();
+reader.onload=function(e){
+var img=new Image();
+img.onload=function(){
+var canvas=document.createElement("canvas");
+var w=img.width,h=img.height;
+var scale=1;
+if(w>1200)scale=1200/w;
+if(h*scale>1200)scale=1200/h;
+canvas.width=w*scale;canvas.height=h*scale;
+var ctx=canvas.getContext("2d");
+ctx.drawImage(img,0,0,canvas.width,canvas.height);
+var quality=0.7;
+var result=canvas.toDataURL("image/jpeg",quality);
+if(result.length>maxSize){quality=0.4;result=canvas.toDataURL("image/jpeg",quality)}
+if(result.length>maxSize){quality=0.2;var s2=Math.min(800/w,800/h,1);canvas.width=w*s2;canvas.height=h*s2;ctx.drawImage(img,0,0,canvas.width,canvas.height);result=canvas.toDataURL("image/jpeg",quality)}
+if(result.length>maxSize){cb(null,"รูปภาพมีขนาดใหญ่เกินไป กรุณาเลือกรูปที่เล็กกว่านี้")}
+else{cb(result,null)}
+};
+img.src=e.target.result;
+};
+reader.readAsDataURL(file);
+}
+
+function initLogos(){
+try{var logos=JSON.parse(localStorage.getItem("gl_logos"))||{};
+if(logos.left)document.getElementById("logoLeft").innerHTML='<img src="'+logos.left+'" alt="โลโก้เทศบาล">';
+if(logos.right)document.getElementById("logoRight").innerHTML='<img src="'+logos.right+'" alt="โลโก้ อถล.">';
+}catch(e){}
+document.getElementById("logoLeft").addEventListener("click",function(){document.getElementById("logoLeftInput").click()});
+document.getElementById("logoRight").addEventListener("click",function(){document.getElementById("logoRightInput").click()});
+document.getElementById("logoLeftInput").addEventListener("change",function(e){handleLogo(e,"left")});
+document.getElementById("logoRightInput").addEventListener("change",function(e){handleLogo(e,"right")});
+}
+function handleLogo(e,side){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){var url=ev.target.result;document.getElementById(side==="left"?"logoLeft":"logoRight").innerHTML='<img src="'+url+'" alt="โลโก้">';try{var logos=JSON.parse(localStorage.getItem("gl_logos"))||{};logos[side]=url;localStorage.setItem("gl_logos",JSON.stringify(logos))}catch(ex){}};r.readAsDataURL(f)}
+function initFontToggle(){if(data.fontSize==="large")document.body.classList.add("font-large");document.getElementById("fontToggle").addEventListener("click",function(){document.body.classList.toggle("font-large");data.fontSize=document.body.classList.contains("font-large")?"large":"normal";saveData(data)})}
+
+function navigate(view,extra){if(!memberSession){showMemberLogin(false);return;}state.view=view;if(extra)Object.assign(state,extra);document.querySelectorAll(".nav-btn").forEach(function(b){b.classList.toggle("active",b.dataset.view===view||(view==="form"&&b.dataset.view==="missions")||(view==="admin"&&b.dataset.view==="dashboard")||(view==="demoForm"&&b.dataset.view==="missions")||(view==="mission3form"&&b.dataset.view==="missions"))});updateDemoStrip();render();if(view==="missions"||view==="portfolio")loadScoreStatus();window.scrollTo(0,0)}
+function updateDemoStrip(){document.getElementById("demoStrip").style.display=state.demoMode?"block":"none"}
+
+function missionFromApi(missions,id){
+ if(Array.isArray(missions))return missions[id-1]||missions.find(function(m){return m&&String(m.missionId||m.id)===String(id)});
+ return missions&& (missions[id]||missions[String(id)]);
+}
+function scoreMissionText(id){
+ var m=missionFromApi(state.scoreStatus.missions,id);
+ if(!m)return"ยังไม่มีข้อมูล";
+ var score=typeof m.score==="number"?m.score:"ยังไม่มีข้อมูล";
+ var status=m.status||"ยังไม่มีข้อมูล";
+ return score+" คะแนน · "+esc(status);
+}
+function renderScoreError(){return'<div class="inline-msg error">'+esc(state.scoreStatus.error||"ไม่สามารถโหลดคะแนนได้")+'<br><button class="btn btn-outline btn-sm" type="button" onclick="loadScoreStatus()">ลองใหม่</button></div>'}
+async function loadScoreStatus(){if(!memberSession)return;let id=memberSession.member.memberId;state.scoreStatus={state:'loading',memberId:id};if(state.view==='missions'||state.view==='portfolio')render();try{let r=await secureApi({action:'memberScore2570',token:memberSession.token,memberId:id});state.scoreStatus={state:'ready',totalScore:r.totalScore,memberId:id,missions:r.missions,error:''};}catch(e){state.scoreStatus={state:'error',memberId:id,error:e.message}}if(state.view==='missions'||state.view==='portfolio')render();}
+
+// ===== HOME =====
+function renderHome(){let m=data.member||{};return '<div class="card"><h2>🌿 ยินดีต้อนรับ '+esc(m.name||'สมาชิก')+'</h2><p>รหัสสมาชิก '+esc(m.memberId||'')+'</p><p>หมู่ที่ '+esc(m.moo||'')+' · '+esc(m.community||'')+'</p><button class="btn btn-outline" onclick="logoutMember()">ออกจากระบบ</button></div><div class="card"><button class="btn btn-primary btn-block" onclick="navigate(\'missions\')">🚀 ภารกิจทั้ง 10</button><button class="btn btn-secondary btn-block" onclick="navigate(\'portfolio\')">🏆 คะแนนของฉัน</button></div>';}
+
+function saveMember(){data.member={name:document.getElementById("mName").value.trim(),memberId:document.getElementById("mId").value.trim(),moo:document.getElementById("mMoo").value,community:document.getElementById("mCom").value.trim(),phone:document.getElementById("mPhone").value.trim()};saveData(data);m8Remote={memberId:"",loading:false,loaded:false,status:"",reason:"",error:""};m9Remote={memberId:"",loading:false,loaded:false,status:"",reason:"",error:""};m10Remote={memberId:"",loading:false,loaded:false,status:"",reason:"",error:""};showToast("บันทึกข้อมูลสมาชิกเรียบร้อยแล้ว ✅")}
+function backupData(){var blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="bangpoon_green_leader_backup.json";a.click();URL.revokeObjectURL(a.href);showToast("ดาวน์โหลดไฟล์สำรองข้อมูลแล้ว")}
+function restoreData(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{var d=JSON.parse(ev.target.result);if(typeof d==="object"&&d!==null){data=Object.assign({},getDefault(),d);saveData(data);render();showToast("นำเข้าข้อมูลสำรองเรียบร้อยแล้ว ✅")}else{showToastErr("ไฟล์ไม่ถูกต้อง")}}catch(ex){showToastErr("ไม่สามารถอ่านไฟล์ได้")}};r.readAsText(f);e.target.value=""}
+
+// ===== MISSION LIST =====
+function renderMissionList(){
+var d=activeData();
+var h='<h2 style="font-weight:700;margin-bottom:12px">📋 รายการภารกิจทั้ง 10 ข้อ</h2>';
+if(state.demoMode)h+=demoBanner();
+h+='<div class="card" style="background:var(--c-yellow);text-align:center;padding:10px;margin-bottom:12px"><strong>'+(state.scoreStatus.state==="loading"?'กำลังโหลดคะแนน...':state.scoreStatus.state==="ready"?('คะแนนรวม: '+state.scoreStatus.totalScore+' / 100'):state.scoreStatus.state==="error"?renderScoreError():'คะแนนรวม: ยังไม่มีข้อมูล / 100')+'</strong></div>';
+MISSIONS_DATA.forEach(function(m){
+var s=getDisplayStatus(m.id,d);
+h+='<div class="mission-card" onclick="openMissionForm('+m.id+')"><div class="mission-num">'+m.icon+'</div><div class="mission-info"><h3>'+m.id+'. '+esc(m.name)+'</h3><p>'+esc(m.desc)+'</p><div style="margin-top:6px">'+(state.scoreStatus.state==="loading"?'กำลังโหลดคะแนน...':state.scoreStatus.state==="ready"?'<span class="badge '+getBadgeClass((missionFromApi(state.scoreStatus.missions,m.id)||{}).status||"")+'">'+scoreMissionText(m.id)+'</span>':state.scoreStatus.state==="error"?renderScoreError():'<span class="badge badge-pending">ยังไม่มีข้อมูล</span>')+'</div></div></div>'});
+if(state.demoMode)h+='<button class="btn btn-warning btn-block" type="button" onclick="exitDemoMode()">⬅ ออกจากโหมดสาธิต</button>';
+return h}
+
+// ===== OPEN MISSION FORM =====
+function openMissionForm(id){
+var d=activeData();var existing=d.missions[id];
+state.formMissionId=id;state.formStep=1;
+state.formData=existing&&existing.formData?JSON.parse(JSON.stringify(existing.formData)):{date:"",moo:(d.member.moo||""),community:(d.member.community||""),place:"",wasteType:"",participants:"",wasteKg:"",resultStatus:"",note:"",photos:[]};
+if(!state.formData.photos)state.formData.photos=[];
+if(id===1){if(!d.mission1Recruits||d.mission1Recruits.length===0)d.mission1Recruits=[{},{},{}]}
+if(id===6){state.formData.behavior=d.mission6.behavior||"";state.formData.days=(d.mission6.days||Array(14).fill(false)).slice()}
+if(id===7){
+  if(!state.formData.m7) state.formData.m7={};
+
+  var m7=state.formData.m7;
+
+  if(!Array.isArray(m7.activities)) m7.activities=["","",""];
+  if(!Array.isArray(m7.photosWaste)) m7.photosWaste=[];
+  if(!Array.isArray(m7.photosReduce)) m7.photosReduce=[];
+  if(!Array.isArray(m7.photosGreen)) m7.photosGreen=[];
+}
+if(id===8){
+ state.formData.m8=state.formData.m8||{topic:"",otherTopic:"",recipient:"",count:"1",photos:[]};
+ if(!Array.isArray(state.formData.m8.photos))state.formData.m8.photos=[];
+}
+if(id===9){
+ state.formData.m9=state.formData.m9||{platform:"",otherPlatform:"",topic:"",otherTopic:"",postUrl:"",photos:[]};
+ if(!Array.isArray(state.formData.m9.photos))state.formData.m9.photos=[];
+}
+if(id===10){
+ state.formData.m10=state.formData.m10||{activityDate:"",activity:"",otherActivity:"",location:"",photos:[]};
+ if(!Array.isArray(state.formData.m10.photos))state.formData.m10.photos=[];
+}
+if(id===10&&!state.demoMode){checkMission10Status();}
+if(id===8&&!state.demoMode){checkMission8Status();}
+if(id===9&&!state.demoMode){checkMission9Status();}
+if(id===3){
+state.formData.m3=state.formData.m3||{surveyDate:"",moo:d.member.moo||"",community:d.member.community||"",location:"",problemType:"",problemDesc:"",actionType:"",actionDesc:"",m3Status:"",result:"",coordinator:"",photosBefore:[],photosAfter:[]};
+if(state.demoMode){var prog=loadDemoProgress();if(prog&&prog.missionId===3&&prog.formData)state.formData=JSON.parse(JSON.stringify(prog.formData))}
+navigate("mission3form");return}
+if(state.demoMode){var prog2=loadDemoProgress();if(prog2&&prog2.missionId===id){state.formStep=prog2.step||1;if(prog2.formData)state.formData=JSON.parse(JSON.stringify(prog2.formData));showToast("โหลดข้อมูลสาธิตขั้นที่ "+prog2.step)}}
+navigate(state.demoMode?"demoForm":"form")}
+
+// ===== PHOTO HELPERS =====
+function renderPhotoSection(photos,fieldPath,label){
+var h='<div class="form-group"><label>📷 '+(label||"รูปภาพ")+'</label>';
+h+='<div style="display:flex;flex-wrap:wrap;gap:4px">';
+if(photos&&photos.length>0){photos.forEach(function(p,i){
+h+='<div class="photo-preview"><img src="'+p+'" alt="รูปภาพ"><button type="button" class="del-btn" onclick="removePhotoArr(\''+fieldPath+'\','+i+')">✕</button><button type="button" class="change-btn" onclick="changePhotoArr(\''+fieldPath+'\','+i+')">✎</button></div>'})}
+h+='</div>';
+h+='<div class="photo-upload" onclick="addPhotoArr(\''+fieldPath+'\')">📷 เพิ่มรูปภาพ</div>';
+h+='<input type="file" id="photoInput_'+fieldPath+'" accept="image/*" capture="environment" hidden></div>';
+return h}
+
+function getNestedArr(path){
+var parts=path.split(".");var obj=state.formData;
+for(var i=0;i<parts.length;i++){if(!obj[parts[i]])obj[parts[i]]=[];obj=obj[parts[i]]}
+return obj}
+
+function setNestedArr(path,val){
+var parts=path.split(".");var obj=state.formData;
+for(var i=0;i<parts.length-1;i++){if(!obj[parts[i]])obj[parts[i]]={};obj=obj[parts[i]]}
+obj[parts[parts.length-1]]=val}
+
+function addPhotoArr(fieldPath){
+var inp=document.getElementById("photoInput_"+fieldPath);
+if(!inp){inp=document.createElement("input");inp.type="file";inp.accept="image/*";inp.setAttribute("capture","environment");inp.id="photoInput_"+fieldPath;inp.hidden=true;document.body.appendChild(inp)}
+inp.onchange=function(e){var f=e.target.files[0];if(!f)return;
+resizeImage(f,MAX_PHOTO_SIZE,function(result,err){if(err){showToastErr(err);return}var arr=getNestedArr(fieldPath);if(fieldPath==="m8.photos"||fieldPath==="m9.photos"||fieldPath==="m10.photos")arr.splice(0,arr.length,result);else arr.push(result);render()});inp.value=""};
+inp.click()}
+
+function removePhotoArr(fieldPath,idx){var arr=getNestedArr(fieldPath);arr.splice(idx,1);render()}
+function changePhotoArr(fieldPath,idx){
+var inp=document.createElement("input");inp.type="file";inp.accept="image/*";inp.setAttribute("capture","environment");
+inp.onchange=function(e){var f=e.target.files[0];if(!f)return;
+resizeImage(f,MAX_PHOTO_SIZE,function(result,err){if(err){showToastErr(err);return}var arr=getNestedArr(fieldPath);arr[idx]=result;render()})};
+inp.click()}
+
+// ===== GENERIC MISSION FORM (non-mission-3) =====
+function renderMissionForm(isDemo){
+var m=MISSIONS_DATA.find(function(x){return x.id===state.formMissionId});
+if(!m)return"<p>ไม่พบภารกิจ</p>";
+var fd=state.formData;var step=state.formStep;var d=activeData();
+if(m.id===8)return renderMission8Form(fd,isDemo);
+if(m.id===10)return renderMission10Form(fd,isDemo);
+if(m.id===9)return renderMission9Form(fd,isDemo);
+var h="";if(isDemo)h+=demoBanner();
+h+='<button class="btn btn-outline btn-sm" type="button" onclick="navigate(\'missions\')" style="margin-bottom:12px">← กลับรายการภารกิจ</button>';
+h+='<div class="card-accent card"><h3>'+m.icon+' '+m.id+'. '+esc(m.name)+'</h3><p style="font-size:0.85em;color:#666">'+esc(m.desc)+'</p></div>';
+h+='<div class="step-indicator"><div class="step-dot '+(step>=1?"active":"")+" "+(step>1?"done":"")+'">1</div><div class="step-line '+(step>1?"done":"")+'"></div><div class="step-dot '+(step>=2?"active":"")+" "+(step>2?"done":"")+'">2</div><div class="step-line '+(step>2?"done":"")+'"></div><div class="step-dot '+(step>=3?"active":"")+'">3</div></div>';
+if(step===1)h+=renderFormStep1(m,fd,d);
+else if(step===2)h+=renderFormStep2(m,fd);
+else h+=renderFormStep3(m,fd,isDemo);
+if(isDemo)h+='<button class="btn btn-secondary btn-block" type="button" style="margin-top:8px" onclick="saveDemoStep()">💾 บันทึกขั้นตอนนี้</button>';
+return h}
+
+function renderFormStep1(m,fd,d){
+var h='<div class="card"><h4 style="font-weight:700;margin-bottom:12px">ขั้นที่ 1: ข้อมูลกิจกรรม</h4>';
+if(m.id===1){h+=renderMission1Form(d)}
+ else if(m.id===5){h+=renderMission5Form(fd,d)}
+else if(m.id===6){h+=renderMission6Form(fd,d)}
+else if(m.id===7){h+=renderMission7Form(fd,d)}
+else{
+h+='<div class="form-group"><label>วันที่ทำกิจกรรม</label><input type="date" id="fDate" value="'+(fd.date||"")+'"></div>';
+h+='<div class="form-group"><label>หมู่ที่</label><select id="fMoo"><option value="">เลือก</option>'+[1,2,3,4,5,6].map(function(i){return'<option value="'+i+'"'+(fd.moo==i?" selected":"")+'>'+i+'</option>'}).join("")+'</select></div>';
+h+='<div class="form-group"><label>ชุมชน</label><input id="fCom" value="'+esc(fd.community||"")+'" placeholder="ชื่อชุมชน"></div>';
+h+='<div class="form-group"><label>สถานที่</label><div class="choice-grid">'+PLACES.map(function(p){return'<button type="button" class="choice-btn '+(fd.place===p?"selected":"")+'" onclick="selectChoice(\'place\',\''+p+'\',this)">'+p+'</button>'}).join("")+'</div></div>';
+h+='<div class="form-group"><label>ประเภทขยะ</label><div class="choice-grid">'+WASTE_TYPES.map(function(w){return'<button type="button" class="choice-btn '+(fd.wasteType===w?"selected":"")+'" onclick="selectChoice(\'wasteType\',\''+w+'\',this)">'+w+'</button>'}).join("")+'</div></div>';
+h+='<div class="form-group"><label>จำนวนผู้เข้าร่วม (คน)</label><input type="number" id="fPart" min="0" value="'+(fd.participants||"")+'" placeholder="จำนวน"></div>';
+h+='<div class="form-group"><label>น้ำหนักขยะ (กก.) ถ้ามี</label><input type="number" id="fKg" min="0" step="0.1" value="'+(fd.wasteKg||"")+'" placeholder="0.0"></div>'}
+h+='<div style="display:flex;gap:10px;margin-top:16px"><button class="btn btn-primary" type="button" style="flex:1" onclick="nextStep()">ถัดไป →</button></div></div>';
+return h}
+
+function renderMission7Form(fd,d){
+  if(!fd.m7) fd.m7 = {
+    photosWaste: [],
+    photosReduce: [],
+    photosGreen: [],
+    activities: ["", "", ""]
+  };
+
+  if(!Array.isArray(fd.m7.activities)){
+    fd.m7.activities = ["", "", ""];
+  }
+
+  var h = '<p style="margin-bottom:14px">🏡 บ้านฉัน...ต้นแบบ — เลือกกิจกรรมและส่งภาพหลักฐานให้ครบทั้ง 3 ด้าน ด้านละ 1 รูป</p>';
+
+  var topics = [
+    {
+      title: '1. บ้านแยกขยะ',
+      desc: 'เลือกกิจกรรมที่ทำจริง',
+      field: 'm7.photosWaste',
+      options: [
+        'แยกขยะรีไซเคิลและขยะทั่วไป',
+        'แยกขยะเปียกและขยะทั่วไป',
+        'แยกขยะอย่างน้อย 2 ประเภท'
+      ]
+    },
+    {
+      title: '2. บ้านลดขยะ',
+      desc: 'เลือกกิจกรรมที่ทำจริง',
+      field: 'm7.photosReduce',
+      options: [
+        'ใช้ถุงผ้า',
+        'ใช้แก้วหรือกล่องส่วนตัว',
+        'นำของกลับมาใช้ซ้ำ'
+      ]
+    },
+    {
+      title: '3. บ้านรักษ์โลก',
+      desc: 'เลือกกิจกรรมที่ทำจริง',
+      field: 'm7.photosGreen',
+      options: [
+        'ทำถังขยะเปียก',
+        'ปลูกผักสวนครัว',
+        'ประหยัดน้ำหรือไฟฟ้า'
+      ]
+    }
+  ];
+
+  topics.forEach(function(t,i){
+    h += '<div style="margin-bottom:18px;padding:12px;border:1px solid #cde5d4;border-radius:12px">';
+    h += '<b>' + t.title + '</b>';
+    h += '<p style="font-size:0.88em;margin:6px 0">' + t.desc + '</p>';
+
+    h += '<div class="choice-grid">';
+
+    t.options.forEach(function(option){
+      var selected = fd.m7.activities[i] === option
+        ? ' selected' : '';
+
+      h += '<button type="button" class="choice-btn' +
+        selected +
+        '" onclick="selectMission7Activity(' +
+        i + ',' + JSON.stringify(option).replace(/"/g,'&quot;') +
+        ',this)">' +
+        esc(option) +
+        '</button>';
+    });
+
+    h += '</div>';
+
+    h += renderPhotoSection(
+      getNestedArr(t.field),
+      t.field,
+      'ภาพหลักฐาน (1 รูป)'
+    );
+
+    h += '</div>';
+  });
+
+  return h;
+}
+
+function selectMission7Activity(index,value,btn){
+  if(!state.formData.m7){
+    state.formData.m7 = {};
+  }
+
+  if(!Array.isArray(state.formData.m7.activities)){
+    state.formData.m7.activities = ["", "", ""];
+  }
+
+  state.formData.m7.activities[index] = value;
+
+  btn.parentElement
+    .querySelectorAll('.choice-btn')
+    .forEach(function(b){
+      b.classList.remove('selected');
+    });
+
+  btn.classList.add('selected');
+}
+function renderMission5Form(fd,d){
+var h='<p style="font-size:0.9em;margin-bottom:12px">เข้าร่วมธนาคารขยะอย่างน้อย 1 ครั้ง กรอกเพียงวันที่และกิจกรรมที่เข้าร่วม</p>';
+h+='<div class="form-group"><label>วันที่เข้าร่วมกิจกรรม *</label><input type="date" id="fDate" value="'+esc(fd.date||"")+'"></div>';
+h+='<div class="form-group"><label>เข้าร่วมกิจกรรมอะไร *</label><div class="choice-grid">'+["นำขยะมาฝากหรือขาย","ช่วยคัดแยกขยะ","ช่วยดำเนินงานธนาคารขยะ","อื่น ๆ"].map(function(x){return '<button type="button" class="choice-btn '+(fd.bankActivity===x?"selected":"")+'" onclick="selectChoice(\'bankActivity\',\''+x+'\',this)">'+x+'</button>'}).join("")+'</div></div>';
+h+='<p style="font-size:0.85em;color:#666">ข้อมูลหมู่ที่และชุมชนใช้จากข้อมูลสมาชิกที่บันทึกไว้</p>';
+return h;
+}
+
+function renderMission1Form(d){
+d=d||activeData();var recruits=d.mission1Recruits||[];var saved=recruits.filter(function(r){return r.name&&r.saved}).length;
+var h='<p style="font-size:0.9em;margin-bottom:12px;color:var(--c-green-dark)">ชวนประชาชนสมัคร อถล. จำนวน 3 คน</p><div style="margin-bottom:10px;font-weight:600">บันทึกแล้ว '+saved+' จาก 3 คน</div>';
+for(var i=0;i<3;i++){var r=recruits[i]||{};
+h+='<div class="recruit-card"><h4 style="font-weight:700">👤 ผู้สมัครคนที่ '+(i+1)+'</h4>';
+if(r.name&&r.saved){
+h+='<p>ชื่อ: '+esc(r.name)+' '+esc(r.surname||"")+'</p><p>เลข ปชช.: '+maskId(r.idCard)+'</p><p>หมู่ที่: '+esc(r.moo)+' ชุมชน: '+esc(r.community||"-")+'</p><p>วันที่สมัคร: '+esc(r.regDate||"-")+'</p><p style="color:var(--c-green);font-weight:600">✅ บันทึกแล้ว</p><button class="btn btn-sm btn-outline" type="button" onclick="editRecruit('+i+')">แก้ไข</button>';
+}else{
+if(i>0)h+='<button type="button" class="btn btn-sm btn-secondary" style="margin-bottom:8px" onclick="copyFromPrev('+i+')">📋 คัดลอกที่อยู่จากคนก่อนหน้า</button>';
+h+='<div class="form-group"><label>วันที่สมัคร</label><input type="date" id="r'+i+'date" value="'+(r.regDate||new Date().toISOString().slice(0,10))+'"></div>';
+h+='<div class="form-group"><label>ชื่อ</label><input id="r'+i+'name" value="'+esc(r.name||"")+'"></div>';
+h+='<div class="form-group"><label>นามสกุล</label><input id="r'+i+'surname" value="'+esc(r.surname||"")+'"></div>';
+h+='<div class="form-group"><label>อายุ</label><input type="number" id="r'+i+'age" min="1" max="120" value="'+(r.age||"")+'"></div>';
+h+='<div class="form-group"><label>เลขประจำตัวประชาชน (13 หลัก)</label><input id="r'+i+'idCard" inputmode="numeric" maxlength="13" value="'+(r.idCard||"")+'" placeholder="เฉพาะตัวเลข 13 หลัก"><div class="form-error" id="r'+i+'idErr">กรุณากรอกเลขประจำตัวประชาชน 13 หลัก</div></div>';
+h+='<div class="form-group"><label>ที่อยู่</label><input id="r'+i+'addr" value="'+esc(r.address||"")+'"></div>';
+h+='<div class="form-group"><label>หมู่ที่</label><input type="number" id="r'+i+'moo" min="1" max="6" value="'+(r.moo||"")+'"></div>';
+h+='<div class="form-group"><label>ชุมชน</label><input id="r'+i+'com" value="'+esc(r.community||"")+'"></div>';
+h+='<div class="form-group"><label>เบอร์โทรศัพท์</label><input type="tel" id="r'+i+'phone" value="'+esc(r.phone||"")+'"></div>';
+h+='<div class="form-group"><label><input type="checkbox" id="r'+i+'consent"'+(r.consent?" checked":"")+'> ยินยอมให้ใช้ข้อมูลเพื่อการสมัครและดำเนินงานเครือข่าย อถล.</label><div class="form-error" id="r'+i+'conErr">กรุณายินยอมก่อนบันทึก</div></div>';
+h+='<button class="btn btn-primary btn-sm" type="button" onclick="saveRecruit('+i+')">💾 บันทึกผู้สมัครคนที่ '+(i+1)+'</button>'}
+h+='</div>'}return h}
+
+function renderMission6Form(fd,d){
+d=d||activeData();
+var h='<p style="font-size:0.9em;margin-bottom:12px">เลือกพฤติกรรมลด Carbon Footprint</p>';
+h+='<div class="choice-grid" style="margin-bottom:16px">'+BEHAVIORS.map(function(b){return'<button type="button" class="choice-btn '+(fd.behavior===b?"selected":"")+'" onclick="selectBehavior(\''+esc(b)+'\',this)">'+b+'</button>'}).join("")+'</div>';
+h+='<p style="font-weight:700;margin-bottom:8px">เช็กอิน 14 วัน</p>';
+var days=fd.days||Array(14).fill(false);var doneCount=days.filter(Boolean).length;
+h+='<p style="font-size:0.85em;color:var(--c-green);margin-bottom:6px">สำเร็จแล้ว '+doneCount+' / 14 วัน</p>';
+h+='<div class="checkin-grid">'+days.map(function(d2,i){return'<div class="checkin-day '+(d2?"checked":"")+'" onclick="toggleCheckin('+i+')"><span>'+(i+1)+'</span><span style="font-size:0.7em">'+(d2?"✅":"○")+'</span></div>'}).join("")+'</div>';
+return h}
+
+function selectChoice(field,val,btn){state.formData[field]=val;btn.parentElement.querySelectorAll(".choice-btn").forEach(function(b){b.classList.remove("selected")});btn.classList.add("selected")}
+function selectBehavior(b,btn){state.formData.behavior=b;var d=activeData();d.mission6.behavior=b;saveActiveData();btn.parentElement.querySelectorAll(".choice-btn").forEach(function(x){x.classList.remove("selected")});btn.classList.add("selected")}
+function toggleCheckin(i){if(!state.formData.days)state.formData.days=Array(14).fill(false);state.formData.days[i]=!state.formData.days[i];var d=activeData();d.mission6.days=state.formData.days.slice();saveActiveData();render()}
+
+function saveRecruit(i){
+var d=activeData();if(!d.mission1Recruits)d.mission1Recruits=[{},{},{}];
+var el=function(id){return document.getElementById(id)};
+var name=el("r"+i+"name").value.trim();var surname=el("r"+i+"surname").value.trim();
+var idCard=el("r"+i+"idCard").value.replace(/\D/g,"");var consent=el("r"+i+"consent").checked;
+var valid=true;
+if(idCard.length!==13){document.getElementById("r"+i+"idErr").classList.add("show");valid=false}else{document.getElementById("r"+i+"idErr").classList.remove("show")}
+if(!consent){document.getElementById("r"+i+"conErr").classList.add("show");valid=false}else{document.getElementById("r"+i+"conErr").classList.remove("show")}
+if(!name){showToastErr("กรุณากรอกชื่อ");return}
+if(!valid)return;
+d.mission1Recruits[i]={name:name,surname:surname,age:el("r"+i+"age").value,idCard:idCard,address:el("r"+i+"addr").value.trim(),moo:el("r"+i+"moo").value,community:el("r"+i+"com").value.trim(),phone:el("r"+i+"phone").value.trim(),consent:consent,saved:true,regDate:el("r"+i+"date").value||new Date().toISOString().slice(0,10),verifyStatus:"รอตรวจสอบ"};
+saveActiveData();showToast("บันทึกผู้สมัครคนที่ "+(i+1)+" เรียบร้อยแล้ว ✅");render()}
+function editRecruit(i){var d=activeData();d.mission1Recruits[i].saved=false;saveActiveData();render()}
+function copyFromPrev(i){if(i===0)return;var d=activeData();var prev=d.mission1Recruits[i-1]||{};var el=function(id){return document.getElementById(id)};if(el("r"+i+"addr"))el("r"+i+"addr").value=prev.address||"";if(el("r"+i+"moo"))el("r"+i+"moo").value=prev.moo||"";if(el("r"+i+"com"))el("r"+i+"com").value=prev.community||"";showToast("คัดลอกที่อยู่แล้ว")}
+
+function collectStep1(){
+var fd=state.formData;var mid=state.formMissionId;
+if(mid===1||mid===6)return true;
+var el=function(id){return document.getElementById(id)};
+if(el("fDate"))fd.date=el("fDate").value;
+if(mid===5){fd.moo=(data.member||{}).moo||fd.moo;fd.community=(data.member||{}).community||fd.community;return true}
+if(el("fMoo"))fd.moo=el("fMoo").value;
+if(el("fCom"))fd.community=el("fCom").value.trim();
+if(el("fPart"))fd.participants=el("fPart").value;
+if(el("fKg"))fd.wasteKg=el("fKg").value;
+return true}
+
+function renderFormStep2(m,fd){
+var h='<div class="card"><h4 style="font-weight:700;margin-bottom:12px">ขั้นที่ 2: ผลงานและรูปภาพ</h4>';
+if(m.id===5){
+ h+='<p style="font-size:0.9em;margin-bottom:10px">แนบภาพการเข้าร่วมกิจกรรม 1–3 รูป และระบุรายละเอียดเพิ่มเติมได้</p>';
+ h+='<div class="form-group"><label>รายละเอียดเพิ่มเติม (ไม่บังคับ)</label><textarea id="fNote" rows="2" placeholder="เช่น ธนาคารขยะชุมชน หมู่ที่ 4">'+esc(fd.note||"")+'</textarea></div>';
+ h+=renderPhotoSection(fd.photos||[],"photos","ภาพการเข้าร่วมกิจกรรม");
+ h+='<div style="display:flex;gap:10px;margin-top:16px"><button class="btn btn-outline" type="button" style="flex:1" onclick="prevStep()">← ย้อนกลับ</button><button class="btn btn-primary" type="button" style="flex:1" onclick="nextStep()">ถัดไป →</button></div></div>';
+ return h;
+}
+h+='<div class="form-group"><label>สถานะ</label><div class="choice-grid">'+STATUS_OPTS.map(function(s){return'<button type="button" class="choice-btn '+(fd.resultStatus===s?"selected":"")+'" onclick="selectChoice(\'resultStatus\',\''+s+'\',this)">'+s+'</button>'}).join("")+'</div></div>';
+h+='<div class="form-group"><label>หมายเหตุ (ไม่บังคับ)</label><textarea id="fNote" rows="3" placeholder="รายละเอียดเพิ่มเติม...">'+esc(fd.note||"")+'</textarea></div>';
+h+=renderPhotoSection(fd.photos||[],"photos","รูปภาพผลงาน");
+h+='<div style="display:flex;gap:10px;margin-top:16px"><button class="btn btn-outline" type="button" style="flex:1" onclick="prevStep()">← ย้อนกลับ</button><button class="btn btn-primary" type="button" style="flex:1" onclick="nextStep()">ถัดไป →</button></div></div>';
+return h}
+
+function renderFormStep3(m,fd,isDemo){
+var d=activeData();
+var h='<div class="card"><h4 style="font-weight:700;margin-bottom:12px">ขั้นที่ 3: ตรวจสอบข้อมูล</h4>';
+if(isDemo)h+=demoBanner();
+h+='<div style="background:var(--c-accent);border-radius:10px;padding:12px;font-size:0.9em">';
+h+='<p><strong>ภารกิจ:</strong> '+esc(m.name)+'</p>';
+if(m.id===1){var recruits=d.mission1Recruits||[];var saved=recruits.filter(function(r){return r.name&&r.saved}).length;h+='<p><strong>ผู้สมัครที่บันทึกแล้ว:</strong> '+saved+' / 3 คน</p>';recruits.forEach(function(r){if(r.name&&r.saved)h+='<p style="margin-left:12px">• '+esc(r.name)+' '+esc(r.surname||"")+'</p>'})}
+else if(m.id===5){h+='<p><strong>วันที่:</strong> '+esc(fd.date||"-")+'</p><p><strong>กิจกรรม:</strong> '+esc(fd.bankActivity||"-")+'</p><p><strong>หมู่ที่:</strong> '+esc(fd.moo||"-")+'</p>'}
+else if(m.id===6){h+='<p><strong>พฤติกรรม:</strong> '+esc(fd.behavior||"-")+'</p>';var dc=(fd.days||[]).filter(Boolean).length;h+='<p><strong>เช็กอินสำเร็จ:</strong> '+dc+' / 14 วัน</p>'}
+else{h+='<p><strong>วันที่:</strong> '+(fd.date||"-")+'</p><p><strong>หมู่ที่:</strong> '+(fd.moo||"-")+'</p><p><strong>ชุมชน:</strong> '+esc(fd.community||"-")+'</p><p><strong>สถานที่:</strong> '+esc(fd.place||"-")+'</p>'}
+h+='<p><strong>สถานะ:</strong> '+esc(fd.resultStatus||"-")+'</p>';
+if(fd.note)h+='<p><strong>หมายเหตุ:</strong> '+esc(fd.note)+'</p>';
+h+='</div>';
+if(fd.photos&&fd.photos.length>0){h+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px">';fd.photos.forEach(function(p){h+='<img src="'+p+'" style="width:80px;height:80px;object-fit:cover;border-radius:8px" alt="ผลงาน" onclick="showLightbox(this.src)">'});h+='</div>'}
+h+='<div id="formErrors"></div>';
+h+='<div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap"><button class="btn btn-outline" type="button" style="flex:1" onclick="prevStep()">← ย้อนกลับ</button><button class="btn btn-warning" type="button" style="flex:1" onclick="saveDraft()">📝 บันทึกร่าง</button><button class="btn btn-primary" type="button" style="flex:1" onclick="submitMission()">✅ ส่งภารกิจ</button></div></div>';
+return h}
+
+function nextStep(){if(state.formStep===1)collectStep1();if(state.formStep===2){var el=document.getElementById("fNote");if(el)state.formData.note=el.value}if(state.formStep<3){state.formStep++;render()}}
+function prevStep(){if(state.formStep>1){state.formStep--;render()}}
+
+function validateForm(){
+var fd=state.formData;var mid=state.formMissionId;var errors=[];var d=activeData();
+if(mid===1){var saved=(d.mission1Recruits||[]).filter(function(r){return r.name&&r.saved}).length;if(saved<3)errors.push("กรุณาบันทึกผู้สมัครให้ครบ 3 คน")}
+else if(mid===5){if(!fd.date)errors.push("กรุณาระบุวันที่เข้าร่วมกิจกรรม");if(!fd.bankActivity)errors.push("กรุณาเลือกกิจกรรมธนาคารขยะ");if(!(d.member||{}).memberId)errors.push("กรุณาบันทึกรหัสสมาชิกที่หน้าหลักก่อน");if((fd.photos||[]).length<1||(fd.photos||[]).length>3)errors.push("กรุณาแนบรูปภาพ 1–3 รูป")}
+else if(mid===6){if(!fd.behavior)errors.push("กรุณาเลือกพฤติกรรมลด Carbon Footprint")}
+else if(mid===7){
+  var p=fd.m7||{};
+  var activities=p.activities||[];
+
+  if(!Array.isArray(activities) ||
+     activities.length!==3 ||
+     activities.some(function(a){return !a;})){
+    errors.push("กรุณาเลือกกิจกรรมให้ครบทั้ง 3 ด้าน");
+  }
+
+  if(!(d.member||{}).memberId){
+    errors.push("กรุณาบันทึกรหัสสมาชิกที่หน้าหลักก่อน");
+  }
+
+  if((p.photosWaste||[]).length!==1){
+    errors.push("กรุณาแนบภาพบ้านแยกขยะ 1 รูป");
+  }
+
+  if((p.photosReduce||[]).length!==1){
+    errors.push("กรุณาแนบภาพบ้านลดขยะ 1 รูป");
+  }
+
+  if((p.photosGreen||[]).length!==1){
+    errors.push("กรุณาแนบภาพบ้านรักษ์โลก 1 รูป");
+  }
+}
+else if(mid===8){
+ var m8=fd.m8||{};
+ if(!(d.member||{}).memberId)errors.push("กรุณาบันทึกรหัสสมาชิกที่หน้าหลักก่อน");
+ if(!M8_TOPICS.includes(m8.topic))errors.push("กรุณาเลือกหัวข้อความรู้");
+ if(m8.topic==="อื่น ๆ"&&!String(m8.otherTopic||"").trim())errors.push("กรุณาระบุหัวข้อความรู้ที่ถ่ายทอด");
+ if(!M8_RECIPIENTS.includes(m8.recipient))errors.push("กรุณาเลือกผู้รับความรู้");
+ if(!/^\d+$/.test(String(m8.count||""))||Number(m8.count)<1||Number(m8.count)>10000)errors.push("กรุณาระบุจำนวนผู้รับความรู้อย่างน้อย 1 คน");
+ if(!Array.isArray(m8.photos)||m8.photos.length!==1)errors.push("กรุณาแนบภาพหลักฐาน 1 รูป");
+}
+
+else if(mid===9){
+ var m9=fd.m9||{};
+ if(!(d.member||{}).memberId)errors.push("กรุณาบันทึกรหัสสมาชิกที่หน้าหลักก่อน");
+ if(!M9_PLATFORMS.includes(m9.platform))errors.push("กรุณาเลือกช่องทางเผยแพร่");
+ if(m9.platform==="อื่น ๆ"&&!String(m9.otherPlatform||"").trim())errors.push("กรุณาระบุช่องทางเผยแพร่");
+ if(!M9_TOPICS.includes(m9.topic))errors.push("กรุณาเลือกเรื่องราวที่เผยแพร่");
+ if(m9.topic==="อื่น ๆ"&&!String(m9.otherTopic||"").trim())errors.push("กรุณาระบุเรื่องราวที่เผยแพร่");
+ if(String(m9.postUrl||"").trim()&&!/^https?:\/\/\S+$/i.test(String(m9.postUrl).trim()))errors.push("ลิงก์ต้องขึ้นต้นด้วย https:// หรือ http:// (หรือเว้นว่างได้)");
+ if(!Array.isArray(m9.photos)||m9.photos.length!==1)errors.push("กรุณาแนบภาพหน้าจอหลักฐาน 1 รูป");
+}
+else if(mid===10){
+ var m10=fd.m10||{};
+ if(!(d.member||{}).memberId)errors.push("กรุณาบันทึกรหัสสมาชิกที่หน้าหลักก่อน");
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(m10.activityDate||""))errors.push("กรุณาเลือกวันที่เข้าร่วมกิจกรรม");
+ if(!M10_ACTIVITIES.includes(m10.activity))errors.push("กรุณาเลือกกิจกรรมที่เข้าร่วม");
+ if(m10.activity==="อื่น ๆ"&&!String(m10.otherActivity||"").trim())errors.push("กรุณาระบุกิจกรรมที่เข้าร่วม");
+ if(!String(m10.location||"").trim())errors.push("กรุณาระบุสถานที่จัดกิจกรรม");
+ if(!Array.isArray(m10.photos)||m10.photos.length!==1)errors.push("กรุณาแนบภาพหลักฐาน 1 รูป");
+}
+else{if(!fd.date)errors.push("กรุณาระบุวันที่");if(!fd.moo)errors.push("กรุณาเลือกหมู่ที่")}
+return errors}
+
+function saveDraft(){
+collectStep1();var d=activeData();
+d.missions[state.formMissionId]={status:"บันทึกร่าง",formData:JSON.parse(JSON.stringify(state.formData)),timestamp:new Date().toISOString()};
+saveActiveData();showToast("บันทึกร่างเรียบร้อยแล้ว 📝");navigate("missions")}
+
+function submitMission(){
+var errors=validateForm();
+if(errors.length>0){var el=document.getElementById("formErrors");if(el)el.innerHTML='<div class="inline-msg error">'+errors.map(function(e){return'<p>⚠️ '+esc(e)+'</p>'}).join("")+'</div>';return}
+if(state.formMissionId===2&&!state.demoMode){submitMission2Online();return}
+if(state.formMissionId===5&&!state.demoMode){submitMission5Online();return}
+if(state.formMissionId===7&&!state.demoMode){submitMission7Online();return}
+if(state.formMissionId===8&&!state.demoMode){submitMission8Online();return}
+if(state.formMissionId===9&&!state.demoMode){submitMission9Online();return}
+if(state.formMissionId===10&&!state.demoMode){submitMission10Online();return}
+var d=activeData();d.missions[state.formMissionId]={status:"ส่งแล้ว",formData:JSON.parse(JSON.stringify(state.formData)),timestamp:new Date().toISOString()};
+saveActiveData();showToast("บันทึกข้อมูลในเครื่องแล้ว (ยังไม่ยืนยันการส่งเข้าชีต)");navigate("missions")}
+
+// ภารกิจที่ 2 — ส่งจริงผ่าน Netlify API โดยใช้ token ของสมาชิก
+async function submitMission2Online(){
+ const fd=state.formData||{};
+ const el=document.getElementById('formErrors');
+ const btn=document.querySelector('button[onclick="submitMission()"]');
+ if(!memberSession||!memberSession.token){showToastErr('กรุณาเข้าสู่ระบบใหม่');return;}
+ if(!fd.place||!fd.wasteType||!Number.isInteger(Number(fd.participants))||Number(fd.participants)<0||!STATUS_OPTS.includes(fd.resultStatus)){
+  if(el)el.innerHTML='<div class="inline-msg error">กรุณากรอกสถานที่ ประเภทขยะ จำนวนผู้เข้าร่วม และสถานะกิจกรรมให้ครบ</div>';return;
+ }
+ const src=(fd.photos||[])[0]||'';
+ if((fd.photos||[]).length>1){if(el)el.innerHTML='<div class="inline-msg error">ภารกิจที่ 2 รองรับภาพหลักฐาน 1 รูป กรุณาเลือกเพียง 1 รูป</div>';return;}
+ if(btn){btn.disabled=true;btn.textContent='⏳ กำลังส่ง...';}
+ try{
+  const payload={action:'submitMission2',token:memberSession.token,data:{member:{memberId:memberSession.member.memberId},m2:{activityDate:fd.date,place:fd.place,wasteType:fd.wasteType,participants:Number(fd.participants),weightKg:fd.wasteKg===''?'':Number(fd.wasteKg),activityStatus:fd.resultStatus,activityNote:fd.note||'',photo:src}}};
+  await secureApi(payload);
+  const d=activeData();d.missions[2]={status:'รอตรวจรับรอง',formData:JSON.parse(JSON.stringify(fd)),timestamp:new Date().toISOString()};saveActiveData();
+  showToast('ส่งภารกิจที่ 2 เข้าระบบแล้ว ✅');navigate('missions');
+ }catch(e){if(el)el.innerHTML='<div class="inline-msg error">❌ '+esc(e.message||'ส่งข้อมูลไม่สำเร็จ')+'</div>';showToastErr('ส่งภารกิจไม่สำเร็จ');}
+ finally{if(btn){btn.disabled=false;btn.textContent='✅ ส่งภารกิจ';}}
+}
+
+// ภารกิจที่ 5: ส่งไปยัง Apps Script; การตอบกลับแบบ opaque ไม่ใช่หลักฐานว่า Sheets บันทึกสำเร็จ
+async function submitMission5Online(){
+ var fd=state.formData,member=data.member||{};
+ var errorsEl=document.getElementById("formErrors");
+ var btn=document.querySelector('button[onclick="submitMission()"]');
+ if(btn){btn.disabled=true;btn.textContent="⏳ กำลังส่งข้อมูล..."}
+ var photos=(fd.photos||[]).map(function(src){
+  var m=/^data:([^;]+);base64,(.+)$/.exec(src||"");
+  return m?{mimeType:m[1],base64:m[2]}:null;
+ }).filter(Boolean);
+ var payload={action:"submitMission5",data:{memberId:String(member.memberId||"").trim(),activityDate:fd.date,activity:fd.bankActivity,note:fd.note||"",photos:photos}};
+ try{
+  // Apps Script Web Apps often do not return CORS-readable POST responses to static websites.
+  // no-cors sends the request, but the browser cannot confirm that the backend saved it.
+  await secureApi({...payload,token:memberSession.token});
+  var d=activeData();
+  d.missions[5]={status:"ส่งคำขอแล้ว (รอตรวจชีต)",formData:JSON.parse(JSON.stringify(fd)),timestamp:new Date().toISOString()};
+  saveActiveData();
+  if(errorsEl)errorsEl.innerHTML='<div class="inline-msg success">📨 ส่งคำขอไปยังระบบแล้ว แต่ยังยืนยันการบันทึกไม่ได้ กรุณาตรวจสอบชีต “ภารกิจที่ 5” ก่อนถือว่าส่งสำเร็จ</div>';
+  showToast("ส่งคำขอแล้ว — กรุณาตรวจสอบ Google Sheets");
+ }catch(error){
+  if(errorsEl)errorsEl.innerHTML='<div class="inline-msg error">❌ ส่งคำขอไม่ได้: '+esc(error.message||"เครือข่ายขัดข้อง")+'</div>';
+  showToastErr("ส่งข้อมูลไม่ได้ กรุณาลองใหม่");
+ }finally{if(btn){btn.disabled=false;btn.textContent="✅ ส่งภารกิจ"}}
+}
+
+async function submitMission7Online() {
+  var fd = state.formData || {};
+  var m7 = fd.m7 || {};
+  var member = activeData().member || {};
+
+  var memberId = String(
+    member.memberId || member.id || ""
+  ).trim().toUpperCase();
+
+  var activities = m7.activities || [];
+  var groups = [
+    m7.photosWaste || [],
+    m7.photosReduce || [],
+    m7.photosGreen || []
+  ];
+
+  if (!memberId) {
+    showToastErr("ไม่พบรหัสสมาชิก");
+    return;
+  }
+
+  if (activities.length !== 3 ||
+      activities.some(function(a){ return !a; })) {
+    showToastErr("กรุณาเลือกกิจกรรมให้ครบทั้ง 3 ด้าน");
+    return;
+  }
+
+  if (groups.some(function(g){ return g.length !== 1; })) {
+    showToastErr("กรุณาแนบภาพด้านละ 1 รูปให้ครบ");
+    return;
+  }
+
+  function convertPhoto(item) {
+    var src = typeof item === "string"
+      ? item
+      : (item.dataUrl || item.src || item.base64 || "");
+
+    var match = /^data:(image\/(?:jpeg|png|webp));base64,(.+)$/i.exec(src);
+
+    if (!match) {
+      throw new Error("รูปภาพไม่อยู่ในรูปแบบที่รองรับ");
+    }
+
+    return {
+      mimeType: match[1].toLowerCase(),
+      base64: match[2]
+    };
+  }
+
+  try {
+    var photos = groups.map(function(g) {
+      return convertPhoto(g[0]);
+    });
+
+    var payload = {
+      action: "submitMission7",
+      data: {
+        memberId: memberId,
+        activities: activities,
+        photos: photos
+      }
+    };
+
+    await secureApi({...payload,token:memberSession.token});
+
+    showToast("ส่งคำขอแล้ว กรุณารอการตรวจสอบข้อมูล");
+
+    alert(
+      "ส่งคำขอภารกิจที่ 7 แล้ว\n" +
+      "กรุณาตรวจสอบใน Google Sheets ว่าบันทึกสำเร็จ"
+    );
+
+  } catch (error) {
+    showToastErr(
+      "ส่งข้อมูลไม่ได้: " + (error.message || "เกิดข้อผิดพลาด")
+    );
+  }
+}
+
+// Mission 8: read actual status from Apps Script using JSONP (read-only).
+async function checkMission8Status(){if(!memberSession)return;let id=memberSession.member.memberId;m8Remote={memberId:id,loading:true,loaded:false,status:'',reason:'',error:''};if(state.formMissionId===8&&state.view==='form')render();try{let r=await secureApi({action:'memberMissionStatus2570',token:memberSession.token,memberId:id,mission:8});m8Remote={memberId:id,loading:false,loaded:true,status:String(r.status||''),reason:String(r.reason||''),error:''}}catch(e){m8Remote={memberId:id,loading:false,loaded:false,status:'',reason:'',error:e.message}}if(state.formMissionId===8&&state.view==='form')render();}
+
+function m8StatusPanel(){
+ var x=m8Remote;
+ if(x.loading)return '<div class="inline-msg">⏳ กำลังตรวจสอบสถานะภารกิจที่ 8...</div>';
+ if(x.error||!x.loaded)return '<div class="inline-msg error">⚠️ '+esc(x.error||'ยังตรวจสอบสถานะไม่ได้')+'<br><button class="btn btn-outline btn-sm" type="button" onclick="checkMission8Status()">ตรวจสอบอีกครั้ง</button></div>';
+ if(x.status==='ให้แก้ไข')return '<div class="card" style="border:2px solid #e0a33c;background:#fff9e9"><h4 style="color:#8a5100;font-weight:700">⚠️ ภารกิจที่ 8 ต้องแก้ไข</h4><p><strong>เหตุผลจากผู้ตรวจรับรอง:</strong> '+esc(x.reason||'กรุณาติดต่อผู้ตรวจรับรองเพื่อสอบถามรายละเอียด')+'</p><p>แก้ไขข้อมูลหรือเปลี่ยนภาพ แล้วกด “ส่งภารกิจแก้ไข” ด้านล่าง</p></div>';
+ if(x.status==='รอตรวจรับรอง')return '<div class="inline-msg success">📨 ส่งภารกิจแล้ว อยู่ระหว่างรอตรวจรับรอง</div>';
+ if(x.status==='ผ่านการรับรอง')return '<div class="inline-msg success">✅ ภารกิจที่ 8 ผ่านการรับรองแล้ว ได้รับ 10 คะแนน</div>';
+ return '';
+}
+// ===== MISSION 8: one-page knowledge sharing form =====
+var M8_TOPICS=["การคัดแยกขยะ","การลดใช้พลาสติก","การทำถังขยะเปียก","การใช้ซ้ำและรีไซเคิล (3Rs)","การประหยัดน้ำและไฟฟ้า","การงดเผาขยะและใบไม้","การปลูกผักหรือต้นไม้","การเข้าร่วมธนาคารขยะ","อื่น ๆ"];
+var M8_RECIPIENTS=["คนในครอบครัว","เพื่อนหรือเพื่อนบ้าน","คนในชุมชน","นักเรียนหรือเยาวชน","อื่น ๆ"];
+function m8Set(field,value){state.formData.m8[field]=value;render()}
+function m8OtherChanged(el){state.formData.m8.otherTopic=el.value}
+function m8CountChanged(el){state.formData.m8.count=el.value}
+function renderMission8Form(fd,isDemo){
+ var x=fd.m8||(fd.m8={topic:"",otherTopic:"",recipient:"",count:"1",photos:[]});
+ var h='<button class="btn btn-outline btn-sm" type="button" onclick="navigate(\'missions\')" style="margin-bottom:12px">← กลับรายการภารกิจ</button>';
+ h+='<div class="card"><h3>📚 ภารกิจที่ 8 — ถ่ายทอดความรู้</h3><p>ถ่ายทอดความรู้ด้านสิ่งแวดล้อมให้ผู้อื่นอย่างน้อย 1 คน แนบภาพ 1 รูป รับ 10 คะแนนเมื่อผ่านการตรวจรับรอง</p></div>';
+ if(!isDemo){
+  h+=m8StatusPanel();
+  if(m8Remote.loading||!m8Remote.loaded||m8Remote.status==='รอตรวจรับรอง'||m8Remote.status==='ผ่านการรับรอง'){
+   h+='<button class="btn btn-outline btn-sm" type="button" style="margin-bottom:12px" onclick="checkMission8Status()">🔄 ตรวจสอบสถานะอีกครั้ง</button>';
+   return h;
+  }
+ }
+ h+='<div class="card"><div class="form-group"><label>1. หัวข้อความรู้ที่ถ่ายทอด *</label><div class="choice-grid">';
+ M8_TOPICS.forEach(function(t){h+='<button type="button" class="choice-btn '+(x.topic===t?'selected':'')+'" onclick="m8Set(\'topic\','+JSON.stringify(t).replace(/"/g,'&quot;')+')">'+esc(t)+'</button>'});
+ h+='</div></div>';
+ if(x.topic==='อื่น ๆ')h+='<div class="form-group"><label for="m8Other">อื่น ๆ (โปรดระบุ) *</label><input id="m8Other" maxlength="200" required value="'+esc(x.otherTopic||'')+'" placeholder="กรุณาระบุหัวข้อความรู้ที่ถ่ายทอด" oninput="m8OtherChanged(this)"></div>';
+ h+='<div class="form-group"><label>2. ถ่ายทอดความรู้ให้ใคร *</label><div class="choice-grid">';
+ M8_RECIPIENTS.forEach(function(t){h+='<button type="button" class="choice-btn '+(x.recipient===t?'selected':'')+'" onclick="m8Set(\'recipient\','+JSON.stringify(t).replace(/"/g,'&quot;')+')">'+esc(t)+'</button>'});
+ h+='</div></div>';
+ h+='<div class="form-group"><label for="m8Count">3. จำนวนผู้รับความรู้ (คน) *</label><input id="m8Count" type="number" min="1" max="10000" step="1" value="'+esc(x.count||'')+'" oninput="m8CountChanged(this)"></div>';
+ h+=renderPhotoSection(x.photos||[],'m8.photos','4. ภาพหลักฐานการถ่ายทอดความรู้ * (1 รูป)');
+ h+='<div id="formErrors"></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-outline" type="button" style="flex:1" onclick="saveDraft()">📝 บันทึกร่าง</button><button class="btn btn-primary" type="button" style="flex:1" onclick="submitMission()">'+(m8Remote.status==='ให้แก้ไข'?'📨 ส่งภารกิจแก้ไข':'📨 ส่งภารกิจ')+'</button></div>';
+ h+='<p style="font-size:.8em;color:#666;margin-top:12px">หลังส่งคำขอ กรุณาตรวจสอบว่าข้อมูลเข้าชีต “ภารกิจที่ 8” แล้ว</p></div>';
+ return h;
+}
+async function submitMission8Online(){
+ var fd=state.formData,m8=fd.m8||{},member=data.member||{};
+ if(m8Remote.loading||!m8Remote.loaded||!['ให้แก้ไข','ยังไม่ได้ส่ง'].includes(m8Remote.status)||m8Remote.memberId!==String(member.memberId||'').trim().toUpperCase()){showToastErr('กรุณาตรวจสอบสถานะก่อนส่งภารกิจ');return;}
+ var button=document.querySelector('button[onclick="submitMission()"]');
+ var errorsEl=document.getElementById('formErrors');
+ if(button){button.disabled=true;button.textContent='⏳ กำลังส่ง...'}
+ try{
+  var match=/^data:(image\/(?:jpeg|png|webp));base64,(.+)$/i.exec(m8.photos[0]||'');
+  if(!match)throw new Error('รูปภาพไม่อยู่ในรูปแบบที่รองรับ');
+  var payload={action:'submitMission8',data:{memberId:String(member.memberId||'').trim().toUpperCase(),topic:m8.topic,otherTopic:String(m8.otherTopic||'').trim(),recipient:m8.recipient,count:Number(m8.count),photo:{mimeType:match[1].toLowerCase(),base64:match[2]}}};
+  await secureApi({...payload,token:memberSession.token});
+  data.missions[8]={status:'ส่งคำขอแล้ว (รอตรวจชีต)',formData:JSON.parse(JSON.stringify(fd)),timestamp:new Date().toISOString()};
+  saveData(data);
+  if(errorsEl)errorsEl.innerHTML='<div class="inline-msg success">📨 ส่งคำขอแล้ว แต่เว็บไซต์ยังยืนยันการบันทึกไม่ได้ กรุณาตรวจสอบชีต “ภารกิจที่ 8”</div>';
+  showToast('ส่งคำขอแล้ว — กรุณาตรวจสอบชีตภารกิจที่ 8');
+  m8Remote={memberId:String(member.memberId||'').trim().toUpperCase(),loading:false,loaded:false,status:'',reason:'',error:'ส่งคำขอแล้ว กรุณากดตรวจสอบสถานะเพื่อยืนยันการบันทึก'};
+ }catch(error){
+  if(errorsEl)errorsEl.innerHTML='<div class="inline-msg error">❌ '+esc(error.message||'ไม่สามารถส่งข้อมูลได้')+'</div>';
+  showToastErr('ส่งคำขอไม่ได้ กรุณาลองใหม่');
+ }finally{if(button){button.disabled=false;button.textContent='📨 ส่งภารกิจ'}}
+}
+
+// ===== MISSION 9: โพสต์ดี...โลกดีขึ้น =====
+var M9_PLATFORMS=['LINE (ไลน์)','Facebook (เฟซบุ๊ก)','TikTok (ติ๊กต็อก)','Instagram (อินสตาแกรม)','อื่น ๆ'];
+var M9_TOPICS=['การคัดแยกขยะ','การลดใช้พลาสติกและนำกลับมาใช้ซ้ำ','การปลูกต้นไม้และดูแลสิ่งแวดล้อม','กิจกรรมอาสาสมัครท้องถิ่นรักษ์โลก (อถล.)','เคล็ดลับรักษ์โลกในชีวิตประจำวัน','อื่น ๆ'];
+function m9Set(field,value){state.formData.m9[field]=value;render()}
+function m9Input(field,el){state.formData.m9[field]=el.value}
+async function checkMission9Status(){if(!memberSession)return;let id=memberSession.member.memberId;m9Remote={memberId:id,loading:true,loaded:false,status:'',reason:'',error:''};if(state.formMissionId===9&&state.view==='form')render();try{let r=await secureApi({action:'memberMissionStatus2570',token:memberSession.token,memberId:id,mission:9});m9Remote={memberId:id,loading:false,loaded:true,status:String(r.status||''),reason:String(r.reason||''),error:''}}catch(e){m9Remote={memberId:id,loading:false,loaded:false,status:'',reason:'',error:e.message}}if(state.formMissionId===9&&state.view==='form')render();}
+
+function m9StatusPanel(){
+ var x=m9Remote;
+ if(x.loading)return '<div class="inline-msg">⏳ กำลังตรวจสอบสถานะภารกิจที่ 9...</div>';
+ if(x.error||!x.loaded)return '<div class="inline-msg error">⚠️ '+esc(x.error||'ยังตรวจสอบสถานะไม่ได้')+'<br><button class="btn btn-outline btn-sm" type="button" onclick="checkMission9Status()">ตรวจสอบอีกครั้ง</button></div>';
+ if(x.status==='ให้แก้ไข')return '<div class="card" style="border:2px solid #e0a33c;background:#fff9e9"><h4 style="color:#8a5100;font-weight:700">⚠️ ภารกิจที่ 9 ต้องแก้ไข</h4><p><strong>เหตุผลจากผู้ตรวจรับรอง:</strong> '+esc(x.reason||'กรุณาติดต่อผู้ตรวจรับรองเพื่อสอบถามรายละเอียด')+'</p><p>แก้ไขข้อมูลหรือเปลี่ยนภาพ แล้วกด “ส่งภารกิจแก้ไข” ด้านล่าง</p></div>';
+ if(x.status==='รอตรวจรับรอง')return '<div class="inline-msg success">📨 ส่งภารกิจแล้ว อยู่ระหว่างรอตรวจรับรอง</div>';
+ if(x.status==='ผ่านการรับรอง')return '<div class="inline-msg success">✅ ภารกิจที่ 9 ผ่านการรับรองแล้ว ได้รับ 10 คะแนน</div>';
+ return '';
+}
+function renderMission9Form(fd,isDemo){
+ var x=fd.m9||(fd.m9={platform:'',otherPlatform:'',topic:'',otherTopic:'',postUrl:'',photos:[]});
+ var h='<button class="btn btn-outline btn-sm" type="button" onclick="navigate(\'missions\')" style="margin-bottom:12px">← กลับรายการภารกิจ</button>';
+ h+='<div class="card"><h3>📸 ภารกิจที่ 9 — โพสต์ดี...โลกดีขึ้น</h3><p>เผยแพร่เรื่องราวรักษ์โลกอย่างน้อย 1 ครั้ง แนบภาพหน้าจอ 1 รูป รับ 10 คะแนนเมื่อผ่านการตรวจรับรอง</p></div>';
+ if(!isDemo){
+  h+=m9StatusPanel();
+  if(m9Remote.loading||!m9Remote.loaded||m9Remote.status==='รอตรวจรับรอง'||m9Remote.status==='ผ่านการรับรอง'){
+   h+='<button class="btn btn-outline btn-sm" type="button" style="margin-bottom:12px" onclick="checkMission9Status()">🔄 ตรวจสอบสถานะอีกครั้ง</button>';
+   return h;
+  }
+ }
+ h+='<div class="card"><div class="form-group"><label>1. ช่องทางที่เผยแพร่ *</label><div class="choice-grid">';
+ M9_PLATFORMS.forEach(function(t){h+='<button type="button" class="choice-btn '+(x.platform===t?'selected':'')+'" onclick="m9Set(\'platform\','+JSON.stringify(t).replace(/"/g,'&quot;')+')">'+esc(t)+'</button>'});
+ h+='</div></div>';
+ if(x.platform==='อื่น ๆ')h+='<div class="form-group"><label for="m9OtherPlatform">โปรดระบุช่องทาง *</label><input id="m9OtherPlatform" maxlength="200" value="'+esc(x.otherPlatform||'')+'" oninput="m9Input(\'otherPlatform\',this)"></div>';
+ h+='<div class="form-group"><label>2. เรื่องราวที่เผยแพร่ *</label><div class="choice-grid">';
+ M9_TOPICS.forEach(function(t){h+='<button type="button" class="choice-btn '+(x.topic===t?'selected':'')+'" onclick="m9Set(\'topic\','+JSON.stringify(t).replace(/"/g,'&quot;')+')">'+esc(t)+'</button>'});
+ h+='</div></div>';
+ if(x.topic==='อื่น ๆ')h+='<div class="form-group"><label for="m9OtherTopic">โปรดระบุเรื่องราว *</label><input id="m9OtherTopic" maxlength="200" value="'+esc(x.otherTopic||'')+'" oninput="m9Input(\'otherTopic\',this)"></div>';
+ h+='<div class="form-group"><label for="m9PostUrl">3. ลิงก์โพสต์ (ไม่บังคับ)</label><input id="m9PostUrl" type="url" placeholder="ถ้าไม่มี เว้นว่างได้" value="'+esc(x.postUrl||'')+'" oninput="m9Input(\'postUrl\',this)"></div>';
+ h+=renderPhotoSection(x.photos||[],'m9.photos','4. ภาพหน้าจอหลักฐาน * (1 รูป)');
+ h+='<p style="font-size:.85em;color:#666;margin-bottom:12px">เช่น ภาพที่ส่งข้อความในกลุ่ม LINE (ไลน์) หรือโพสต์บน Facebook (เฟซบุ๊ก) กรุณาปิดบังข้อมูลส่วนตัวของผู้อื่น</p>';
+ h+='<div id="formErrors"></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-outline" type="button" style="flex:1" onclick="saveDraft()">📝 บันทึกร่าง</button><button class="btn btn-primary" type="button" style="flex:1" onclick="submitMission()">'+(m9Remote.status==='ให้แก้ไข'?'📨 ส่งภารกิจแก้ไข':'📨 ส่งภารกิจ')+'</button></div>';
+ h+='<p style="font-size:.8em;color:#666;margin-top:12px">หลังส่งคำขอ กรุณาตรวจสอบว่าข้อมูลเข้าชีต “ภารกิจที่ 9” แล้ว</p></div>';
+ return h;
+}
+async function submitMission9Online(){
+ var fd=state.formData,m9=fd.m9||{},member=data.member||{};
+ if(m9Remote.loading||!m9Remote.loaded||!['ให้แก้ไข','ยังไม่ได้ส่ง'].includes(m9Remote.status)||m9Remote.memberId!==String(member.memberId||'').trim().toUpperCase()){showToastErr('กรุณาตรวจสอบสถานะก่อนส่งภารกิจ');return;}
+ var button=document.querySelector('button[onclick="submitMission()"]');
+ var errorsEl=document.getElementById('formErrors');
+ if(button){button.disabled=true;button.textContent='⏳ กำลังส่ง...'}
+ try{
+  var match=/^data:(image\/(?:jpeg|png|webp));base64,(.+)$/i.exec(m9.photos[0]||'');
+  if(!match)throw new Error('รูปภาพไม่อยู่ในรูปแบบที่รองรับ');
+  var payload={action:'submitMission9',data:{memberId:String(member.memberId||'').trim().toUpperCase(),platform:m9.platform,otherPlatform:String(m9.otherPlatform||'').trim(),topic:m9.topic,otherTopic:String(m9.otherTopic||'').trim(),postUrl:String(m9.postUrl||'').trim(),photo:{mimeType:match[1].toLowerCase(),base64:match[2]}}};
+  await secureApi({...payload,token:memberSession.token});
+  data.missions[9]={status:'ส่งคำขอแล้ว (รอตรวจชีต)',formData:JSON.parse(JSON.stringify(fd)),timestamp:new Date().toISOString()};
+  saveData(data);
+  if(errorsEl)errorsEl.innerHTML='<div class="inline-msg success">📨 ส่งคำขอแล้ว แต่เว็บไซต์ยังยืนยันการบันทึกไม่ได้ กรุณาตรวจสอบชีต “ภารกิจที่ 9”</div>';
+  showToast('ส่งคำขอแล้ว — กรุณาตรวจสอบชีตภารกิจที่ 9');
+  m9Remote={memberId:String(member.memberId||'').trim().toUpperCase(),loading:false,loaded:false,status:'',reason:'',error:'ส่งคำขอแล้ว กรุณากดตรวจสอบสถานะเพื่อยืนยันการบันทึก'};
+ }catch(error){
+  if(errorsEl)errorsEl.innerHTML='<div class="inline-msg error">❌ '+esc(error.message||'ไม่สามารถส่งข้อมูลได้')+'</div>';
+  showToastErr('ส่งคำขอไม่ได้ กรุณาลองใหม่');
+ }finally{if(button){button.disabled=false;button.textContent='📨 ส่งภารกิจ'}}
+}
+
+// ===== MISSION 10: ร่วมกิจกรรมจิตอาสากับเทศบาล =====
+var M10_ACTIVITIES=['เก็บขยะและทำความสะอาดพื้นที่','ปลูกต้นไม้และดูแลพื้นที่สีเขียว','รณรงค์คัดแยกขยะ','ร่วมกิจกรรมธนาคารขยะ','ร่วมกิจกรรมสิ่งแวดล้อมของเทศบาล','อื่น ๆ'];
+function m10Set(field,value){state.formData.m10[field]=value;render()}
+function m10Input(field,el){state.formData.m10[field]=el.value}
+async function checkMission10Status(){if(!memberSession)return;let id=memberSession.member.memberId;m10Remote={memberId:id,loading:true,loaded:false,status:'',reason:'',error:''};if(state.formMissionId===10&&state.view==='form')render();try{let r=await secureApi({action:'memberMissionStatus2570',token:memberSession.token,memberId:id,mission:10});m10Remote={memberId:id,loading:false,loaded:true,status:String(r.status||''),reason:String(r.reason||''),error:''}}catch(e){m10Remote={memberId:id,loading:false,loaded:false,status:'',reason:'',error:e.message}}if(state.formMissionId===10&&state.view==='form')render();}
+
+function m10StatusPanel(){
+ var x=m10Remote;
+ if(x.loading)return '<div class="inline-msg">⏳ กำลังตรวจสอบสถานะภารกิจที่ 10...</div>';
+ if(x.error||!x.loaded)return '<div class="inline-msg error">⚠️ '+esc(x.error||'ยังตรวจสอบสถานะไม่ได้')+'<br><button class="btn btn-outline btn-sm" type="button" onclick="checkMission10Status()">ตรวจสอบอีกครั้ง</button></div>';
+ if(x.status==='ให้แก้ไข')return '<div class="card" style="border:2px solid #e0a33c;background:#fff9e9"><h4 style="color:#8a5100;font-weight:700">⚠️ ภารกิจที่ 10 ต้องแก้ไข</h4><p><strong>เหตุผลจากผู้ตรวจรับรอง:</strong> '+esc(x.reason||'กรุณาติดต่อผู้ตรวจรับรองเพื่อสอบถามรายละเอียด')+'</p><p>แก้ไขข้อมูลหรือเปลี่ยนภาพ แล้วกด “ส่งภารกิจแก้ไข” ด้านล่าง</p></div>';
+ if(x.status==='รอตรวจรับรอง')return '<div class="inline-msg success">📨 ส่งภารกิจแล้ว อยู่ระหว่างรอตรวจรับรอง</div>';
+ if(x.status==='ผ่านการรับรอง')return '<div class="inline-msg success">✅ ภารกิจที่ 10 ผ่านการรับรองแล้ว ได้รับ 10 คะแนน</div>';
+ return '';
+}
+function renderMission10Form(fd,isDemo){
+ var x=fd.m10||(fd.m10={activityDate:'',activity:'',otherActivity:'',location:'',photos:[]});
+ var h='<button class="btn btn-outline btn-sm" type="button" onclick="navigate(\'missions\')" style="margin-bottom:12px">← กลับรายการภารกิจ</button>';
+ h+='<div class="card"><h3>💚 ภารกิจที่ 10 — ร่วมกิจกรรมจิตอาสากับเทศบาล</h3><p>ร่วมกิจกรรมจิตอาสาด้านสิ่งแวดล้อมของเทศบาลอย่างน้อย 1 ครั้ง แนบภาพหลักฐาน 1 รูป รับ 10 คะแนนเมื่อผ่านการตรวจรับรอง</p></div>';
+ if(!isDemo){
+  h+=m10StatusPanel();
+  if(m10Remote.loading||!m10Remote.loaded||m10Remote.status==='รอตรวจรับรอง'||m10Remote.status==='ผ่านการรับรอง'){
+   h+='<button class="btn btn-outline btn-sm" type="button" style="margin-bottom:12px" onclick="checkMission10Status()">🔄 ตรวจสอบสถานะอีกครั้ง</button>';
+   return h;
+  }
+ }
+ h+='<div class="card"><div class="form-group"><label for="m10Date">1. วันที่เข้าร่วมกิจกรรม *</label><input id="m10Date" type="date" value="'+esc(x.activityDate||'')+'" oninput="m10Input(\'activityDate\',this)"></div>';
+ h+='<div class="form-group"><label>2. กิจกรรมที่เข้าร่วม *</label><div class="choice-grid">';
+ M10_ACTIVITIES.forEach(function(t){h+='<button type="button" class="choice-btn '+(x.activity===t?'selected':'')+'" onclick="m10Set(\'activity\','+JSON.stringify(t).replace(/"/g,'&quot;')+')">'+esc(t)+'</button>'});
+ h+='</div></div>';
+ if(x.activity==='อื่น ๆ')h+='<div class="form-group"><label for="m10Other">โปรดระบุกิจกรรม *</label><input id="m10Other" maxlength="200" value="'+esc(x.otherActivity||'')+'" oninput="m10Input(\'otherActivity\',this)"></div>';
+ h+='<div class="form-group"><label for="m10Location">3. สถานที่จัดกิจกรรม *</label><input id="m10Location" maxlength="300" placeholder="เช่น สวนสาธารณะเทศบาลตำบลบางพูน" value="'+esc(x.location||'')+'" oninput="m10Input(\'location\',this)"></div>';
+ h+=renderPhotoSection(x.photos||[],'m10.photos','4. ภาพหลักฐาน * (1 รูป)');
+ h+='<div id="formErrors"></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-outline" type="button" style="flex:1" onclick="saveDraft()">📝 บันทึกร่าง</button><button class="btn btn-primary" type="button" style="flex:1" onclick="submitMission()">'+(m10Remote.status==='ให้แก้ไข'?'📨 ส่งภารกิจแก้ไข':'📨 ส่งภารกิจ')+'</button></div>';
+ h+='<p style="font-size:.8em;color:#666;margin-top:12px">หลังส่งคำขอ กรุณาตรวจสอบว่าข้อมูลเข้าชีต “ภารกิจที่ 10” แล้ว</p></div>';
+ return h;
+}
+async function submitMission10Online(){
+ var fd=state.formData,m10=fd.m10||{},member=data.member||{};
+ if(m10Remote.loading||!m10Remote.loaded||!['ให้แก้ไข','ยังไม่ได้ส่ง'].includes(m10Remote.status)||m10Remote.memberId!==String(member.memberId||'').trim().toUpperCase()){showToastErr('กรุณาตรวจสอบสถานะก่อนส่งภารกิจ');return;}
+ var button=document.querySelector('button[onclick="submitMission()"]');
+ var errorsEl=document.getElementById('formErrors');
+ if(button){button.disabled=true;button.textContent='⏳ กำลังส่ง...'}
+ try{
+  var match=/^data:(image\/(?:jpeg|png|webp));base64,(.+)$/i.exec(m10.photos[0]||'');
+  if(!match)throw new Error('รูปภาพไม่อยู่ในรูปแบบที่รองรับ');
+  var payload={action:'submitMission10',data:{memberId:String(member.memberId||'').trim().toUpperCase(),activityDate:m10.activityDate,activity:m10.activity,otherActivity:String(m10.otherActivity||'').trim(),location:String(m10.location||'').trim(),photo:{mimeType:match[1].toLowerCase(),base64:match[2]}}};
+  await secureApi({...payload,token:memberSession.token});
+  data.missions[10]={status:'ส่งคำขอแล้ว (รอตรวจชีต)',formData:JSON.parse(JSON.stringify(fd)),timestamp:new Date().toISOString()};
+  saveData(data);
+  if(errorsEl)errorsEl.innerHTML='<div class="inline-msg success">📨 ส่งคำขอแล้ว แต่เว็บไซต์ยังยืนยันการบันทึกไม่ได้ กรุณาตรวจสอบชีต “ภารกิจที่ 10”</div>';
+  showToast('ส่งคำขอแล้ว — กรุณาตรวจสอบชีตภารกิจที่ 10');
+  m10Remote={memberId:String(member.memberId||'').trim().toUpperCase(),loading:false,loaded:false,status:'',reason:'',error:'ส่งคำขอแล้ว กรุณากดตรวจสอบสถานะเพื่อยืนยันการบันทึก'};
+ }catch(error){
+  if(errorsEl)errorsEl.innerHTML='<div class="inline-msg error">❌ '+esc(error.message||'ไม่สามารถส่งข้อมูลได้')+'</div>';
+  showToastErr('ส่งคำขอไม่ได้ กรุณาลองใหม่');
+ }finally{if(button){button.disabled=false;button.textContent='📨 ส่งภารกิจ'}}
+}
+
+function showLightbox(src){showModal('<div style="text-align:center"><img src="'+src+'" class="lightbox-img" alt="รูปภาพขนาดใหญ่"><button class="btn btn-outline btn-block" type="button" style="margin-top:12px" onclick="hideModal()">ปิด</button></div>')}
+
+// ===== MISSION 3 SPECIAL FORM =====
+function renderMission3Form(){
+var d=activeData();var fd=state.formData;var m3=fd.m3||{};
+var h='';if(state.demoMode)h+=demoBanner();
+h+='<button class="btn btn-outline btn-sm" type="button" onclick="navigate(\'missions\')" style="margin-bottom:12px">← กลับรายการภารกิจ</button>';
+h+='<a class="btn btn-primary btn-block" href="'+M3_EXTERNAL_URL+'" target="_blank" rel="noopener noreferrer" style="margin-bottom:12px">🌿 เปิดแบบบันทึกภารกิจที่ 3</a>';
+h+='<div class="card-accent card"><h3>🔍 3. สำรวจปัญหา พัฒนาชุมชน</h3><p style="font-size:0.85em;color:#666">'+esc(MISSIONS_DATA[2].desc)+'</p></div>';
+h+='<div class="card"><h4 style="font-weight:700;margin-bottom:12px">ข้อมูลการสำรวจ</h4>';
+h+='<div class="form-group"><label>วันที่สำรวจ *</label><input type="date" id="m3date" value="'+(m3.surveyDate||"")+'"><div class="form-error" id="m3dateErr">กรุณาระบุวันที่สำรวจ</div></div>';
+h+='<div class="form-group"><label>หมู่ที่ *</label><select id="m3moo"><option value="">เลือก</option>'+[1,2,3,4,5,6].map(function(i){return'<option value="'+i+'"'+(m3.moo==i?" selected":"")+'>'+i+'</option>'}).join("")+'</select><div class="form-error" id="m3mooErr">กรุณาเลือกหมู่ที่</div></div>';
+h+='<div class="form-group"><label>ชื่อชุมชน *</label><input id="m3com" value="'+esc(m3.community||"")+'" placeholder="ชื่อชุมชน"><div class="form-error" id="m3comErr">กรุณาระบุชื่อชุมชน</div></div>';
+h+='<div class="form-group"><label>จุดหรือสถานที่พบปัญหา *</label><input id="m3loc" value="'+esc(m3.location||"")+'" placeholder="เช่น ซอย 5 ข้างวัด"><div class="form-error" id="m3locErr">กรุณาระบุสถานที่</div></div>';
+h+='<div class="form-group"><label>ประเภทปัญหา *</label><div class="choice-grid" id="m3probGrid">'+M3_PROBLEM_TYPES.map(function(p){return'<button type="button" class="choice-btn '+(m3.problemType===p?"selected":"")+'" onclick="selectM3Field(\'problemType\',\''+esc(p)+'\',this)">'+p+'</button>'}).join("")+'</div><div class="form-error" id="m3probErr">กรุณาเลือกประเภทปัญหา</div></div>';
+h+='<div class="form-group"><label>พบปัญหาอะไร *</label><textarea id="m3probDesc" rows="2" placeholder="อธิบายปัญหาที่พบ">'+esc(m3.problemDesc||"")+'</textarea><div class="form-error" id="m3probDescErr">กรุณาระบุรายละเอียดปัญหา</div></div>';
+h+='<div class="form-group"><label>ดำเนินการอย่างไร</label><div class="choice-grid" id="m3actGrid">'+M3_ACTIONS.map(function(a){return'<button type="button" class="choice-btn '+(m3.actionType===a?"selected":"")+'" onclick="selectM3Field(\'actionType\',\''+esc(a)+'\',this)">'+a+'</button>'}).join("")+'</div></div>';
+h+='<div class="form-group"><label>รายละเอียดการดำเนินการ</label><textarea id="m3actDesc" rows="2" placeholder="อธิบายเพิ่มเติม">'+esc(m3.actionDesc||"")+'</textarea></div>';
+h+='<div class="form-group"><label>สถานะ *</label><div class="choice-grid" id="m3statusGrid">'+M3_STATUSES.map(function(s){return'<button type="button" class="choice-btn '+(m3.m3Status===s?"selected":"")+'" onclick="selectM3Field(\'m3Status\',\''+esc(s)+'\',this)">'+s+'</button>'}).join("")+'</div><div class="form-error" id="m3statusErr">กรุณาเลือกสถานะ</div></div>';
+h+='<div class="form-group"><label>ผลหลังดำเนินการหรือสิ่งที่ต้องทำต่อ</label><textarea id="m3result" rows="2" placeholder="ผลลัพธ์หรือแผนถัดไป">'+esc(m3.result||"")+'</textarea></div>';
+h+='<div class="form-group"><label>ผู้ที่ต้องประสานงาน</label><input id="m3coord" value="'+esc(m3.coordinator||"")+'" placeholder="ชื่อหน่วยงานหรือบุคคล"></div>';
+h+='</div>';
+
+h+='<div class="card"><h4 style="font-weight:700;margin-bottom:12px">📷 ภาพก่อนดำเนินการ</h4>';
+h+=renderPhotoSection(m3.photosBefore||[],"m3.photosBefore","ภาพก่อนดำเนินการ");
+h+='</div>';
+h+='<div class="card"><h4 style="font-weight:700;margin-bottom:12px">📷 ภาพหลังดำเนินการ</h4>';
+var needAfter=m3.m3Status==="แก้ไขแล้ว";
+h+=renderPhotoSection(m3.photosAfter||[],"m3.photosAfter","ภาพหลังดำเนินการ");
+if(!needAfter)h+='<p style="font-size:0.8em;color:#888;margin-top:4px">* ไม่บังคับหากสถานะยังไม่ใช่ "แก้ไขแล้ว"</p>';
+h+='</div>';
+
+h+='<div id="m3Errors"></div><div id="m3Success"></div>';
+h+='<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-primary btn-block" type="button" onclick="saveM3()">💾 บันทึกภารกิจที่ 3</button></div>';
+if(state.demoMode)h+='<button class="btn btn-warning btn-block" type="button" style="margin-top:8px" onclick="exitDemoMode()">⬅ ออกจากโหมดสาธิต</button>';
+return h}
+
+function selectM3Field(field,val,btn){
+if(!state.formData.m3)state.formData.m3={};
+state.formData.m3[field]=val;
+btn.parentElement.querySelectorAll(".choice-btn").forEach(function(b){b.classList.remove("selected")});
+btn.classList.add("selected")}
+
+function collectM3(){
+var m3=state.formData.m3;if(!m3)m3=state.formData.m3={};
+var el=function(id){return document.getElementById(id)};
+m3.surveyDate=el("m3date")?el("m3date").value:"";
+m3.moo=el("m3moo")?el("m3moo").value:"";
+m3.community=el("m3com")?el("m3com").value.trim():"";
+m3.location=el("m3loc")?el("m3loc").value.trim():"";
+m3.problemDesc=el("m3probDesc")?el("m3probDesc").value.trim():"";
+m3.actionDesc=el("m3actDesc")?el("m3actDesc").value.trim():"";
+m3.result=el("m3result")?el("m3result").value.trim():"";
+m3.coordinator=el("m3coord")?el("m3coord").value.trim():""}
+
+function saveM3(){
+collectM3();var m3=state.formData.m3;
+var errors=[];var firstErr=null;
+function chk(id,msg){var el=document.getElementById(id);if(el){el.classList.remove("show")}}
+["m3dateErr","m3mooErr","m3comErr","m3locErr","m3probErr","m3probDescErr","m3statusErr"].forEach(function(id){chk(id)});
+function addErr(id,msg){errors.push(msg);var el=document.getElementById(id);if(el){el.classList.add("show");if(!firstErr)firstErr=el}}
+if(!m3.surveyDate)addErr("m3dateErr","กรุณาระบุวันที่สำรวจ");
+if(!m3.moo)addErr("m3mooErr","กรุณาเลือกหมู่ที่");
+if(!m3.community)addErr("m3comErr","กรุณาระบุชื่อชุมชน");
+if(!m3.location)addErr("m3locErr","กรุณาระบุสถานที่");
+if(!m3.problemType)addErr("m3probErr","กรุณาเลือกประเภทปัญหา");
+if(!m3.problemDesc)addErr("m3probDescErr","กรุณาระบุรายละเอียดปัญหา");
+if(!m3.m3Status)addErr("m3statusErr","กรุณาเลือกสถานะ");
+if(errors.length>0){
+document.getElementById("m3Errors").innerHTML='<div class="inline-msg error">'+errors.map(function(e){return'<p>⚠️ '+esc(e)+'</p>'}).join("")+'</div>';
+document.getElementById("m3Success").innerHTML="";
+if(firstErr)firstErr.scrollIntoView({behavior:"smooth",block:"center"});return}
+document.getElementById("m3Errors").innerHTML="";
+var d=activeData();
+state.formData.date=m3.surveyDate;state.formData.moo=m3.moo;state.formData.community=m3.community;
+d.missions[3]={status:"ส่งแล้ว",formData:JSON.parse(JSON.stringify(state.formData)),timestamp:new Date().toISOString()};
+saveActiveData();
+document.getElementById("m3Success").innerHTML='<div class="inline-msg success">✅ บันทึกภารกิจที่ 3 เรียบร้อยแล้ว</div>'}
+
+// ===== DEMO MODE =====
+function demoBanner(){return'<div class="demo-banner">🟠 ข้อมูลสาธิต — ข้อมูลนี้ไม่ใช่ข้อมูลจริง</div>'}
+function startDemoMode(){state.demoMode=true;demoData=loadDemoData();updateDemoStrip();navigate("missions")}
+function exitDemoMode(){state.demoMode=false;updateDemoStrip();navigate("admin",{adminSubView:"main"})}
+function saveDemoStep(){if(!state.demoMode)return;collectStep1();var el=document.getElementById("fNote");if(el)state.formData.note=el.value;if(state.formMissionId===3)collectM3();var prog={missionId:state.formMissionId,step:state.formStep,formData:JSON.parse(JSON.stringify(state.formData)),timestamp:new Date().toISOString()};saveDemoProgress(prog);demoData.missions[state.formMissionId]=demoData.missions[state.formMissionId]||{};demoData.missions[state.formMissionId].formData=JSON.parse(JSON.stringify(state.formData));demoData.missions[state.formMissionId].status=demoData.missions[state.formMissionId].status||"บันทึกร่าง";saveDemoData(demoData);showToast("บันทึกขั้นตอนนี้เรียบร้อยแล้ว ✅")}
+function clearDemoData(){showModal('<h3 style="font-weight:700;margin-bottom:12px">🗑️ ล้างข้อมูลสาธิต</h3><p style="margin-bottom:16px">จะลบเฉพาะข้อมูลที่สร้างในโหมดสาธิต</p><div style="display:flex;gap:8px"><button class="btn btn-danger" type="button" style="flex:1" onclick="confirmClearDemo()">ยืนยันล้าง</button><button class="btn btn-outline" type="button" style="flex:1" onclick="hideModal()">ยกเลิก</button></div>')}
+function confirmClearDemo(){try{localStorage.removeItem("demo_gl_data");localStorage.removeItem("demo_gl_progress")}catch(e){}demoData=getDefault();hideModal();showToast("ล้างข้อมูลสาธิตเรียบร้อยแล้ว ✅");render()}
+
+// ===== PORTFOLIO =====
+function renderPortfolio(){
+var submitted=0,verified=0;
+for(var i=1;i<=10;i++){var s=getMissionStatus(i,data);if(s==="ส่งแล้ว"||isVerified(i,data))submitted++;if(isVerified(i,data))verified++}
+var recruits=data.mission1Recruits.filter(function(r){return r.name&&r.saved}).length;
+var carbonDays=(data.mission6.days||[]).filter(Boolean).length;
+var totalKg=0;
+Object.entries(data.missions).forEach(function(entry){if(entry[1].formData&&entry[1].formData.wasteKg)totalKg+=parseFloat(entry[1].formData.wasteKg)||0});
+var photos=getAllPhotos(data);
+var h='<h2 style="font-weight:700;margin-bottom:12px">🏆 ผลงานของฉัน</h2>';
+h+='<div class="card" style="text-align:center;background:linear-gradient(135deg,var(--c-accent),var(--c-yellow))"><p style="font-size:2em;font-weight:700;color:var(--c-green)">'+(state.scoreStatus.state==="loading"?'กำลังโหลดคะแนน...':state.scoreStatus.state==="ready"?state.scoreStatus.totalScore+'<span style="font-size:0.5em"> / 100 คะแนน</span>':state.scoreStatus.state==="error"?renderScoreError():'ยังไม่มีข้อมูล')+'</p><div class="progress-bar"><div class="progress-fill" style="width:'+getScore(data)+'%"></div></div><p style="font-size:0.85em;color:#666">ผ่านการรับรอง '+verified+' / 10 ภารกิจ | ส่งแล้ว '+submitted+'</p></div>';
+h+='<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px"><div class="stat-card"><div class="stat-num">'+recruits+'</div><div class="stat-label">สมาชิกใหม่</div></div><div class="stat-card"><div class="stat-num">'+carbonDays+'</div><div class="stat-label">วันลดคาร์บอน</div></div><div class="stat-card"><div class="stat-num">'+totalKg.toFixed(1)+'</div><div class="stat-label">กก. ขยะรวม</div></div></div>';
+if(photos.length>0){h+='<div class="card"><h3 style="font-weight:700;margin-bottom:8px">🖼️ แกลเลอรีรูปภาพ</h3><div class="gallery-grid">'+photos.map(function(p){return'<img src="'+p.src+'" alt="'+esc(p.label)+'" loading="lazy" onclick="showLightbox(this.src)">'}).join("")+'</div></div>'}
+h+='<div style="display:flex;gap:8px"><button class="btn btn-outline btn-block" type="button" onclick="navigate(\'home\')">✏️ แก้ไขข้อมูล</button><button class="btn btn-primary btn-block" type="button" onclick="showPortfolioDetail()">📋 ดูรายละเอียด</button></div>';
+return h}
+
+function getAllPhotos(d){
+var photos=[];
+Object.entries(d.missions).forEach(function(entry){
+var id=parseInt(entry[0]),m=entry[1],fd=m.formData;if(!fd)return;
+var mName=MISSIONS_DATA.find(function(x){return x.id===id});var label=mName?mName.name:"ภารกิจ "+id;
+if(fd.photos)fd.photos.forEach(function(p){photos.push({src:p,label:label,missionId:id,date:fd.date||"",moo:fd.moo||"",community:fd.community||"",member:d.member?d.member.name||"":""})});
+if(fd.m3){if(fd.m3.photosBefore)fd.m3.photosBefore.forEach(function(p){photos.push({src:p,label:label+" (ก่อน)",missionId:id,date:fd.m3.surveyDate||"",moo:fd.m3.moo||"",community:fd.m3.community||"",member:d.member?d.member.name||"":""})});
+if(fd.m3.photosAfter)fd.m3.photosAfter.forEach(function(p){photos.push({src:p,label:label+" (หลัง)",missionId:id,date:fd.m3.surveyDate||"",moo:fd.m3.moo||"",community:fd.m3.community||"",member:d.member?d.member.name||"":""})});}
+// legacy single photos
+if(fd.photoBefore&&!fd.m3)photos.push({src:fd.photoBefore,label:label+" (ก่อน)",missionId:id,date:fd.date||"",moo:fd.moo||"",community:fd.community||"",member:d.member?d.member.name||"":""});
+if(fd.photoAfter&&!fd.m3)photos.push({src:fd.photoAfter,label:label+" (หลัง)",missionId:id,date:fd.date||"",moo:fd.moo||"",community:fd.community||"",member:d.member?d.member.name||"":""});
+});return photos}
+
+function showPortfolioDetail(){
+var h='<h3 style="font-weight:700;margin-bottom:12px">📋 รายละเอียดภารกิจทั้งหมด</h3>';
+MISSIONS_DATA.forEach(function(m){var s=getDisplayStatus(m.id,data);var md=data.missions[m.id];h+='<div style="border-bottom:1px solid #eee;padding:8px 0"><strong>'+m.icon+' '+esc(m.name)+'</strong> <span class="badge '+getBadgeClass(s)+'">'+s+'</span>';if(md&&md.formData){var fd=md.formData;if(fd.date)h+='<br><small>วันที่: '+fd.date+'</small>';if(fd.place)h+=' | <small>สถานที่: '+esc(fd.place)+'</small>'}h+='</div>'});
+h+='<button class="btn btn-primary btn-block" type="button" style="margin-top:12px" onclick="hideModal()">ปิด</button>';showModal(h)}
+
+// ===== DASHBOARD =====
+function renderDashboard(){
+var h='<h2 style="font-weight:700;margin-bottom:12px">📊 สรุปผล (LPA Dashboard)</h2>';
+var filter=state.dashFilter||"all";
+h+='<div class="filter-row"><button class="filter-btn '+(filter==="all"?"active":"")+'" type="button" onclick="setFilter(\'all\')">ทั้งหมด</button>'+[1,2,3,4,5,6].map(function(i){return'<button class="filter-btn '+(filter==="moo"+i?"active":"")+'" type="button" onclick="setFilter(\'moo'+i+'\')">หมู่ที่ '+i+'</button>'}).join("")+'</div>';
+var stats=calcDashStats(filter);
+h+='<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px">'+
+'<div class="stat-card"><div class="stat-num">'+stats.registered+'</div><div class="stat-label">ผู้ลงทะเบียน</div></div>'+
+'<div class="stat-card"><div class="stat-num">'+stats.submitted+'</div><div class="stat-label">ผู้ส่งภารกิจ</div></div>'+
+'<div class="stat-card"><div class="stat-num">'+stats.newMembers+'</div><div class="stat-label">สมาชิก อถล. ใหม่</div></div>'+
+'<div class="stat-card"><div class="stat-num">'+stats.recycleKg.toFixed(1)+'</div><div class="stat-label">กก. ขยะรีไซเคิล</div></div>'+
+'<div class="stat-card"><div class="stat-num">'+stats.carbonDays+'</div><div class="stat-label">วันลด Carbon</div></div>'+
+'<div class="stat-card"><div class="stat-num">'+stats.envActivities+'</div><div class="stat-label">กิจกรรมสิ่งแวดล้อม</div></div></div>';
+
+// Mission 3 results
+h+=renderDashM3();
+
+// New registrants
+h+=renderDashRegistrants();
+
+// Photo gallery
+h+=renderDashGallery();
+
+h+='<div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap"><button class="btn btn-primary btn-sm" type="button" onclick="window.print()">🖨️ พิมพ์สรุปผล</button><button class="btn btn-outline btn-sm" type="button" onclick="openAdminLogin()">👮 สำหรับเจ้าหน้าที่</button></div>';
+return h}
+
+function calcDashStats(filter){
+var missions=Object.entries(data.missions);
+if(filter.startsWith("moo")){var moo=filter.replace("moo","");missions=missions.filter(function(e){return e[1].formData&&e[1].formData.moo==moo})}
+var submitted=missions.filter(function(e){return e[1].status==="ส่งแล้ว"||isVerified(parseInt(e[0]),data)}).length;
+var recycleKg=0,envAct=0;
+missions.forEach(function(e){if(e[1].formData){if(e[1].formData.wasteKg)recycleKg+=parseFloat(e[1].formData.wasteKg)||0;envAct++}});
+var carbonDays=(data.mission6.days||[]).filter(Boolean).length;
+var newMembers=data.mission1Recruits.filter(function(r){return r.name&&r.saved}).length;
+var registered=data.member&&data.member.name?1:0;
+return{registered:registered,submitted:submitted,newMembers:newMembers,envActivities:envAct,recycleKg:recycleKg,carbonDays:carbonDays}}
+function setFilter(f){state.dashFilter=f;render()}
+
+function renderDashM3(){
+var m3data=data.missions[3];
+if(!m3data||!m3data.formData||!m3data.formData.m3)return"";
+var m3=m3data.formData.m3;
+var h='<div class="card"><h3 style="font-weight:700;margin-bottom:12px">🔍 ผลงานภารกิจที่ 3: สำรวจปัญหา พัฒนาชุมชน</h3>';
+h+='<div class="before-after-card"><div style="margin-bottom:8px"><span class="badge '+(m3.m3Status==="แก้ไขแล้ว"?"badge-verified":m3.m3Status==="กำลังดำเนินการ"?"badge-submitted":"badge-pending")+'">'+esc(m3.m3Status||"-")+'</span></div>';
+h+='<p><strong>ปัญหา:</strong> '+esc(m3.problemType||"")+' — '+esc(m3.problemDesc||"")+'</p>';
+h+='<p><strong>ดำเนินการ:</strong> '+esc(m3.actionType||"")+' '+esc(m3.actionDesc||"")+'</p>';
+if(m3.result)h+='<p><strong>ผลลัพธ์:</strong> '+esc(m3.result)+'</p>';
+h+='<p style="font-size:0.85em;color:#888">วันที่: '+esc(m3.surveyDate||"-")+' | หมู่ที่ '+esc(m3.moo||"-")+' '+esc(m3.community||"")+' | สถานที่: '+esc(m3.location||"-")+'</p>';
+h+='<div class="ba-images">';
+h+='<div class="ba-col"><p style="font-weight:700;font-size:0.85em;margin-bottom:4px">ก่อน</p>';
+if(m3.photosBefore&&m3.photosBefore.length>0){m3.photosBefore.forEach(function(p){h+='<img src="'+p+'" alt="ก่อน" onclick="showLightbox(this.src)" style="margin-bottom:4px">'})}else{h+='<p style="color:#999;font-size:0.8em">ไม่มีรูป</p>'}
+h+='</div><div class="ba-arrow">→</div><div class="ba-col"><p style="font-weight:700;font-size:0.85em;margin-bottom:4px">หลัง</p>';
+if(m3.photosAfter&&m3.photosAfter.length>0){m3.photosAfter.forEach(function(p){h+='<img src="'+p+'" alt="หลัง" onclick="showLightbox(this.src)" style="margin-bottom:4px">'})}else{h+='<p style="color:#999;font-size:0.8em">ยังไม่มีภาพหลังดำเนินการ</p>'}
+h+='</div></div></div></div>';
+return h}
+
+function renderDashRegistrants(){
+var recruits=(data.mission1Recruits||[]).filter(function(r){return r.name&&r.saved});
+if(recruits.length===0)return"";
+var h='<div class="card"><h3 style="font-weight:700;margin-bottom:12px">👥 ผู้สมัคร อถล. ใหม่</h3>';
+// Count by moo
+var mooCounts={};recruits.forEach(function(r){var m=r.moo||"?";mooCounts[m]=(mooCounts[m]||0)+1});
+h+='<p style="margin-bottom:8px"><strong>รวมทั้งหมด: '+recruits.length+' คน</strong> ';
+[1,2,3,4,5,6].forEach(function(i){if(mooCounts[i])h+='| หมู่ '+i+': '+mooCounts[i]+' '});
+h+='</p>';
+// Filters
+h+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;align-items:center"><label style="font-size:0.85em;font-weight:600">กรอง:</label>';
+h+='<select id="regMooFilter" style="padding:6px;border-radius:8px;border:1px solid #d0e8d0;font-family:inherit" onchange="state.dashRegMoo=this.value;render()"><option value="all">ทุกหมู่</option>'+[1,2,3,4,5,6].map(function(i){return'<option value="'+i+'"'+(state.dashRegMoo==i?" selected":"")+'>หมู่ที่ '+i+'</option>'}).join("")+'</select>';
+h+='<input type="date" id="regDateFrom" value="'+(state.dashRegDateFrom||"")+'" style="padding:6px;border-radius:8px;border:1px solid #d0e8d0;font-family:inherit" placeholder="จาก">';
+h+='<input type="date" id="regDateTo" value="'+(state.dashRegDateTo||"")+'" style="padding:6px;border-radius:8px;border:1px solid #d0e8d0;font-family:inherit" placeholder="ถึง">';
+h+='<button class="btn btn-sm btn-primary" type="button" onclick="applyRegFilter()">กรอง</button>';
+h+='<button class="btn btn-sm btn-outline" type="button" onclick="clearRegFilter()">ล้าง</button></div>';
+
+var filtered=recruits;
+if(state.dashRegMoo&&state.dashRegMoo!=="all")filtered=filtered.filter(function(r){return r.moo==state.dashRegMoo});
+if(state.dashRegDateFrom)filtered=filtered.filter(function(r){return(r.regDate||"")>=state.dashRegDateFrom});
+if(state.dashRegDateTo)filtered=filtered.filter(function(r){return(r.regDate||"")<=state.dashRegDateTo});
+
+// Desktop table
+h+='<div class="registrant-table-wrap"><table class="registrant-table"><thead><tr><th>ชื่อ–นามสกุล</th><th>วันที่สมัคร</th><th>หมู่ที่</th><th>ชุมชน</th><th>สถานะ</th></tr></thead><tbody>';
+filtered.forEach(function(r){h+='<tr><td>'+esc(r.name)+' '+esc(r.surname||"")+'</td><td>'+esc(r.regDate||"-")+'</td><td>'+esc(r.moo||"-")+'</td><td>'+esc(r.community||"-")+'</td><td><span class="badge '+(r.verifyStatus==="ผ่านการตรวจสอบ"?"badge-verified":"badge-pending")+'">'+esc(r.verifyStatus||"รอตรวจสอบ")+'</span></td></tr>'});
+h+='</tbody></table></div>';
+// Mobile cards
+h+='<div class="registrant-cards">';
+filtered.forEach(function(r){h+='<div class="recruit-card"><strong>'+esc(r.name)+' '+esc(r.surname||"")+'</strong><br><span style="font-size:0.85em">วันที่: '+esc(r.regDate||"-")+' | หมู่ '+esc(r.moo||"-")+' | '+esc(r.community||"-")+'</span><br><span class="badge '+(r.verifyStatus==="ผ่านการตรวจสอบ"?"badge-verified":"badge-pending")+'">'+esc(r.verifyStatus||"รอตรวจสอบ")+'</span></div>'});
+h+='</div></div>';
+return h}
+
+function applyRegFilter(){
+var f=document.getElementById("regDateFrom");var t=document.getElementById("regDateTo");
+state.dashRegDateFrom=f?f.value:"";state.dashRegDateTo=t?t.value:"";render()}
+function clearRegFilter(){state.dashRegMoo="all";state.dashRegDateFrom="";state.dashRegDateTo="";render()}
+
+function renderDashGallery(){
+var photos=getAllPhotos(data);
+if(photos.length===0)return"";
+var gm=state.dashGalleryMission||"all";
+var gmoo=state.dashGalleryMoo||"all";
+var h='<div class="card"><h3 style="font-weight:700;margin-bottom:12px">🖼️ ภาพผลงาน อถล.</h3>';
+h+='<div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px"><select style="padding:6px;border-radius:8px;border:1px solid #d0e8d0;font-family:inherit" onchange="state.dashGalleryMission=this.value;render()"><option value="all">ทุกภารกิจ</option>';
+MISSIONS_DATA.forEach(function(m){h+='<option value="'+m.id+'"'+(gm==m.id?" selected":"")+'>'+m.id+'. '+esc(m.name)+'</option>'});
+h+='</select><select style="padding:6px;border-radius:8px;border:1px solid #d0e8d0;font-family:inherit" onchange="state.dashGalleryMoo=this.value;render()"><option value="all">ทุกหมู่</option>'+[1,2,3,4,5,6].map(function(i){return'<option value="'+i+'"'+(gmoo==i?" selected":"")+'>หมู่ที่ '+i+'</option>'}).join("")+'</select></div>';
+var filtered=photos;
+if(gm!=="all")filtered=filtered.filter(function(p){return p.missionId==gm});
+if(gmoo!=="all")filtered=filtered.filter(function(p){return p.moo==gmoo});
+if(filtered.length===0){h+='<p style="color:#999;text-align:center">ไม่พบรูปภาพ</p>'}
+else{h+='<div class="gallery-grid">';filtered.forEach(function(p){h+='<div style="text-align:center"><img src="'+p.src+'" alt="'+esc(p.label)+'" loading="lazy" onclick="showLightbox(this.src)"><p style="font-size:0.7em;color:#666;margin-top:2px">'+esc(p.label)+'</p><p style="font-size:0.65em;color:#999">'+esc(p.date||"")+' หมู่ '+esc(p.moo||"-")+' '+esc(p.community||"")+'</p>'+(p.member?'<p style="font-size:0.65em;color:#999">'+esc(p.member)+'</p>':"")+'</div>'});h+='</div>'}
+h+='</div>';return h}
+
+// ===== ADMIN =====
+function testGoogleAppsScriptConnectionJsonp(){
+var url="https://script.google.com/macros/s/AKfycbxQJemOKH0vGwks7ljT6BiLYd3HZG5zCIfjBln5nUxKvOH3tocRpS3PfnpirMFXqW28EQ/exec";
+var button=document.getElementById("testGsButton"),status=document.getElementById("testGsStatus");
+if(!button||!status||!isAdmin())return;
+button.disabled=true;status.style.display="block";status.className="inline-msg";status.style.background="#fff3cd";status.style.color="#856404";status.textContent="⏳ กำลังทดสอบการเชื่อมต่อ...";
+var callbackName="__gsJsonp_"+Date.now()+"_"+Math.random().toString(36).slice(2),script=document.createElement("script"),timer,finished=false;
+while(callbackName in window)callbackName="__gsJsonp_"+Date.now()+"_"+Math.random().toString(36).slice(2);
+function cleanup(){if(finished)return;finished=true;clearTimeout(timer);if(script.parentNode)script.parentNode.removeChild(script);if(Object.prototype.hasOwnProperty.call(window,callbackName))delete window[callbackName];if(document.getElementById("testGsButton"))document.getElementById("testGsButton").disabled=false}
+function details(payload){try{return JSON.stringify(payload,function(k,v){return/name|email|phone|address|member|photo|image|id/i.test(k)?"[ซ่อนข้อมูล]":v}).slice(0,500)}catch(e){return"อ่านรายละเอียดไม่ได้"}}
+function fail(message){if(finished)return;status.className="inline-msg error";status.style.background="";status.style.color="";status.textContent="❌ เชื่อมต่อไม่สำเร็จ — "+message;cleanup()}
+window[callbackName]=function(payload){if(!payload||typeof payload!=="object"||payload.success!==true){fail("ผลตอบกลับไม่ยืนยันความสำเร็จ — "+details(payload));return}status.className="inline-msg success";status.style.background="";status.style.color="";status.textContent="✅ เชื่อมต่อสำเร็จ — "+details(payload);cleanup()};
+var params=new URLSearchParams();params.set("callback",callbackName);params.set("_ts",String(Date.now()));script.async=true;script.src=url+"?"+params.toString();script.onerror=function(){fail("ไม่สามารถโหลดผลตอบกลับได้")};document.head.appendChild(script);timer=setTimeout(function(){fail("หมดเวลารอผลตอบกลับ 10 วินาที")},10000)
+}
+
+function openAdminLogin(){showModal('<h3 style="font-weight:700;margin-bottom:12px">🔐 สำหรับเจ้าหน้าที่</h3><div class="form-group"><label for="adminPw">รหัสผ่าน</label><input type="password" id="adminPw" autocomplete="off"></div><button class="btn btn-primary btn-block" type="button" onclick="adminLogin()">เข้าสู่ระบบ</button><button class="btn btn-outline btn-block" type="button" style="margin-top:8px" onclick="hideModal()">ยกเลิก</button>')}
+function adminLogin(){showToastErr('ปิดระบบแอดมินหน้าเว็บชั่วคราวเพื่อความปลอดภัย')}
+function adminLogout(){setAdmin(false);state.demoMode=false;updateDemoStrip();navigate("dashboard");showToast("ออกจากระบบเจ้าหน้าที่แล้ว")}
+
+function renderAdminPanel(){
+if(!isAdmin())return'<div class="card"><p>ไม่มีสิทธิ์เข้าถึง</p><button class="btn btn-primary btn-block" type="button" onclick="navigate(\'dashboard\')">กลับหน้าสรุปผล</button></div>';
+var sub=state.adminSubView||"main";
+if(sub==="participants")return renderParticipantManager();
+if(sub==="editParticipant")return renderParticipantEdit();
+if(sub==="auditLog")return renderAuditLogView();
+var h='<div class="admin-banner">🔒 โหมดผู้ดูแลระบบ</div>';
+h+='<div class="card" style="margin-bottom:12px"><h3 style="font-weight:700;margin-bottom:8px">🔌 ทดสอบการเชื่อมต่อ</h3><button id="testGsButton" class="btn btn-primary btn-block" type="button" onclick="testGoogleAppsScriptConnectionJsonp()">ทดสอบการเชื่อมต่อฐานข้อมูล</button><div id="testGsStatus" class="inline-msg" role="status" aria-live="polite" style="display:none"></div></div>';
+h+='<button class="btn btn-outline btn-sm" type="button" onclick="navigate(\'dashboard\')" style="margin-bottom:8px">← กลับสรุปผล</button>';
+h+='<button class="btn btn-danger btn-sm" type="button" onclick="adminLogout()" style="margin-bottom:12px;margin-left:8px">🚪 ออกจากระบบ</button>';
+h+='<button class="admin-menu-btn" type="button" onclick="startDemoMode()">🎬 เริ่มสาธิตการใช้งาน</button>';
+h+='<button class="admin-menu-btn" type="button" onclick="state.adminSubView=\'participants\';render()">👥 จัดการข้อมูลผู้เข้าร่วม</button>';
+h+='<button class="admin-menu-btn" type="button" onclick="state.adminSubView=\'auditLog\';render()">📜 ประวัติการแก้ไข</button>';
+h+='<button class="admin-menu-btn" type="button" onclick="clearDemoData()">🗑️ ล้างข้อมูลสาธิต</button>';
+// Verification
+h+='<div class="card" style="margin-top:12px"><h3 style="font-weight:700;margin-bottom:8px">✅ ตรวจรับรองภารกิจ</h3>';
+var submittedMissions=[];for(var i=1;i<=10;i++){var ms=getMissionStatus(i,data);if(ms==="ส่งแล้ว"||data.verifications[i])submittedMissions.push(i)}
+if(submittedMissions.length===0)h+='<p style="color:#999">ยังไม่มีภารกิจที่ส่งมา</p>';
+submittedMissions.forEach(function(id){
+var mData=MISSIONS_DATA.find(function(x){return x.id===id});var v=data.verifications[id]||{};
+h+='<div style="border:1px solid #e0e0e0;border-radius:10px;padding:10px;margin-bottom:8px"><strong>'+(mData?mData.icon:"")+" "+(mData?esc(mData.name):"ภารกิจ "+id)+'</strong> <span class="badge '+getBadgeClass(getDisplayStatus(id,data))+'">'+getDisplayStatus(id,data)+'</span><div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap"><button class="btn btn-sm '+(v.status==="ผ่าน"?"btn-primary":"btn-outline")+'" type="button" onclick="verify('+id+',\'ผ่าน\')">✅ ผ่าน</button><button class="btn btn-sm '+(v.status==="ให้แก้ไข"?"btn-danger":"btn-outline")+'" type="button" onclick="verify('+id+',\'ให้แก้ไข\')">❌ ให้แก้ไข</button><button class="btn btn-sm '+(v.status==="รอตรวจ"?"btn-warning":"btn-outline")+'" type="button" onclick="verify('+id+',\'รอตรวจ\')">⏳ รอตรวจ</button></div><div class="form-group" style="margin-top:6px;margin-bottom:0"><input placeholder="เหตุผล/ข้อเสนอแนะ" id="vNote'+id+'" value="'+esc(v.note||"")+'"></div></div>'});
+h+='</div>';
+h+='<div class="card"><h3 style="font-weight:700;margin-bottom:8px">🏅 คะแนน</h3><div style="padding:8px;text-align:center"><p style="font-weight:600">'+esc(data.member.name||"ยังไม่มีข้อมูล")+'</p><p style="font-size:1.5em;font-weight:700;color:var(--c-green)">'+getScore(data)+' คะแนน</p></div></div>';
+return h}
+
+function verify(id,status){var noteEl=document.getElementById("vNote"+id);var note=noteEl?noteEl.value.trim():"";var oldV=data.verifications[id]||{};var oldStatus=oldV.status||"ไม่มี";data.verifications[id]={status:status,note:note};if(status==="ผ่าน"&&data.missions[id])data.missions[id].status="ผ่านการรับรอง";else if(status==="ให้แก้ไข"&&data.missions[id])data.missions[id].status="ให้แก้ไข";else if(status==="รอตรวจ"&&data.missions[id])data.missions[id].status="ส่งแล้ว";saveData(data);addAuditLog("รับรองภารกิจที่ "+id,"สถานะ",oldStatus,status,note);showToast("ภารกิจที่ "+id+": "+status);render()}
+
+// ===== PARTICIPANT MANAGER =====
+function renderParticipantManager(){
+var h='<div class="admin-banner">🔒 จัดการข้อมูลผู้เข้าร่วม</div>';
+h+='<button class="btn btn-outline btn-sm" type="button" onclick="state.adminSubView=\'main\';render()" style="margin-bottom:12px">← กลับเมนูผู้ดูแล</button>';
+h+='<div class="card"><div style="display:flex;gap:8px;margin-bottom:12px"><input id="adminSearch" placeholder="ค้นหาชื่อ รหัสสมาชิก หรือหมู่ที่" value="'+esc(state.adminSearchQuery||"")+'" style="flex:1;padding:10px;border:2px solid #d0e8d0;border-radius:10px;font-family:inherit"><button class="btn btn-primary btn-sm" type="button" onclick="searchParticipants()">ค้นหา</button><button class="btn btn-outline btn-sm" type="button" onclick="state.adminSearchQuery=\'\';render()">ล้าง</button></div>';
+var participants=buildParticipantList();
+var q=(state.adminSearchQuery||"").toLowerCase();
+if(q)participants=participants.filter(function(p){return(p.name||"").toLowerCase().indexOf(q)!==-1||(p.memberId||"").toLowerCase().indexOf(q)!==-1||(p.moo||"").toString()===q});
+if(participants.length===0)h+='<p style="color:#999;text-align:center">ไม่พบข้อมูล</p>';
+participants.forEach(function(p){
+h+='<div class="mission-card" onclick="openParticipantEdit(\''+p.type+'\','+p.index+')"><div class="mission-num">👤</div><div class="mission-info"><h3>'+esc(p.name||"ไม่มีชื่อ")+'</h3><p>หมู่ที่ '+(p.moo||"-")+' | '+p.typeLabel+'</p>';
+if(p.type==="recruit")h+='<p>สถานะ: <span class="badge '+(p.verifyStatus==="ผ่านการตรวจสอบ"?"badge-verified":"badge-pending")+'">'+esc(p.verifyStatus||"รอตรวจสอบ")+'</span></p>';
+h+='</div></div>'});
+h+='</div>';return h}
+
+function buildParticipantList(){
+var list=[];
+if(data.member&&data.member.name)list.push({type:"member",index:0,name:data.member.name,memberId:data.member.memberId||"",moo:data.member.moo||"",typeLabel:"สมาชิกหลัก"});
+(data.mission1Recruits||[]).forEach(function(r,i){if(r&&r.name&&r.saved)list.push({type:"recruit",index:i,name:r.name+" "+(r.surname||""),memberId:r.idCard?maskId(r.idCard):"",moo:r.moo||"",typeLabel:"ผู้สมัคร อถล. ใหม่ คนที่ "+(i+1),verifyStatus:r.verifyStatus||"รอตรวจสอบ"})});
+return list}
+function searchParticipants(){state.adminSearchQuery=(document.getElementById("adminSearch")||{}).value||"";render()}
+
+function openParticipantEdit(type,index){
+var editData;
+if(type==="member"){editData={type:"member",index:0,original:JSON.parse(JSON.stringify(data.member)),current:JSON.parse(JSON.stringify(data.member))};editData.missions={};for(var i=1;i<=10;i++){if(data.missions[i])editData.missions[i]={formData:data.missions[i].formData?JSON.parse(JSON.stringify(data.missions[i].formData)):{},status:getDisplayStatus(i,data),verification:data.verifications[i]?JSON.parse(JSON.stringify(data.verifications[i])):null}}}
+else{var r=data.mission1Recruits[index];editData={type:"recruit",index:index,original:JSON.parse(JSON.stringify(r)),current:JSON.parse(JSON.stringify(r))}}
+state.adminEditData=editData;state.adminSubView="editParticipant";render()}
+
+function renderParticipantEdit(){
+var ed=state.adminEditData;if(!ed)return'<p>ไม่พบข้อมูล</p>';
+var h='<div class="admin-banner">🔒 แก้ไขข้อมูลผู้เข้าร่วม</div>';
+h+='<button class="btn btn-outline btn-sm" type="button" onclick="state.adminSubView=\'participants\';render()" style="margin-bottom:12px">← กลับรายชื่อ</button>';
+var c=ed.current;
+h+='<div class="card"><h3 style="font-weight:700;margin-bottom:12px">📝 ข้อมูล</h3>';
+if(ed.type==="member"){
+h+='<div class="form-group"><label>ชื่อ–นามสกุล</label><input id="eName" value="'+esc(c.name||"")+'"></div>';
+h+='<div class="form-group"><label>รหัสสมาชิก อถล.</label><input id="eMemberId" value="'+esc(c.memberId||"")+'"></div>';
+h+='<div class="form-group"><label>หมู่ที่</label><select id="eMoo"><option value="">เลือก</option>'+[1,2,3,4,5,6].map(function(i){return'<option value="'+i+'"'+(c.moo==i?" selected":"")+'>'+i+'</option>'}).join("")+'</select></div>';
+h+='<div class="form-group"><label>ชุมชน</label><input id="eCom" value="'+esc(c.community||"")+'"></div>';
+h+='<div class="form-group"><label>เบอร์โทรศัพท์</label><input id="ePhone" type="tel" value="'+esc(c.phone||"")+'"></div>';
+}else{
+h+='<div class="form-group"><label>ชื่อ</label><input id="eName" value="'+esc(c.name||"")+'"></div>';
+h+='<div class="form-group"><label>นามสกุล</label><input id="eSurname" value="'+esc(c.surname||"")+'"></div>';
+h+='<div class="form-group"><label>เลขประจำตัวประชาชน</label><p>'+maskId(c.idCard)+'</p></div>';
+h+='<div class="form-group"><label>เบอร์โทรศัพท์</label><input id="ePhone" type="tel" value="'+esc(c.phone||"")+'"></div>';
+h+='<div class="form-group"><label>หมู่ที่</label><input id="eMoo" type="number" min="1" max="6" value="'+(c.moo||"")+'"></div>';
+h+='<div class="form-group"><label>ชุมชน</label><input id="eCom" value="'+esc(c.community||"")+'"></div>';
+h+='<div class="form-group"><label>สถานะการตรวจสอบ</label><select id="eVerifyStatus"><option value="รอตรวจสอบ"'+((c.verifyStatus||"รอตรวจสอบ")==="รอตรวจสอบ"?" selected":"")+'>รอตรวจสอบ</option><option value="ผ่านการตรวจสอบ"'+(c.verifyStatus==="ผ่านการตรวจสอบ"?" selected":"")+'>ผ่านการตรวจสอบ</option><option value="ให้แก้ไข"'+(c.verifyStatus==="ให้แก้ไข"?" selected":"")+'>ให้แก้ไข</option></select></div>'}
+h+='</div>';
+if(ed.type==="member"&&ed.missions){
+h+='<div class="card"><h3 style="font-weight:700;margin-bottom:8px">📋 รายละเอียดภารกิจ</h3>';
+for(var i=1;i<=10;i++){var mi=ed.missions[i];if(!mi)continue;var mData=MISSIONS_DATA.find(function(x){return x.id===i});var v=mi.verification||{};
+h+='<div style="border:1px solid #e0e0e0;border-radius:10px;padding:10px;margin-bottom:8px"><strong>'+mData.icon+' '+esc(mData.name)+'</strong> <span class="badge '+getBadgeClass(mi.status)+'">'+mi.status+'</span>';
+h+='<div style="margin-top:6px"><label style="font-size:0.8em;font-weight:600">สถานะรับรอง:</label><select id="eVer'+i+'" style="padding:6px;border-radius:6px;border:1px solid #d0e8d0;font-family:inherit;margin-left:6px">';
+VERIFY_STATUSES.forEach(function(vs){h+='<option value="'+vs+'"'+((v.status||"รอตรวจ")===vs?" selected":"")+'>'+vs+'</option>'});
+h+='</select></div><div class="form-group" style="margin-top:4px;margin-bottom:0"><input id="eVerNote'+i+'" placeholder="เหตุผล/ข้อเสนอแนะ" value="'+esc(v.note||"")+'"></div></div>'}
+h+='</div>'}
+h+='<button class="btn btn-primary btn-block" type="button" onclick="prepareEditChanges()">💾 ตรวจสอบและบันทึก</button>';
+return h}
+
+function prepareEditChanges(){
+var ed=state.adminEditData;if(!ed)return;var changes=[];var newData={};
+if(ed.type==="member"){
+var fields={name:["ชื่อ–นามสกุล","eName"],memberId:["รหัสสมาชิก","eMemberId"],moo:["หมู่ที่","eMoo"],community:["ชุมชน","eCom"],phone:["เบอร์โทรศัพท์","ePhone"]};
+Object.keys(fields).forEach(function(k){var el=document.getElementById(fields[k][1]);if(el){var nv=el.value.trim();newData[k]=nv;if((ed.original[k]||"")!==nv)changes.push({field:fields[k][0],oldVal:ed.original[k]||"-",newVal:nv||"-"})}});
+for(var i=1;i<=10;i++){var selEl=document.getElementById("eVer"+i);if(selEl){var ns=selEl.value;var oldV=data.verifications[i]||{};if((oldV.status||"รอตรวจ")!==ns)changes.push({field:"รับรองภารกิจที่ "+i,oldVal:oldV.status||"รอตรวจ",newVal:ns})}}
+}else{
+var rFields={name:["ชื่อ","eName"],surname:["นามสกุล","eSurname"],moo:["หมู่ที่","eMoo"],community:["ชุมชน","eCom"],phone:["เบอร์โทรศัพท์","ePhone"]};
+Object.keys(rFields).forEach(function(k){var el=document.getElementById(rFields[k][1]);if(el){var nv=el.value.trim();newData[k]=nv;if((ed.original[k]||"")!==nv)changes.push({field:rFields[k][0],oldVal:ed.original[k]||"-",newVal:nv||"-"})}});
+var vsEl=document.getElementById("eVerifyStatus");
+if(vsEl){newData.verifyStatus=vsEl.value;if((ed.original.verifyStatus||"รอตรวจสอบ")!==vsEl.value)changes.push({field:"สถานะตรวจสอบ",oldVal:ed.original.verifyStatus||"รอตรวจสอบ",newVal:vsEl.value})}}
+if(changes.length===0){showToast("ไม่มีการเปลี่ยนแปลง");return}
+state._pendingChanges=changes;state._pendingNewData=newData;
+var mh='<h3 style="font-weight:700;margin-bottom:12px">📋 สรุปการเปลี่ยนแปลง</h3><div style="margin-bottom:16px">';
+changes.forEach(function(ch){mh+='<div class="change-row"><span>'+esc(ch.field)+'</span><span><span class="change-old">'+esc(ch.oldVal)+'</span> → <span class="change-new">'+esc(ch.newVal)+'</span></span></div>'});
+mh+='</div><div style="display:flex;gap:8px"><button class="btn btn-primary" type="button" style="flex:1" onclick="confirmParticipantEdit()">✅ ยืนยัน</button><button class="btn btn-outline" type="button" style="flex:1" onclick="hideModal()">ยกเลิก</button></div>';
+showModal(mh)}
+
+function confirmParticipantEdit(){
+var ed=state.adminEditData;var changes=state._pendingChanges||[];var newData=state._pendingNewData||{};
+if(ed.type==="member"){
+Object.keys(newData).forEach(function(k){data.member[k]=newData[k]});
+for(var i=1;i<=10;i++){var selEl=document.getElementById("eVer"+i);var noteEl=document.getElementById("eVerNote"+i);if(selEl){var ns=selEl.value;var nn=noteEl?noteEl.value.trim():"";data.verifications[i]={status:ns,note:nn};if(data.missions[i]){if(ns==="ผ่าน")data.missions[i].status="ผ่านการรับรอง";else if(ns==="ให้แก้ไข")data.missions[i].status="ให้แก้ไข";else data.missions[i].status="ส่งแล้ว"}}}
+}else{var r=data.mission1Recruits[ed.index];if(r)Object.keys(newData).forEach(function(k){r[k]=newData[k]})}
+saveData(data);
+changes.forEach(function(ch){addAuditLog("แก้ไขข้อมูล "+(ed.type==="member"?esc(data.member.name||"สมาชิก"):("ผู้สมัครคนที่ "+(ed.index+1))),ch.field,ch.oldVal,ch.newVal,"")});
+hideModal();showToast("บันทึกการแก้ไขเรียบร้อยแล้ว ✅");state.adminSubView="participants";render()}
+
+// ===== AUDIT LOG =====
+function addAuditLog(target,field,oldVal,newVal,reason){var logs=loadAuditLogs();var now=new Date();var ts=now.toLocaleDateString("th-TH",{year:"numeric",month:"short",day:"numeric"})+" "+now.toLocaleTimeString("th-TH",{hour:"2-digit",minute:"2-digit"});logs.unshift({timestamp:ts,admin:"ผู้ดูแล",target:target,field:field,oldVal:oldVal,newVal:newVal,reason:reason||""});if(logs.length>200)logs=logs.slice(0,200);saveAuditLogs(logs)}
+function renderAuditLogView(){
+var h='<div class="admin-banner">📜 ประวัติการแก้ไข</div><button class="btn btn-outline btn-sm" type="button" onclick="state.adminSubView=\'main\';render()" style="margin-bottom:12px">← กลับเมนูผู้ดูแล</button>';
+var logs=loadAuditLogs();
+if(logs.length===0)return h+'<div class="card"><p style="color:#999;text-align:center">ยังไม่มีประวัติ</p></div>';
+h+='<div class="card">';logs.forEach(function(log){h+='<div class="audit-row"><div style="font-weight:600;font-size:0.85em">🕐 '+esc(log.timestamp)+' — '+esc(log.admin)+'</div><div>'+esc(log.target)+' → '+esc(log.field)+'</div><div><span class="change-old">'+esc(log.oldVal)+'</span> → <span class="change-new">'+esc(log.newVal)+'</span></div></div>'});
+h+='</div>';return h}
+
+// ===== SILENT SELF-TEST =====
+function runSilentTest(){
+var issues=[];
+try{var tk="__gl_test__";localStorage.setItem(tk,"1");localStorage.removeItem(tk)}catch(e){issues.push("localStorage")}
+if(typeof data!=="object")issues.push("data");
+if(!data.missions||typeof data.missions!=="object")issues.push("missions");
+// Test photo resize function exists
+if(typeof resizeImage!=="function")issues.push("resizeImage");
+// Test mission 3 fields exist in MISSIONS_DATA
+var m3=MISSIONS_DATA.find(function(x){return x.id===3});
+if(!m3||m3.name!=="สำรวจปัญหา พัฒนาชุมชน")issues.push("mission3name");
+// Verify the mission 3 external link stays a user-triggered new-tab link
+var m3Link=document.createElement("a");m3Link.href=M3_EXTERNAL_URL;m3Link.target="_blank";m3Link.rel="noopener noreferrer";
+if(m3Link.href!==M3_EXTERNAL_URL||m3Link.target!=="_blank"||m3Link.rel.indexOf("noopener")===-1||m3Link.rel.indexOf("noreferrer")===-1)issues.push("mission3link");
+// Test gallery function
+if(typeof getAllPhotos!=="function")issues.push("getAllPhotos");
+// Verify demo data isolation
+if(data===demoData)issues.push("demoIsolation");
+return issues}
+
+// ===== INIT =====
+document.addEventListener("DOMContentLoaded",function(){
+initLogos();initFontToggle();
+document.querySelector(".bottom-nav").addEventListener("click",function(e){var btn=e.target.closest(".nav-btn");if(btn&&btn.dataset.view){if(state.demoMode){state.demoMode=false;updateDemoStrip()}navigate(btn.dataset.view)}});
+document.getElementById("modal").addEventListener("click",function(e){if(e.target===this)hideModal()});
+showMemberLogin(false);
+runSilentTest();
+});
+</script>
+ 
+</body></html>
