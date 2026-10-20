@@ -119,18 +119,18 @@ body.font-large input,body.font-large select,body.font-large textarea,body.font-
  <body data-template-id="__page-root" style="background: rgb(250, 246, 237);">
   <header class="app-header">
    <div class="header-row">
-    <div class="logo-slot" id="logoLeft" title="อัปโหลดโลโก้เทศบาล">
-     <span style="font-size:24px">🏛️</span>
+    <div class="logo-slot" id="logoLeft" title="ตราเทศบาลตำบลบางพูน">
+     <img src="logo_bangpoon_municipality.png" alt="ตราเทศบาลตำบลบางพูน">
     </div>
     <div style="flex:1;min-width:0">
      <h1 data-template-id="app-title" class="canva-text" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 36px;">สมุดภารกิจ อถล. บางพูน Green &amp; Health Leader</h1>
      <div data-template-id="app-en-name" class="canva-text en-name" style="color: rgba(255, 255, 255, 0.8); font-weight: 400; font-style: normal; font-size: 16px;">Bangpoon Green &amp; Health Leader</div>
      <div data-template-id="app-subtitle" class="canva-text subtitle" style="color: rgba(255, 255, 255, 0.933); font-weight: 400; font-style: normal; font-size: 16px;">เทศบาลตำบลบางพูน ประจำปีงบประมาณ พ.ศ. 2570</div>
     </div>
-    <div class="logo-slot" id="logoRight" title="อัปโหลดโลโก้ อถล.">
-     <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0OCIgZmlsbD0iI2U3ZjVlYyIvPjxwYXRoIGQ9Ik01MCA3OFYzME01MCA1M0MyOSA0OCAyNiAzNiAyNyAyMmMxNyAwIDI3IDEwIDIzIDMxTTUwIDU4YzE5LTMgMjYtMTYgMjUtMjktMTcgMi0yNiAxMi0yNSAyOSIgZmlsbD0iIzUyYTc3NyIgc3Ryb2tlPSIjMjc2OTQ4IiBzdHJva2Utd2lkdGg9IjQiLz48cGF0aCBkPSJNMzggNjhoMjRNNTAgNTZ2MjQiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+" alt="Green and Health Leader">
+    <div class="logo-slot" id="logoRight" title="ตรา อถล. ตำบลบางพูน">
+     <img src="logo_green_volunteer.png" alt="ตราอาสาสมัครท้องถิ่นรักษ์โลก ตำบลบางพูน">
     </div>
-   </div><input type="file" id="logoLeftInput" accept="image/*" hidden=""> <input type="file" id="logoRightInput" accept="image/*" hidden="">
+   </div><input type="file" id="logoLeftInput" accept="image/*" hidden="" disabled=""> <input type="file" id="logoRightInput" accept="image/*" hidden="" disabled="">
   </header>
   <div id="demoStrip" class="demo-strip" style="display:none">
    🟠 โหมดสาธิต — ข้อมูลทั้งหมดเป็นข้อมูลสาธิต
@@ -240,16 +240,7 @@ img.src=e.target.result;
 reader.readAsDataURL(file);
 }
 
-function initLogos(){
-try{var logos=JSON.parse(localStorage.getItem("gl_logos"))||{};
-if(logos.left)document.getElementById("logoLeft").innerHTML='<img src="'+logos.left+'" alt="โลโก้เทศบาล">';
-if(logos.right)document.getElementById("logoRight").innerHTML='<img src="'+logos.right+'" alt="โลโก้ อถล.">';
-}catch(e){}
-document.getElementById("logoLeft").addEventListener("click",function(){document.getElementById("logoLeftInput").click()});
-document.getElementById("logoRight").addEventListener("click",function(){document.getElementById("logoRightInput").click()});
-document.getElementById("logoLeftInput").addEventListener("change",function(e){handleLogo(e,"left")});
-document.getElementById("logoRightInput").addEventListener("change",function(e){handleLogo(e,"right")});
-}
+function initLogos(){ /* Logos are served as published site assets on all devices. */ }
 function handleLogo(e,side){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){var url=ev.target.result;document.getElementById(side==="left"?"logoLeft":"logoRight").innerHTML='<img src="'+url+'" alt="โลโก้">';try{var logos=JSON.parse(localStorage.getItem("gl_logos"))||{};logos[side]=url;localStorage.setItem("gl_logos",JSON.stringify(logos))}catch(ex){}};r.readAsDataURL(f)}
 function initFontToggle(){if(data.fontSize==="large")document.body.classList.add("font-large");document.getElementById("fontToggle").addEventListener("click",function(){document.body.classList.toggle("font-large");data.fontSize=document.body.classList.contains("font-large")?"large":"normal";saveData(data)})}
 
