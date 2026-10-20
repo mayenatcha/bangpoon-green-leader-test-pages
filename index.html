@@ -1448,22 +1448,91 @@ async function saveVerifiedProfile(){
  }catch(err){var msg=String(err.message||'บันทึกไม่สำเร็จ');if(/ไม่รองรับคำสั่ง|unsupported|unknown action/i.test(msg))msg='Worker ยังไม่เปิดคำสั่งแก้ไขชื่อ memberUpdateName2570';showToastErr(msg);}
  finally{if(btn)btn.disabled=false;}
 }
-function renderGreenHealthImpact(){
- // Only local member records are available to this page. They are not certified community totals.
- var totalKg=0;
- Object.keys(data.missions||{}).forEach(function(k){
-  var m=data.missions[k]||{},f=m.formData||{},kg=Number(f.wasteKg);
-  if(Number.isFinite(kg)&&kg>0&&kg<1000000)totalKg+=kg;
+function bpImpactKey(){
+ var id=memberSession&&memberSession.member&&memberSession.member.memberId;
+ return id?'bp2570_impact_v1_'+String(id):'';
+}
+function bpImpactRecords(){
+ try{var k=bpImpactKey();if(!k)return [];var v=JSON.parse(localStorage.getItem(k)||'[]');return Array.isArray(v)?v.filter(x=>x&&typeof x==='object').slice(0,500):[];}catch(e){return [];}
+}
+function bpImpactNumber(v){var n=Number(v);return Number.isFinite(n)&&n>=0?n:0;}
+function bpImpactEscape(v){return esc(String(v==null?'':v));}
+function bpImpactForm(){
+ if(!memberSession){showToastErr('กรุณาเข้าสู่ระบบ');return;}
+ showModal('<h3>📝 บันทึกผลสิ่งแวดล้อมและสุขภาพ</h3><p style="font-size:.85em">บันทึกหลักฐานรายกิจกรรมในอุปกรณ์นี้ ข้อมูลยังไม่ใช่ผลตรวจรับรองจากเทศบาล</p>'+
+ '<div class="form-group"><label>วันที่ดำเนินกิจกรรม</label><input id="bpImpDate" type="date" required></div>'+
+ '<div class="form-group"><label>ชื่อกิจกรรม / สถานที่</label><input id="bpImpActivity" maxlength="120" placeholder="เช่น คัดแยกขยะชุมชนหมู่ 1"></div>'+
+ '<div class="form-group"><label>ประเภทการจัดการขยะ</label><select id="bpImpType"><option value="รีไซเคิล">รีไซเคิล</option><option value="อินทรีย์">ขยะอินทรีย์</option><option value="ใช้ซ้ำ">ใช้ซ้ำ</option><option value="อื่น ๆ">อื่น ๆ</option></select></div>'+
+ '<div class="form-group"><label>น้ำหนักขยะที่ชั่งจริง (กก.)</label><input id="bpImpKg" type="number" min="0" max="100000" step="0.01" placeholder="0.00"></div>'+
+ '<div class="form-group"><label>จุดเสี่ยงด้านสุขาภิบาลที่แก้ไข (จุด)</label><input id="bpImpRisk" type="number" min="0" max="10000" step="1" placeholder="0"></div>'+
+ '<div class="form-group"><label>ครัวเรือนที่ร่วมกิจกรรม (ครัวเรือน)</label><input id="bpImpHouse" type="number" min="0" max="10000" step="1" placeholder="0"></div>'+
+ '<div class="form-group"><label>ผู้เข้าร่วมกิจกรรม (คน)</label><input id="bpImpPeople" type="number" min="0" max="10000" step="1" placeholder="0"></div>'+
+ '<details style="margin:10px 0"><summary>🌍 ประเมินคาร์บอน (กรอกเฉพาะเมื่อมีค่าสัมประสิทธิ์อ้างอิง)</summary>'+
+ '<p style="font-size:.82em">ใช้ค่าการปล่อยกรณีฐานและกรณีดำเนินโครงการ หน่วย kgCO₂e/กก. ขยะ ต้องเป็นวิธีและขอบเขตเดียวกัน</p>'+
+ '<div class="form-group"><label>Emission factor กรณีฐาน (kgCO₂e/กก.)</label><input id="bpImpBase" type="number" min="0" max="100" step="any"></div>'+
+ '<div class="form-group"><label>Emission factor กรณีดำเนินการ (kgCO₂e/กก.)</label><input id="bpImpProject" type="number" min="0" max="100" step="any"></div>'+
+ '<div class="form-group"><label>ที่มา/ปี/วิธีการคำนวณ (จำเป็นหากกรอก EF)</label><textarea id="bpImpSource" rows="2" maxlength="500" placeholder="ระบุเอกสารอ้างอิง ตาราง ปัจจัย และปี"></textarea></div></details>'+
+ '<div class="form-group"><label>หลักฐาน/หมายเหตุ (เช่น เลขที่ภาพถ่ายหรือรายงาน)</label><textarea id="bpImpNote" rows="2" maxlength="300"></textarea></div>'+
+ '<button class="btn btn-primary btn-block" onclick="bpImpactSave()">บันทึกกิจกรรม</button>');
+ var date=document.getElementById('bpImpDate');if(date)date.value=new Date().toLocaleDateString('en-CA');
+}
+function bpImpactSave(){
+ if(!memberSession)return;
+ var get=id=>document.getElementById(id), val=id=>String(get(id)?.value||'').trim();
+ var date=val('bpImpDate'),activity=val('bpImpActivity'),kg=Number(val('bpImpKg')||0);
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!activity||activity.length>120){showToastErr('กรุณากรอกวันที่และชื่อกิจกรรม');return;}
+ var fields=['bpImpKg','bpImpRisk','bpImpHouse','bpImpPeople'];
+ for(var i=0;i<fields.length;i++){
+  var el=get(fields[i]),n=Number(el.value||0);
+  if(!Number.isFinite(n)||n<0||n>100000||(i>0&&!Number.isInteger(n))){showToastErr('กรุณากรอกจำนวนที่ถูกต้อง');return;}
+ }
+ var baseRaw=val('bpImpBase'),projectRaw=val('bpImpProject'),source=val('bpImpSource');
+ var carbonEnabled=baseRaw!==''||projectRaw!==''||source!=='';
+ if(carbonEnabled&&(baseRaw===''||projectRaw===''||source.length<10||!Number.isFinite(Number(baseRaw))||!Number.isFinite(Number(projectRaw))||Number(baseRaw)<0||Number(projectRaw)<0||Number(baseRaw)>100||Number(projectRaw)>100||kg<=0)){
+  showToastErr('การประเมินคาร์บอนต้องมีน้ำหนักขยะ ค่า EF ทั้งสองค่า และแหล่งอ้างอิงอย่างน้อย 10 ตัวอักษร');return;
+ }
+ var record={id:Date.now()+'-'+Math.random().toString(36).slice(2,7),date:date,activity:activity,type:val('bpImpType'),kg:kg,risk:Number(val('bpImpRisk')||0),house:Number(val('bpImpHouse')||0),people:Number(val('bpImpPeople')||0),base:carbonEnabled?Number(baseRaw):null,project:carbonEnabled?Number(projectRaw):null,source:carbonEnabled?source:'',note:val('bpImpNote'),verified:false};
+ var arr=bpImpactRecords();if(arr.length>=500){showToastErr('ข้อมูลเต็ม 500 รายการ กรุณาส่งออก CSV ก่อน');return;}
+ arr.push(record);
+ try{localStorage.setItem(bpImpactKey(),JSON.stringify(arr));}catch(e){showToastErr('บันทึกไม่ได้: พื้นที่อุปกรณ์เต็ม กรุณาส่งออกข้อมูลก่อน');return;}
+ hideModal();render();showToast('บันทึกในอุปกรณ์นี้แล้ว (ยังไม่ตรวจรับรอง)');
+}
+function bpImpactDelete(id){
+ if(!confirm('ลบรายการนี้ออกจากอุปกรณ์? การลบไม่สามารถย้อนกลับได้'))return;
+ try{localStorage.setItem(bpImpactKey(),JSON.stringify(bpImpactRecords().filter(x=>x.id!==id)));render();}catch(e){showToastErr('ลบไม่สำเร็จ');}
+}
+function bpImpactExport(){
+ if(!memberSession)return;
+ var rows=bpImpactRecords(),member=memberSession.member||{};
+ var header=['รหัสสมาชิก','ชื่อสมาชิก','วันที่','กิจกรรม','ประเภท','ขยะ กก.','จุดเสี่ยงแก้ไข','ครัวเรือนร่วม','ผู้เข้าร่วม','EF กรณีฐาน kgCO2e/กก.','EF โครงการ kgCO2e/กก.','ลดการปล่อยประมาณการ kgCO2e','แหล่งอ้างอิง','หมายเหตุ','สถานะ'];
+ var csv=[header];
+ rows.forEach(function(r){var estimated=r.base!=null&&r.project!=null?(bpImpactNumber(r.kg)*(Number(r.base)-Number(r.project))).toFixed(3):'';
+  csv.push([member.memberId||'',member.name||'',r.date,r.activity,r.type,r.kg,r.risk,r.house,r.people,r.base==null?'':r.base,r.project==null?'':r.project,estimated,r.source,r.note,'ยังไม่ตรวจรับรอง']);
  });
- return '<div class="card" style="border-left:4px solid #4a7c59">'+
- '<h3>🌿 Green & Health Impact</h3>'+
- '<p style="font-size:.88em">เชื่อมกิจกรรมสิ่งแวดล้อมกับการส่งเสริมสุขภาพชุมชน</p>'+
- '<div class="stat-card"><div class="stat-num">'+totalKg.toFixed(1)+'</div><div class="stat-label">กก. ขยะจากข้อมูลที่บันทึกในอุปกรณ์นี้ (ยังไม่ใช่ยอดรับรอง)</div></div>'+
- '<p style="margin-top:10px"><strong>การลดก๊าซเรือนกระจก (kgCO₂e):</strong> รอการประเมิน</p>'+
- '<p style="font-size:.84em;color:#536258">ต้องมีประเภทขยะ น้ำหนักที่ตรวจรับรอง วิธีจัดการ และค่า Emission Factor ที่มีแหล่งอ้างอิง จึงจะรายงานปริมาณลดคาร์บอนได้</p>'+
- '<h4 style="margin-top:10px">🩺 ตัวชี้วัดสุขภาพชุมชน</h4>'+
- '<p style="font-size:.84em">จำนวนจุดเสี่ยงขยะตกค้างที่ปรับปรุง · จำนวนครัวเรือนร่วมกิจกรรม · ผลประเมินความรู้ก่อน–หลัง</p>'+
- '<p style="font-size:.8em;color:#536258">เป็นตัวชี้วัดที่เสนอให้เก็บข้อมูลจริง ยังไม่ใช่ผลลัพธ์สุขภาพที่ตรวจวัดแล้ว</p></div>';
+ function safeCell(x){var v=String(x==null?'':x);if(/^[=+@\-\t\r]/.test(v))v="'"+v;return '"'+v.replace(/"/g,'""')+'"';}
+ var content='\uFEFF'+csv.map(row=>row.map(safeCell).join(',')).join('\r\n');
+ var blob=new Blob([content],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download='Bangpoon_GreenHealth_Impact_'+String(member.memberId||'member').replace(/[^a-zA-Z0-9_-]/g,'')+'.csv';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function renderGreenHealthImpact(){
+ var rows=bpImpactRecords(),kg=0,risk=0,house=0,people=0,carbon=0,estimatedCount=0;
+ rows.forEach(function(r){kg+=bpImpactNumber(r.kg);risk+=bpImpactNumber(r.risk);house+=bpImpactNumber(r.house);people+=bpImpactNumber(r.people);
+  if(r.base!=null&&r.project!=null&&r.source){carbon+=bpImpactNumber(r.kg)*(Number(r.base)-Number(r.project));estimatedCount++;}
+ });
+ var cards=[['♻️','ขยะที่บันทึก',kg.toFixed(2)+' กก.'],['🌍','ลดการปล่อย (ประมาณการ)',estimatedCount?carbon.toFixed(3)+' kgCO₂e':'ยังไม่มีข้อมูล'],['🩺','จุดเสี่ยงที่แก้ไข',risk+' จุด'],['🏠','ครัวเรือนร่วมกิจกรรม',house+' ครัวเรือน']];
+ var h='<div class="card" style="border-left:4px solid #4a7c59"><h3>🌿 Green & Health Impact</h3>'+
+ '<p style="font-size:.84em">สรุปหลักฐานกิจกรรมด้านสิ่งแวดล้อมและปัจจัยเสี่ยงสุขภาพของสมาชิก</p>'+
+ '<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0">';
+ cards.forEach(function(c){h+='<div style="background:#eef6ef;padding:12px;border:1px solid #b8d8bd;border-radius:12px"><div style="font-size:.82em">'+c[0]+' '+c[1]+'</div><strong style="font-size:1.12em;overflow-wrap:anywhere">'+c[2]+'</strong></div>';});
+ h+='</div><p style="font-size:.82em">ผู้เข้าร่วมที่บันทึก: <strong>'+people+' คน-ครั้ง</strong> · กิจกรรม '+rows.length+' รายการ</p>'+
+ '<p style="font-size:.8em;color:#6a5540"><strong>สถานะ:</strong> ข้อมูลสมาชิกบันทึกเองในอุปกรณ์นี้ ยังไม่ตรวจรับรอง ไม่ใช่ยอดรวมทั้งตำบล และอาจซ้ำกับข้อมูลภารกิจเดิม</p>'+
+ '<p style="font-size:.8em">การลดคาร์บอนใช้สูตร น้ำหนักขยะ × (EF กรณีฐาน − EF โครงการ) เฉพาะรายการที่มีค่า EF และแหล่งอ้างอิง ผลลัพธ์เป็นประมาณการ ไม่ใช่คาร์บอนเครดิตหรือผลรับรองของ อบก.</p>'+
+ '<p style="font-size:.8em">ตัวชี้วัดสุขภาพเป็นผลการแก้ไขปัจจัยเสี่ยง ไม่ใช่หลักฐานว่าอัตราป่วยลดลง และจำนวนครัวเรือนอาจซ้ำกันระหว่างกิจกรรม</p>'+
+ '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px"><button class="btn btn-primary" type="button" onclick="bpImpactForm()">➕ บันทึกกิจกรรม</button><button class="btn btn-outline" type="button" onclick="bpImpactExport()">⬇️ ส่งออก CSV</button></div>';
+ if(rows.length){h+='<h4 style="margin-top:16px">รายการล่าสุด (ยังไม่ตรวจรับรอง)</h4>';
+  rows.slice(-5).reverse().forEach(function(r){h+='<div style="padding:9px 0;border-bottom:1px solid #ddd;font-size:.84em"><strong>'+bpImpactEscape(r.date)+' · '+bpImpactEscape(r.activity)+'</strong><div>'+bpImpactEscape(r.type)+' · '+bpImpactNumber(r.kg).toFixed(2)+' กก. · จุดเสี่ยง '+bpImpactNumber(r.risk)+' จุด</div><button type="button" class="btn btn-outline btn-sm" onclick="bpImpactDelete('+JSON.stringify(r.id).replace(/"/g,'&quot;')+')">ลบรายการ</button></div>';});
+ }
+ return h+'</div>';
 }
 
 </script>
