@@ -326,6 +326,7 @@ if(id===6){
  state.formData.behavior=selected[0]||legacy;
  state.formData.otherBehavior=state.formData.otherBehavior||prev.otherBehavior||"";
  state.formData.days=(state.formData.days||prev.days||Array(14).fill(false)).slice(0,14);
+ state.formData.checkDates=(state.formData.checkDates||prev.checkDates||[]).slice(0,14);
 }
 if(id===7){
   if(!state.formData.m7) state.formData.m7={};
@@ -570,7 +571,7 @@ function renderMission6Form(fd,d){
  var days=Array.isArray(fd.days)?fd.days:Array(14).fill(false);var doneCount=days.filter(Boolean).length;
  h+='<p style="font-size:.85em;color:var(--c-green);margin-bottom:6px">สำเร็จแล้ว '+doneCount+' / 14 วัน</p>';
  h+='<div class="checkin-grid">'+days.map(function(day,i){return '<div class="checkin-day '+(day?'checked':'')+'" onclick="toggleCheckin('+i+')"><span>'+(i+1)+'</span><span style="font-size:.7em">'+(day?'✅':'○')+'</span></div>'}).join('')+'</div>';
- h+='<p style="font-size:.8em;color:#666;margin-top:10px">กิจกรรมที่เลือกและการเช็กอินบันทึกในอุปกรณ์นี้ ระบบอนุมัติคะแนนยังเป็นไปตามขั้นตอนเดิม</p>';
+ h+='<p style="font-size:.8em;color:#666;margin-top:10px">เช็กอินวันละ 1 ครั้ง ตามลำดับ ไม่สามารถยกเลิกวันเก่าได้ • บันทึกในอุปกรณ์นี้ ยังไม่ใช่ข้อมูลรับรองจากระบบกลาง</p>';
  return h;
 }
 
@@ -581,6 +582,7 @@ function persistMission6(){
  d.mission6.behavior=d.mission6.behaviors[0]||'';
  d.mission6.otherBehavior=state.formData.otherBehavior||'';
  d.mission6.days=(state.formData.days||Array(14).fill(false)).slice();
+ d.mission6.checkDates=(state.formData.checkDates||[]).slice();
  saveActiveData();
 }
 function toggleBehavior(i){
@@ -593,7 +595,18 @@ function toggleBehavior(i){
 function updateMission6Other(value){state.formData.otherBehavior=String(value||'').slice(0,180);persistMission6();}
 function selectBehavior(b,btn){var i=BEHAVIORS.indexOf(b);if(i>=0)toggleBehavior(i);}
 
-function toggleCheckin(i){if(!state.formData.days)state.formData.days=Array(14).fill(false);state.formData.days[i]=!state.formData.days[i];var d=activeData();persistMission6();render()}
+function mission6LocalDate(){var n=new Date();return n.getFullYear()+'-'+String(n.getMonth()+1).padStart(2,'0')+'-'+String(n.getDate()).padStart(2,'0');}
+function toggleCheckin(i){
+ var fd=state.formData,today=mission6LocalDate();
+ if(!Array.isArray(fd.days))fd.days=Array(14).fill(false);
+ if(!Array.isArray(fd.checkDates))fd.checkDates=[];
+ var count=fd.days.filter(Boolean).length;
+ if(i!==count){showToastErr('เช็กอินได้เฉพาะวันถัดไปตามลำดับ');return;}
+ if(fd.checkDates.includes(today)){showToastErr('วันนี้เช็กอินแล้ว กลับมาใหม่วันพรุ่งนี้');return;}
+ if(!(fd.behaviors||[]).length&&!String(fd.otherBehavior||'').trim()){showToastErr('กรุณาเลือกกิจกรรมก่อนเช็กอิน');return;}
+ fd.days[i]=true;fd.checkDates[i]=today;
+ persistMission6();showToast('บันทึกวันที่ '+(i+1)+' สำเร็จ');render();
+}
 
 function saveRecruit(i){
 var d=activeData();if(!d.mission1Recruits)d.mission1Recruits=[{},{},{}];
@@ -631,7 +644,7 @@ if(m.id===5){
  h+='<div style="display:flex;gap:10px;margin-top:16px"><button class="btn btn-outline" type="button" style="flex:1" onclick="prevStep()">← ย้อนกลับ</button><button class="btn btn-primary" type="button" style="flex:1" onclick="nextStep()">ถัดไป →</button></div></div>';
  return h;
 }
-h+='<div class="form-group"><label>สถานะ</label><div class="choice-grid">'+STATUS_OPTS.map(function(s){return'<button type="button" class="choice-btn '+(fd.resultStatus===s?"selected":"")+'" onclick="selectChoice(\'resultStatus\',\''+s+'\',this)">'+s+'</button>'}).join("")+'</div></div>';
+if(m.id!==6)h+='<div class="form-group"><label>สถานะ</label><div class="choice-grid">'+STATUS_OPTS.map(function(s){return'<button type="button" class="choice-btn '+(fd.resultStatus===s?"selected":"")+'" onclick="selectChoice(\'resultStatus\',\''+s+'\',this)">'+s+'</button>'}).join("")+'</div></div>';
 h+='<div class="form-group"><label>หมายเหตุ (ไม่บังคับ)</label><textarea id="fNote" rows="3" placeholder="รายละเอียดเพิ่มเติม...">'+esc(fd.note||"")+'</textarea></div>';
 h+=renderPhotoSection(fd.photos||[],"photos","รูปภาพผลงาน");
 h+='<div style="display:flex;gap:10px;margin-top:16px"><button class="btn btn-outline" type="button" style="flex:1" onclick="prevStep()">← ย้อนกลับ</button><button class="btn btn-primary" type="button" style="flex:1" onclick="nextStep()">ถัดไป →</button></div></div>';
@@ -662,7 +675,7 @@ function validateForm(){
 var fd=state.formData;var mid=state.formMissionId;var errors=[];var d=activeData();
 if(mid===1){var saved=(d.mission1Recruits||[]).filter(function(r){return r.name&&r.saved}).length;if(saved<3)errors.push("กรุณาบันทึกผู้สมัครให้ครบ 3 คน")}
 else if(mid===5){if(!fd.date)errors.push("กรุณาระบุวันที่เข้าร่วมกิจกรรม");if(!fd.bankActivity)errors.push("กรุณาเลือกกิจกรรมธนาคารขยะ");if(!(d.member||{}).memberId)errors.push("กรุณาบันทึกรหัสสมาชิกที่หน้าหลักก่อน");if((fd.photos||[]).length<1||(fd.photos||[]).length>3)errors.push("กรุณาแนบรูปภาพ 1–3 รูป")}
-else if(mid===6){if(!fd.behavior)errors.push("กรุณาเลือกพฤติกรรมลด Carbon Footprint")}
+else if(mid===6){if(!(fd.behaviors||[]).length&&!String(fd.otherBehavior||'').trim())errors.push('กรุณาเลือกกิจกรรม');if((fd.days||[]).filter(Boolean).length!==14)errors.push('ต้องเช็กอินครบ 14 วันก่อนส่งภารกิจ')}
 else if(mid===7){
   var p=fd.m7||{};
   var activities=p.activities||[];
@@ -729,6 +742,7 @@ saveActiveData();showToast("บันทึกร่างเรียบร้�
 function submitMission(){
 var errors=validateForm();
 if(errors.length>0){var el=document.getElementById("formErrors");if(el)el.innerHTML='<div class="inline-msg error">'+errors.map(function(e){return'<p>⚠️ '+esc(e)+'</p>'}).join("")+'</div>';return}
+if(state.formMissionId===6&&activeData().missions[6]&&activeData().missions[6].status==='ส่งแล้ว'){showToastErr('ภารกิจนี้ส่งแล้ว ไม่สามารถส่งซ้ำได้');return;}
 if(state.formMissionId===2&&!state.demoMode){submitMission2Online();return}
 if(state.formMissionId===5&&!state.demoMode){submitMission5Online();return}
 if(state.formMissionId===7&&!state.demoMode){submitMission7Online();return}
