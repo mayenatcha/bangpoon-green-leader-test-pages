@@ -1110,14 +1110,28 @@ function confirmClearDemo(){try{localStorage.removeItem("demo_gl_data");localSto
 function renderPortfolio(){
 var submitted=0,verified=0;
 for(var i=1;i<=10;i++){var s=getMissionStatus(i,data);if(s==="ส่งแล้ว"||isVerified(i,data))submitted++;if(isVerified(i,data))verified++}
+// Server score is authoritative; local draft status must never be shown as server verification.
+var scoreReady=state.scoreStatus.state==="ready";
+var serverTotal=scoreReady?Number(state.scoreStatus.totalScore):NaN;
+var scoreNumber=Number.isFinite(serverTotal)?Math.max(0,Math.min(100,serverTotal)):null;
+var serverMissions=scoreReady?state.scoreStatus.missions:null;
+var serverApproved=0,serverKnown=0;
+for(var si=1;si<=10;si++){
+ var sm=missionFromApi(serverMissions,si);
+ if(sm&&typeof sm==="object"){
+  var st=String(sm.status||"").trim();
+  if(st||sm.score!==undefined){serverKnown++;if(st==="อนุมัติ"||st==="ผ่านการรับรอง"||st==="ผ่าน"||st==="approved")serverApproved++;}
+ }
+}
+var approvalLabel=serverKnown===10?('ผ่านการรับรอง '+serverApproved+' / 10 ภารกิจ (จากทะเบียนคะแนน)'):'สถานะอนุมัติรายภารกิจ: ยังตรวจสอบได้ไม่ครบ';
 var recruits=data.mission1Recruits.filter(function(r){return r.name&&r.saved}).length;
 var carbonDays=(data.mission6.days||[]).filter(Boolean).length;
 var totalKg=0;
 Object.entries(data.missions).forEach(function(entry){if(entry[1].formData&&entry[1].formData.wasteKg)totalKg+=parseFloat(entry[1].formData.wasteKg)||0});
 var photos=getAllPhotos(data);
 var h='<h2 style="font-weight:700;margin-bottom:12px">🏆 ผลงานของฉัน</h2>';
-h+='<div class="card" style="text-align:center;background:linear-gradient(135deg,var(--c-accent),var(--c-yellow))"><p style="font-size:2em;font-weight:700;color:var(--c-green)">'+(state.scoreStatus.state==="loading"?'กำลังโหลดคะแนน...':state.scoreStatus.state==="ready"?state.scoreStatus.totalScore+'<span style="font-size:0.5em"> / 100 คะแนน</span>':state.scoreStatus.state==="error"?renderScoreError():'ยังไม่มีข้อมูล')+'</p><div class="progress-bar"><div class="progress-fill" style="width:'+getScore(data)+'%"></div></div><p style="font-size:0.85em;color:#666">ผ่านการรับรอง '+verified+' / 10 ภารกิจ | ส่งแล้ว '+submitted+'</p></div>';
-h+='<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px"><div class="stat-card"><div class="stat-num">'+recruits+'</div><div class="stat-label">สมาชิกใหม่</div></div><div class="stat-card"><div class="stat-num">'+carbonDays+'</div><div class="stat-label">วันลดคาร์บอน</div></div><div class="stat-card"><div class="stat-num">'+totalKg.toFixed(1)+'</div><div class="stat-label">กก. ขยะรวม</div></div></div>';
+h+='<div class="card" style="text-align:center;background:linear-gradient(135deg,var(--c-accent),var(--c-yellow))"><p style="font-size:2em;font-weight:700;color:var(--c-green)">'+(state.scoreStatus.state==="loading"?'กำลังโหลดคะแนน...':state.scoreStatus.state==="ready"?state.scoreStatus.totalScore+'<span style="font-size:0.5em"> / 100 คะแนน</span>':state.scoreStatus.state==="error"?renderScoreError():'ยังไม่มีข้อมูล')+'</p><div class="progress-bar"><div class="progress-fill" style="width:'+(scoreNumber===null?0:scoreNumber)+'%"></div></div><p style="font-size:0.85em;color:#666">'+esc(approvalLabel)+'</p><p style="font-size:0.76em;color:#666">คะแนนอ้างอิงจากทะเบียนกลาง · สถิติกิจกรรมด้านล่างอาจเป็นข้อมูลที่เก็บเฉพาะอุปกรณ์นี้</p></div>';
+h+='<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px"><div class="stat-card"><div class="stat-num">'+recruits+'</div><div class="stat-label">สมาชิกใหม่ (ข้อมูลในเครื่อง)</div></div><div class="stat-card"><div class="stat-num">'+carbonDays+'</div><div class="stat-label">วันทำกิจกรรมลดคาร์บอน (ในเครื่อง)</div></div><div class="stat-card"><div class="stat-num">'+totalKg.toFixed(1)+'</div><div class="stat-label">กก. ขยะที่บันทึกในเครื่อง</div></div></div>';
 h+=renderGreenHealthImpact();
 if(photos.length>0){h+='<div class="card"><h3 style="font-weight:700;margin-bottom:8px">🖼️ แกลเลอรีรูปภาพ</h3><div class="gallery-grid">'+photos.map(function(p){return'<img src="'+p.src+'" alt="'+esc(p.label)+'" loading="lazy" onclick="showLightbox(this.src)">'}).join("")+'</div></div>'}
 h+='<div style="display:flex;gap:8px"><button class="btn btn-outline btn-block" type="button" onclick="openVerifiedProfile()">✏️ แก้ไขชื่อ–นามสกุล</button><button class="btn btn-primary btn-block" type="button" onclick="showPortfolioDetail()">📋 ดูรายละเอียด</button></div>';
