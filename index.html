@@ -2,7 +2,7 @@
 <html lang="th"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0">
-  <title>สมุดภารกิจ อถล. บางพูนกรีนลีดเดอร์</title>
+  <title>สมุดภารกิจ อถล. บางพูน Green &amp; Health Leader</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
   <style>
 :root{--c-green:#4a7c59;--c-green-light:#a8d5ba;--c-cream:#faf6ed;--c-blue:#d4eaf7;--c-yellow:#fef9e7;--c-green-dark:#2d5a3a;--c-accent:#e8f5e9;--c-orange:#f0a04b;--vh:1vh}
@@ -123,12 +123,12 @@ body.font-large input,body.font-large select,body.font-large textarea,body.font-
      <span style="font-size:24px">🏛️</span>
     </div>
     <div style="flex:1;min-width:0">
-     <h1 data-template-id="app-title" class="canva-text" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 36px;">สมุดภารกิจ อถล. บางพูนกรีนลีดเดอร์</h1>
-     <div data-template-id="app-en-name" class="canva-text en-name" style="color: rgba(255, 255, 255, 0.8); font-weight: 400; font-style: normal; font-size: 16px;">Bangpoon Green Leader</div>
+     <h1 data-template-id="app-title" class="canva-text" style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 36px;">สมุดภารกิจ อถล. บางพูน Green &amp; Health Leader</h1>
+     <div data-template-id="app-en-name" class="canva-text en-name" style="color: rgba(255, 255, 255, 0.8); font-weight: 400; font-style: normal; font-size: 16px;">Bangpoon Green &amp; Health Leader</div>
      <div data-template-id="app-subtitle" class="canva-text subtitle" style="color: rgba(255, 255, 255, 0.933); font-weight: 400; font-style: normal; font-size: 16px;">เทศบาลตำบลบางพูน ประจำปีงบประมาณ พ.ศ. 2570</div>
     </div>
     <div class="logo-slot" id="logoRight" title="อัปโหลดโลโก้ อถล.">
-     <span style="font-size:24px">🌿</span>
+     <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI0OCIgZmlsbD0iI2U3ZjVlYyIvPjxwYXRoIGQ9Ik01MCA3OFYzME01MCA1M0MyOSA0OCAyNiAzNiAyNyAyMmMxNyAwIDI3IDEwIDIzIDMxTTUwIDU4YzE5LTMgMjYtMTYgMjUtMjktMTcgMi0yNiAxMi0yNSAyOSIgZmlsbD0iIzUyYTc3NyIgc3Ryb2tlPSIjMjc2OTQ4IiBzdHJva2Utd2lkdGg9IjQiLz48cGF0aCBkPSJNMzggNjhoMjRNNTAgNTZ2MjQiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS13aWR0aD0iNyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PC9zdmc+" alt="Green and Health Leader">
     </div>
    </div><input type="file" id="logoLeftInput" accept="image/*" hidden=""> <input type="file" id="logoRightInput" accept="image/*" hidden="">
   </header>
@@ -291,7 +291,7 @@ function render(){
 }
 
 // ===== HOME =====
-function renderHome(){let m=data.member||{};return '<div class="card"><h2>🌿 ยินดีต้อนรับ '+esc(m.name||'สมาชิก')+'</h2><p>รหัสสมาชิก '+esc(m.memberId||'')+'</p><p>หมู่ที่ '+esc(m.moo||'')+' · '+esc(m.community||'')+'</p><button class="btn btn-outline" onclick="logoutMember()">ออกจากระบบ</button></div><div class="card"><button class="btn btn-primary btn-block" onclick="navigate(\'missions\')">🚀 ภารกิจทั้ง 10</button><button class="btn btn-secondary btn-block" onclick="navigate(\'portfolio\')">🏆 คะแนนของฉัน</button></div>';}
+function renderHome(){let m=data.member||{};return '<div class="card"><h2>🌿 ยินดีต้อนรับ '+esc(m.name||'สมาชิก')+'</h2><p>รหัสสมาชิก '+esc(m.memberId||'')+'</p><p>หมู่ที่ '+esc(m.moo||'')+' · '+esc(m.community||'')+'</p><button class="btn btn-outline" onclick="openVerifiedProfile()">✏️ แก้ไขชื่อ–นามสกุล</button> <button class="btn btn-outline" onclick="logoutMember()">ออกจากระบบ</button></div><div class="card"><button class="btn btn-primary btn-block" onclick="navigate(\'missions\')">🚀 ภารกิจทั้ง 10</button><button class="btn btn-secondary btn-block" onclick="navigate(\'portfolio\')">🏆 คะแนนของฉัน</button></div>';}
 
 function saveMember(){data.member={name:document.getElementById("mName").value.trim(),memberId:document.getElementById("mId").value.trim(),moo:document.getElementById("mMoo").value,community:document.getElementById("mCom").value.trim(),phone:document.getElementById("mPhone").value.trim()};saveData(data);m8Remote={memberId:"",loading:false,loaded:false,status:"",reason:"",error:""};m9Remote={memberId:"",loading:false,loaded:false,status:"",reason:"",error:""};m10Remote={memberId:"",loading:false,loaded:false,status:"",reason:"",error:""};showToast("บันทึกข้อมูลสมาชิกเรียบร้อยแล้ว ✅")}
 function backupData(){var blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="bangpoon_green_leader_backup.json";a.click();URL.revokeObjectURL(a.href);showToast("ดาวน์โหลดไฟล์สำรองข้อมูลแล้ว")}
@@ -1118,8 +1118,9 @@ var photos=getAllPhotos(data);
 var h='<h2 style="font-weight:700;margin-bottom:12px">🏆 ผลงานของฉัน</h2>';
 h+='<div class="card" style="text-align:center;background:linear-gradient(135deg,var(--c-accent),var(--c-yellow))"><p style="font-size:2em;font-weight:700;color:var(--c-green)">'+(state.scoreStatus.state==="loading"?'กำลังโหลดคะแนน...':state.scoreStatus.state==="ready"?state.scoreStatus.totalScore+'<span style="font-size:0.5em"> / 100 คะแนน</span>':state.scoreStatus.state==="error"?renderScoreError():'ยังไม่มีข้อมูล')+'</p><div class="progress-bar"><div class="progress-fill" style="width:'+getScore(data)+'%"></div></div><p style="font-size:0.85em;color:#666">ผ่านการรับรอง '+verified+' / 10 ภารกิจ | ส่งแล้ว '+submitted+'</p></div>';
 h+='<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:12px"><div class="stat-card"><div class="stat-num">'+recruits+'</div><div class="stat-label">สมาชิกใหม่</div></div><div class="stat-card"><div class="stat-num">'+carbonDays+'</div><div class="stat-label">วันลดคาร์บอน</div></div><div class="stat-card"><div class="stat-num">'+totalKg.toFixed(1)+'</div><div class="stat-label">กก. ขยะรวม</div></div></div>';
+h+=renderGreenHealthImpact();
 if(photos.length>0){h+='<div class="card"><h3 style="font-weight:700;margin-bottom:8px">🖼️ แกลเลอรีรูปภาพ</h3><div class="gallery-grid">'+photos.map(function(p){return'<img src="'+p.src+'" alt="'+esc(p.label)+'" loading="lazy" onclick="showLightbox(this.src)">'}).join("")+'</div></div>'}
-h+='<div style="display:flex;gap:8px"><button class="btn btn-outline btn-block" type="button" onclick="navigate(\'home\')">✏️ แก้ไขข้อมูล</button><button class="btn btn-primary btn-block" type="button" onclick="showPortfolioDetail()">📋 ดูรายละเอียด</button></div>';
+h+='<div style="display:flex;gap:8px"><button class="btn btn-outline btn-block" type="button" onclick="openVerifiedProfile()">✏️ แก้ไขชื่อ–นามสกุล</button><button class="btn btn-primary btn-block" type="button" onclick="showPortfolioDetail()">📋 ดูรายละเอียด</button></div>';
 return h}
 
 function getAllPhotos(d){
@@ -1420,6 +1421,46 @@ document.getElementById("modal").addEventListener("click",function(e){if(e.targe
 showMemberLogin(false);
 runSilentTest();
 });
+
+// GREEN & HEALTH 2570: keeps original authentication and score flows intact.
+function openVerifiedProfile(){
+ if(!memberSession||!memberSession.token){showMemberLogin(false);return;}
+ var name=String((data.member||{}).name||'');
+ showModal('<h3>✏️ แก้ไขชื่อ–นามสกุล</h3><p style="font-size:.85em">ระบบจะบันทึกเข้าทะเบียนสมาชิก ไม่เปลี่ยนรหัสสมาชิกหรือคะแนน</p>'+
+ '<div class="form-group"><label>ชื่อ–นามสกุล</label><input id="verifiedFullName" maxlength="120" value="'+esc(name)+'"></div>'+
+ '<button class="btn btn-primary btn-block" type="button" onclick="saveVerifiedProfile()">บันทึกข้อมูล</button>');
+}
+async function saveVerifiedProfile(){
+ var el=document.getElementById('verifiedFullName');
+ var fullName=String(el&&el.value||'').trim().replace(/\s+/g,' ');
+ if(fullName.length<3||fullName.length>120||/[<>]/.test(fullName)){showToastErr('กรุณากรอกชื่อ–นามสกุลให้ถูกต้อง');return;}
+ if(!memberSession||!memberSession.token){showMemberLogin(false);return;}
+ var btn=document.querySelector('#modalContent button');if(btn)btn.disabled=true;
+ try{
+  var result=await secureApi({action:'memberUpdateName2570',token:memberSession.token,memberId:memberSession.member.memberId,fullName:fullName});
+  memberSession.member.name=result.name;data.member.name=result.name;saveData(data);
+  hideModal();render();showToast('บันทึกชื่อ–นามสกุลสำเร็จ');
+ }catch(err){showToastErr('ยังไม่สามารถบันทึกชื่อเข้าทะเบียนได้: '+(err.message||'กรุณาติดต่อเจ้าหน้าที่'));}
+ finally{if(btn)btn.disabled=false;}
+}
+function renderGreenHealthImpact(){
+ // Only local member records are available to this page. They are not certified community totals.
+ var totalKg=0;
+ Object.keys(data.missions||{}).forEach(function(k){
+  var m=data.missions[k]||{},f=m.formData||{},kg=Number(f.wasteKg);
+  if(Number.isFinite(kg)&&kg>0&&kg<1000000)totalKg+=kg;
+ });
+ return '<div class="card" style="border-left:4px solid #4a7c59">'+
+ '<h3>🌿 Green & Health Impact</h3>'+
+ '<p style="font-size:.88em">เชื่อมกิจกรรมสิ่งแวดล้อมกับการส่งเสริมสุขภาพชุมชน</p>'+
+ '<div class="stat-card"><div class="stat-num">'+totalKg.toFixed(1)+'</div><div class="stat-label">กก. ขยะจากข้อมูลที่บันทึกในอุปกรณ์นี้ (ยังไม่ใช่ยอดรับรอง)</div></div>'+
+ '<p style="margin-top:10px"><strong>การลดก๊าซเรือนกระจก (kgCO₂e):</strong> รอการประเมิน</p>'+
+ '<p style="font-size:.84em;color:#536258">ต้องมีประเภทขยะ น้ำหนักที่ตรวจรับรอง วิธีจัดการ และค่า Emission Factor ที่มีแหล่งอ้างอิง จึงจะรายงานปริมาณลดคาร์บอนได้</p>'+
+ '<h4 style="margin-top:10px">🩺 ตัวชี้วัดสุขภาพชุมชน</h4>'+
+ '<p style="font-size:.84em">จำนวนจุดเสี่ยงขยะตกค้างที่ปรับปรุง · จำนวนครัวเรือนร่วมกิจกรรม · ผลประเมินความรู้ก่อน–หลัง</p>'+
+ '<p style="font-size:.8em;color:#536258">เป็นตัวชี้วัดที่เสนอให้เก็บข้อมูลจริง ยังไม่ใช่ผลลัพธ์สุขภาพที่ตรวจวัดแล้ว</p></div>';
+}
+
 </script>
  
 </body></html>
