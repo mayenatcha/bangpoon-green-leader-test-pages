@@ -270,6 +270,26 @@ function scoreMissionText(id){
 function renderScoreError(){return'<div class="inline-msg error">'+esc(state.scoreStatus.error||"ไม่สามารถโหลดคะแนนได้")+'<br><button class="btn btn-outline btn-sm" type="button" onclick="loadScoreStatus()">ลองใหม่</button></div>'}
 async function loadScoreStatus(){if(!memberSession)return;let id=memberSession.member.memberId;state.scoreStatus={state:'loading',memberId:id};if(state.view==='missions'||state.view==='portfolio')render();try{let r=await secureApi({action:'memberScore2570',token:memberSession.token,memberId:id});state.scoreStatus={state:'ready',totalScore:r.totalScore,memberId:id,missions:r.missions,error:''};}catch(e){state.scoreStatus={state:'error',memberId:id,error:e.message}}if(state.view==='missions'||state.view==='portfolio')render();}
 
+// ===== MAIN VIEW RENDERER =====
+function render(){
+  var container=document.getElementById('mainContent');
+  if(!container)return;
+  if(!memberSession&&!state.demoMode){showMemberLogin(false);return;}
+  var html;
+  switch(state.view){
+    case 'home': html=renderHome();break;
+    case 'missions': html=renderMissionList();break;
+    case 'form': html=renderMissionForm(false);break;
+    case 'mission3form': html=renderMission3Form();break;
+    case 'portfolio': html=renderPortfolio();break;
+    case 'dashboard': html=renderDashboard();break;
+    case 'admin': html=renderAdminPanel();break;
+    case 'demoForm': html=renderMissionForm(true);break;
+    default: html=renderHome();
+  }
+  container.innerHTML=html;
+}
+
 // ===== HOME =====
 function renderHome(){let m=data.member||{};return '<div class="card"><h2>🌿 ยินดีต้อนรับ '+esc(m.name||'สมาชิก')+'</h2><p>รหัสสมาชิก '+esc(m.memberId||'')+'</p><p>หมู่ที่ '+esc(m.moo||'')+' · '+esc(m.community||'')+'</p><button class="btn btn-outline" onclick="logoutMember()">ออกจากระบบ</button></div><div class="card"><button class="btn btn-primary btn-block" onclick="navigate(\'missions\')">🚀 ภารกิจทั้ง 10</button><button class="btn btn-secondary btn-block" onclick="navigate(\'portfolio\')">🏆 คะแนนของฉัน</button></div>';}
 
