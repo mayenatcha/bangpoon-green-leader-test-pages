@@ -562,7 +562,7 @@ h+='</div>'}return h}
 function renderMission6Form(fd,d){
  d=d||activeData();
  var selected=Array.isArray(fd.behaviors)?fd.behaviors:(fd.behavior?[fd.behavior]:[]);
- var h='<p style="font-size:.9em;margin-bottom:12px"><b>เลือกได้หลายกิจกรรม</b> แตะเพื่อเลือกหรือยกเลิก</p>';
+ var h='<p style="font-size:.9em;margin-bottom:12px"><b>เลือกได้หลายกิจกรรม • รุ่น M6-20261020B</b> แตะเพื่อเลือกหรือยกเลิก</p>';
  h+='<div class="choice-grid" style="margin-bottom:12px">'+BEHAVIORS.map(function(b,i){return '<button type="button" class="choice-btn '+(selected.includes(b)?'selected':'')+'" onclick="toggleBehavior('+i+')">'+esc(b)+(selected.includes(b)?' ✓':'')+'</button>'}).join('')+'</div>';
  h+='<label style="display:block;font-weight:700;margin-bottom:6px">อื่น ๆ (ระบุกิจกรรมเพิ่มเติม)</label>';
  h+='<input id="mission6Other" type="text" maxlength="180" placeholder="เช่น ลดการใช้กระดาษ" value="'+esc(fd.otherBehavior||'')+'" oninput="updateMission6Other(this.value)" style="width:100%;padding:12px;border:1px solid #b6d8bc;border-radius:10px;margin-bottom:14px">';
@@ -645,7 +645,7 @@ h+='<div style="background:var(--c-accent);border-radius:10px;padding:12px;font-
 h+='<p><strong>ภารกิจ:</strong> '+esc(m.name)+'</p>';
 if(m.id===1){var recruits=d.mission1Recruits||[];var saved=recruits.filter(function(r){return r.name&&r.saved}).length;h+='<p><strong>ผู้สมัครที่บันทึกแล้ว:</strong> '+saved+' / 3 คน</p>';recruits.forEach(function(r){if(r.name&&r.saved)h+='<p style="margin-left:12px">• '+esc(r.name)+' '+esc(r.surname||"")+'</p>'})}
 else if(m.id===5){h+='<p><strong>วันที่:</strong> '+esc(fd.date||"-")+'</p><p><strong>กิจกรรม:</strong> '+esc(fd.bankActivity||"-")+'</p><p><strong>หมู่ที่:</strong> '+esc(fd.moo||"-")+'</p>'}
-else if(m.id===6){h+='<p><strong>พฤติกรรม:</strong> '+esc(fd.behavior||"-")+'</p>';var dc=(fd.days||[]).filter(Boolean).length;h+='<p><strong>เช็กอินสำเร็จ:</strong> '+dc+' / 14 วัน</p>'}
+else if(m.id===6){h+='<p><strong>พฤติกรรม:</strong> '+esc([].concat(fd.behaviors|| (fd.behavior?[fd.behavior]:[]),fd.otherBehavior?[fd.otherBehavior]:[]).join(' / ')||'-')+'</p>';var dc=(fd.days||[]).filter(Boolean).length;h+='<p><strong>เช็กอินสำเร็จ:</strong> '+dc+' / 14 วัน</p>'}
 else{h+='<p><strong>วันที่:</strong> '+(fd.date||"-")+'</p><p><strong>หมู่ที่:</strong> '+(fd.moo||"-")+'</p><p><strong>ชุมชน:</strong> '+esc(fd.community||"-")+'</p><p><strong>สถานที่:</strong> '+esc(fd.place||"-")+'</p>'}
 h+='<p><strong>สถานะ:</strong> '+esc(fd.resultStatus||"-")+'</p>';
 if(fd.note)h+='<p><strong>หมายเหตุ:</strong> '+esc(fd.note)+'</p>';
@@ -662,7 +662,7 @@ function validateForm(){
 var fd=state.formData;var mid=state.formMissionId;var errors=[];var d=activeData();
 if(mid===1){var saved=(d.mission1Recruits||[]).filter(function(r){return r.name&&r.saved}).length;if(saved<3)errors.push("กรุณาบันทึกผู้สมัครให้ครบ 3 คน")}
 else if(mid===5){if(!fd.date)errors.push("กรุณาระบุวันที่เข้าร่วมกิจกรรม");if(!fd.bankActivity)errors.push("กรุณาเลือกกิจกรรมธนาคารขยะ");if(!(d.member||{}).memberId)errors.push("กรุณาบันทึกรหัสสมาชิกที่หน้าหลักก่อน");if((fd.photos||[]).length<1||(fd.photos||[]).length>3)errors.push("กรุณาแนบรูปภาพ 1–3 รูป")}
-else if(mid===6){if(!(Array.isArray(fd.behaviors)&&fd.behaviors.length)&&!(fd.otherBehavior||"").trim()&&!fd.behavior)errors.push("กรุณาเลือกกิจกรรมอย่างน้อย 1 รายการ หรือระบุอื่น ๆ")}
+else if(mid===6){if(!fd.behavior)errors.push("กรุณาเลือกพฤติกรรมลด Carbon Footprint")}
 else if(mid===7){
   var p=fd.m7||{};
   var activities=p.activities||[];
